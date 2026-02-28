@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V21 - الماسية</title>
+    <title>دليل الشرقية V1 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,6 +34,13 @@
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         button { cursor: pointer; touch-action: manipulation; }
        
+        /* Custom Scrollbar for lists */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; display: block; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-track { background: #374151; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #555; }
+
         /* Glass Header */
         .glass-header { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid #000; }
         .dark .glass-header { background: rgba(17, 24, 39, 0.98); border-bottom: 2px solid #4b5563; }
@@ -43,7 +50,7 @@
             border: 2px solid #d1d5db;
             background-color: #ffffff;
             transition: all 0.2s;
-            font-size: 13px; /* Smaller font for compact look */
+            font-size: 13px;
         }
         input:focus, select:focus, textarea:focus {
             border-color: #000000;
@@ -59,7 +66,7 @@
         /* Black Borders Custom Class */
         .border-black-custom {
             border: 2px solid #000000 !important;
-            box-shadow: 2px 2px 0px #000000 !important; /* Brutalist Shadow */
+            box-shadow: 2px 2px 0px #000000 !important;
         }
         .dark .border-black-custom {
             border: 2px solid #6b7280 !important;
@@ -126,7 +133,7 @@
             <h3 class="font-bold text-sm">الإشعارات</h3>
             <button onclick="window.toggleNotifPanel()" class="text-gray-400 hover:text-red-500 font-bold">✕</button>
         </div>
-        <div id="notif-list" class="space-y-2 max-h-60 overflow-y-auto">
+        <div id="notif-list" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-1">
             <p class="text-center text-xs text-gray-400 py-4">لا توجد إشعارات حالياً</p>
         </div>
     </div>
@@ -139,14 +146,19 @@
 
         <!-- Auth Toggle -->
         <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-lg flex mb-4 border-2 border-black dark:border-gray-500 h-12">
-            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-white shadow-sm text-black border border-gray-300 transition-all">دخول</button>
-            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all">جديد</button>
+            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all">دخول</button>
+            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all">جديد</button>
         </div>
 
         <!-- Login Form -->
         <form id="form-login" class="space-y-3">
             <div class="space-y-3 bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
-                <input type="email" id="login-email" placeholder="البريد الإلكتروني" class="w-full p-3 rounded-lg text-sm" required>
+                <!-- حقل رقم الهاتف المخصص للدخول -->
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-11 bg-white dark:bg-gray-800 transition-colors">
+                    <input type="tel" id="login-phone" placeholder="مثال: 1012345678" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                    <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                </div>
+                
                 <input type="password" id="login-pass" placeholder="كلمة المرور" class="w-full p-3 rounded-lg text-sm" required>
                 <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm hover:bg-gray-900 active:scale-95 transition-transform">تسجيل الدخول</button>
             </div>
@@ -162,19 +174,20 @@
                 <input type="file" id="signup-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'signup-preview')">
             </div>
            
-            <!-- Fields Grid -->
             <div class="space-y-2">
-                <div class="grid grid-cols-2 gap-2">
-                    <input type="text" id="signup-name" placeholder="الاسم" class="w-full p-2 rounded-lg text-xs h-9" required>
-                    <input type="tel" id="signup-phone" placeholder="الهاتف" class="w-full p-2 rounded-lg text-xs h-9" required>
+                <input type="text" id="signup-name" placeholder="الاسم" class="w-full p-2 rounded-lg text-sm h-10" required>
+                
+                <!-- حقل رقم الهاتف المخصص للتسجيل -->
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                    <input type="tel" id="signup-phone" placeholder="رقم الهاتف (10 أرقام)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                    <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                 </div>
 
-                <input type="email" id="signup-email" placeholder="البريد الإلكتروني" class="w-full p-2 rounded-lg text-xs h-9" required>
-                <input type="password" id="signup-pass" placeholder="كلمة المرور" class="w-full p-2 rounded-lg text-xs h-9" required>
+                <input type="password" id="signup-pass" placeholder="كلمة المرور" class="w-full p-2 rounded-lg text-sm h-10" required>
                
                 <div class="grid grid-cols-2 gap-2">
-                    <select id="signup-center" onchange="window.updateVillages()" class="w-full p-1 rounded-lg text-xs h-9 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
-                    <select id="signup-village" class="w-full p-1 rounded-lg text-xs h-9 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
+                    <select id="signup-center" onchange="window.updateVillages()" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
+                    <select id="signup-village" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
@@ -189,11 +202,11 @@
                 </div>
 
                 <div id="prof-container" class="hidden mt-2">
-                    <select id="signup-prof" class="w-full p-2 rounded-lg text-xs h-9"><option value="">اختر المهنة...</option></select>
+                    <select id="signup-prof" class="w-full p-2 rounded-lg text-xs h-10"><option value="">اختر المهنة...</option></select>
                 </div>
             </div>
 
-            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-lg font-bold text-sm mt-3 shadow hover:bg-green-700 active:scale-95 transition-all">تسجيل</button>
+            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-lg font-bold text-sm mt-3 shadow hover:bg-green-700 active:scale-95 transition-all">إنشاء حساب</button>
         </form>
     </div>
 
@@ -239,17 +252,23 @@
         <section id="page-add" class="page-section hidden px-4 animate-fade">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
                 <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
+                <!-- مفاتيح التبديل للاضافة -->
                 <div class="flex gap-2 mb-4">
-                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-600 bg-blue-50 text-blue-600 transition-all">طلب خدمة</button>
-                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 text-gray-500 bg-white transition-all">وظيفة</button>
+                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all">طلب خدمة</button>
+                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all">وظيفة</button>
                 </div>
                
                 <form id="form-req" class="space-y-3">
                     <select id="req-prof" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
                     <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
-                    <input type="tel" id="req-phone" placeholder="رقم الواتس/الهاتف (اختياري)" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300">
+                    
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                        <input type="tel" id="req-phone" placeholder="الواتساب (اختياري)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    </div>
+
                     <p class="text-[10px] text-gray-400">زر التواصل سيظهر تلقائياً عند إضافة الرقم.</p>
-                    <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg font-bold text-sm shadow hover:bg-blue-700">نشر الطلب</button>
+                    <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm shadow hover:bg-gray-900">نشر الطلب</button>
                 </form>
 
                 <form id="form-job" class="hidden space-y-3">
@@ -273,7 +292,10 @@
                         </select>
                     </div>
 
-                    <input type="tel" id="job-phone" placeholder="رقم التواصل" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required>
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                        <input type="tel" id="job-phone" placeholder="رقم التواصل" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    </div>
 
                     <textarea id="job-desc" rows="4" placeholder="تفاصيل الوظيفة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
                     <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm shadow hover:bg-gray-800">نشر الوظيفة</button>
@@ -301,14 +323,20 @@
                
                 <div id="provider-dashboard" class="hidden mb-4">
                     <h3 class="font-bold text-xs mb-2 px-1">✨ طلبات تناسبك</h3>
-                    <div id="matching-reqs-list" class="space-y-2"></div>
+                    <!-- صندوق سكرول -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800 p-2">
+                        <div id="matching-reqs-list" class="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
                 </div>
 
                 <div class="pb-20">
                     <h3 class="font-bold text-gray-500 text-xs mb-2 px-1">نشاطي</h3>
-                    <div id="my-activity" class="space-y-2 min-h-[50px]"></div>
-                    <button id="btn-show-more-activity" class="hidden w-full py-2 text-blue-600 text-xs font-bold mt-2 bg-blue-50 rounded-lg border border-blue-200">عرض المزيد</button>
-                    <button onclick="window.logout()" class="w-full mt-6 py-3 text-red-500 bg-red-50 border-2 border-red-100 rounded-lg font-bold text-xs hover:bg-red-100">خروج</button>
+                    <!-- صندوق سكرول -->
+                    <div class="border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800 p-2">
+                        <div id="my-activity" class="space-y-2 max-h-[200px] overflow-y-auto custom-scrollbar pr-1 min-h-[50px]"></div>
+                    </div>
+                    
+                    <button onclick="window.logout()" class="w-full mt-6 py-3 text-red-500 bg-red-50 border-2 border-red-100 rounded-lg font-bold text-xs hover:bg-red-100">تسجيل الخروج</button>
                 </div>
             </div>
         </section>
@@ -323,7 +351,12 @@
                 </div>
                 <div class="space-y-3">
                     <input type="text" id="edit-name" class="w-full p-2 rounded-lg text-sm" placeholder="الاسم">
-                    <input type="tel" id="edit-phone" class="w-full p-2 rounded-lg text-sm" placeholder="الهاتف">
+                    
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
+                        <input type="tel" id="edit-phone" placeholder="الهاتف" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-2">
                          <select id="edit-center" onchange="window.updateVillages('edit')" class="w-full p-2 rounded-lg text-xs"></select>
                          <select id="edit-village" class="w-full p-2 rounded-lg text-xs"></select>
@@ -379,7 +412,7 @@
                         <div><span class="text-gray-400 block">الجنس</span><span id="modal-gender" class="font-bold"></span></div>
                     </div>
                     <div class="mt-2 border-t border-gray-200 pt-2">
-                        <span class="text-gray-400 block">الهاتف</span><span id="modal-phone-disp" class="font-bold text-sm"></span>
+                        <span class="text-gray-400 block">الهاتف</span><span id="modal-phone-disp" class="font-bold text-sm" dir="ltr"></span>
                     </div>
                 </div>
 
@@ -390,8 +423,10 @@
                         <span>⭐ التقييمات</span>
                         <span id="modal-stars-display" class="text-yellow-500 font-bold"></span>
                     </h4>
-                    <div id="modal-reviews-list" class="space-y-2"></div>
-                    <button id="btn-show-more-reviews" class="hidden w-full py-1 text-blue-600 text-[10px] font-bold mt-1">المزيد</button>
+                    <!-- صندوق سكرول للتقييمات -->
+                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 p-1">
+                        <div id="modal-reviews-list" class="space-y-2 max-h-[150px] overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -429,7 +464,7 @@
                 ★ تقييم
             </button>
         </div>
-        <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900"></div>
+        <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900 custom-scrollbar"></div>
         <form id="form-message" class="p-2 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 shrink-0">
             <input type="text" id="msg-input" class="flex-1 p-2 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm" placeholder="اكتب رسالة..." autocomplete="off">
             <button type="submit" id="btn-send-msg" class="p-2 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
@@ -486,7 +521,6 @@
         const professions =["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","جزمجي","مكوجي","حلاق","كوافير","ماكيير","مصور","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل بناء","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
         const validImages =['313690/pexels-photo-313690.jpeg','40568/medical-appointment-doctor-healthcare-40568.jpeg','3212114/pexels-photo-3212114.jpeg','1432675/pexels-photo-1432675.jpeg','4489749/pexels-photo-4489749.jpeg','5212345/pexels-photo-5212345.jpeg','270348/pexels-photo-270348.jpeg','4386466/pexels-photo-4386466.jpeg','5816291/pexels-photo-5816291.jpeg','159306/construction-site-build-construction-work-159306.jpeg','1267320/pexels-photo-1267320.jpeg','1319460/pexels-photo-1319460.jpeg','4495018/pexels-photo-4495018.jpeg','4391470/pexels-photo-4391470.jpeg','5845633/pexels-photo-5845633.jpeg','6197116/pexels-photo-6197116.jpeg','5591581/pexels-photo-5591581.jpeg','3771069/pexels-photo-3771069.jpeg','2582937/pexels-photo-2582937.jpeg','102127/pexels-photo-102127.jpeg','5370665/pexels-photo-5370665.jpeg','863988/pexels-photo-863988.jpeg','323705/pexels-photo-323705.jpeg','996329/pexels-photo-996329.jpeg','264636/pexels-photo-264636.jpeg','2834626/pexels-photo-2834626.jpeg','3184418/pexels-photo-3184418.jpeg'];
        
-        // ====== ملء قوائم المهن فور تحميل الصفحة لتجنب القوائم الفارغة ======
         function populateProfessionsGlobally() {
             const opts = professions.map(p => `<option value="${p}">${p}</option>`).join('');
             const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';
@@ -496,7 +530,6 @@
             if(document.getElementById('job-title-select')) document.getElementById('job-title-select').innerHTML = '<option value="">اختر المسمى...</option>'+optsWithOther;
         }
         populateProfessionsGlobally();
-        // ====================================================================
 
         function getProfImage(profName) {
             if(profName==="خدمات أخرى") return `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
@@ -528,11 +561,9 @@
 
         window.getCloudinaryUrl = (url, size = 'thumb') => {
             if (!url) return 'https://via.placeholder.com/40';
-            
             if (url.startsWith('data:image') && url.length > 50000) {
                 return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239ca3af"%3E%3Cpath d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/%3E%3C/svg%3E';
             }
-
             if (!url.includes('res.cloudinary.com')) return url; 
             const parts = url.split('/upload/');
             if (parts.length < 2) return url;
@@ -569,7 +600,7 @@
                 lastSeenChat = Date.now();
                 localStorage.setItem('lastSeenChat', lastSeenChat);
                 document.getElementById('notif-dot').classList.add('hidden');
-                if(typeof window.renderChatsUI === 'function') window.renderChatsUI(); // تحديث فوري لاخفاء النقط الزرقاء
+                if(typeof window.renderChatsUI === 'function') window.renderChatsUI();
             }
             if (pageId === 'chat-room') {
                 document.getElementById('page-chat-room').classList.remove('hidden');
@@ -578,7 +609,7 @@
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-            if (pageId === 'home') navStack = ['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
+            if (pageId === 'home') navStack =['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
            
             const backBtn = document.getElementById('btn-back');
@@ -665,26 +696,39 @@
 
             if(mode === 'login'){
                 formLogin.classList.remove('hidden'); formSignup.classList.add('hidden');
-                btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-white shadow-sm text-black border border-gray-300 transition-all";
-                btnSignup.className = "flex-1 rounded-md text-xs font-bold text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all";
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
             } else {
                 formLogin.classList.add('hidden'); formSignup.classList.remove('hidden');
                 populateCenters();
-                btnSignup.className = "flex-1 rounded-md text-xs font-bold bg-white shadow-sm text-black border border-gray-300 transition-all";
-                btnLogin.className = "flex-1 rounded-md text-xs font-bold text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all";
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
             }
         };
 
         window.toggleProfVisibility = (show) => document.getElementById('prof-container').style.display = show ? 'block' : 'none';
 
+        // دالة مساعدة لعمل إيميل من الرقم
+        const phoneToEmail = (phone) => `user_${phone}@dalil-sharkia.com`;
+
         document.getElementById('form-login').onsubmit = async (e) => {
-            e.preventDefault(); document.getElementById('loader').classList.remove('hidden');
-            try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); }
-            catch (err) { window.showToast('خطأ في البيانات', 'error'); document.getElementById('loader').classList.add('hidden'); }
+            e.preventDefault(); 
+            const phoneVal = document.getElementById('login-phone').value;
+            if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
+            
+            document.getElementById('loader').classList.remove('hidden');
+            try { 
+                await signInWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('login-pass').value); 
+            }
+            catch (err) { window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); document.getElementById('loader').classList.add('hidden'); }
         };
 
         document.getElementById('form-signup').onsubmit = async (e) => {
             e.preventDefault(); 
+            
+            const phoneVal = document.getElementById('signup-phone').value;
+            if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
+
             document.getElementById('loader').classList.remove('hidden');
             try {
                 const role = document.querySelector('input[name="role"]:checked').value;
@@ -698,21 +742,18 @@
                 const gender = document.querySelector('input[name="gender"]:checked').value;
                 const userName = document.getElementById('signup-name').value;
                 
-                // 1. رفع الصورة أولاً (لمنع التزامن الخاطئ)
                 let finalPhotoURL = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=${gender==='male'?'0D8ABC':'E91E63'}&color=fff`;
                 if (tempSelectedFile) {
                     finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
                     tempSelectedFile = null; 
                 }
 
-                // 2. إنشاء حساب في Authentication
-                const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value, document.getElementById('signup-pass').value);
+                const cred = await createUserWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('signup-pass').value);
 
-                // 3. حفظ البيانات في Firestore
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
                     uid: cred.user.uid, 
                     name: userName,
-                    phone: document.getElementById('signup-phone').value,
+                    phone: `+20${phoneVal}`, // تخزين الرقم كاملاً في الداتابيز
                     city: center, 
                     area: village,
                     role, 
@@ -726,12 +767,10 @@
                 window.showToast('تم التسجيل بنجاح');
             } catch (err) { 
                 let errorMsg = err.message;
-                if (err.code === 'auth/email-already-in-use') errorMsg = 'البريد الإلكتروني مستخدم مسبقاً';
+                if (err.code === 'auth/email-already-in-use') errorMsg = 'رقم الهاتف مستخدم مسبقاً لحساب آخر';
                 if (err.code === 'auth/weak-password') errorMsg = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)';
-                if (err.code === 'auth/invalid-email') errorMsg = 'البريد الإلكتروني غير صالح';
                 
                 window.showToast(errorMsg, 'error'); 
-                // مسح الحساب إذا فشل حفظ البيانات لمنع الحسابات المعلقة
                 if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) {
                     await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
                 }
@@ -761,9 +800,8 @@
                         document.getElementById('prof-address-view').innerText = `${userProfile.city || ''} - ${userProfile.area || ''}`;
                         document.getElementById('prof-img-view').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
 
-                        // Fill Edit Form
                         document.getElementById('edit-name').value = userProfile.name;
-                        document.getElementById('edit-phone').value = userProfile.phone;
+                        document.getElementById('edit-phone').value = userProfile.phone.replace('+20', '');
                         document.getElementById('edit-img-preview').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
                        
                         populateCenters('edit');
@@ -783,9 +821,8 @@
                         window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
                     }
                 } catch (error) {
-                    console.error("Firestore Error:", error);
                     signOut(auth);
-                    window.showToast('عذراً، يجب تفعيل قواعد البيانات (Rules) في Firebase أولاً', 'error');
+                    window.showToast('حدث خطأ أثناء الاتصال', 'error');
                 }
                 
                 document.getElementById('loader').classList.add('hidden');
@@ -798,7 +835,6 @@
             }
         });
 
-        // دالة مساعدة لرسم المحادثات بشكل مستقل لتجنب ظهور "مجهول" وتحديث النقطة الزرقاء
         window.renderChatsUI = function() {
             const list = document.getElementById('chat-history-list');
             let newMsgCount = 0;
@@ -812,7 +848,6 @@
 
             const html = myChatsCache.map(c => {
                 const otherId = c.users.find(u => u !== currentUser.uid);
-                // البحث عن المستخدم، واذا لم يتم تحميله بعد نظهر مؤقتاً "جاري التحميل" وليس مجهول
                 const otherUser = allUsersCache.find(u => u.uid === otherId) || { name: 'مستخدم (جاري التحميل...)', photoURL: 'https://via.placeholder.com/40' };
                 
                 const time = c.lastUpdated ? new Date(c.lastUpdated).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) : '';
@@ -841,15 +876,13 @@
         };
 
         function startListeners() {
-            // 1. مراقب المحادثات
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
             onSnapshot(chatQuery, (snap) => {
                 myChatsCache =[];
                 snap.forEach(d => myChatsCache.push({id: d.id, ...d.data()}));
-                window.renderChatsUI(); // رسم الواجهة
+                window.renderChatsUI(); 
             });
 
-            // 2. مراقب المستخدمين الدليل
             onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
                 allUsersCache =[];
                 snap.forEach(d => {
@@ -857,12 +890,10 @@
                     if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
                 });
                 window.renderDirectory();
-                window.renderChatsUI(); // تحديث المحادثات لتظهر الأسماء الحقيقية بدلاً من مجهول
+                window.renderChatsUI(); 
             });
 
-            // 3. مراقب الطلبات لمقدمي الخدمات (تم إصلاح مشكلة ה- Index هنا)
             if(userProfile.role === 'provider') {
-                // نطلب جميع الخدمات فقط، ونفلتر المهنة برمجياً لتجنب الحاجة لـ Composite Index
                 const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'));
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('matching-reqs-list'); 
@@ -872,7 +903,6 @@
                    
                     snap.forEach(d => {
                         const req = d.data();
-                        // الفلترة هنا:
                         if(req.uid === currentUser.uid || req.profession !== userProfile.profession) return; 
 
                         const isNew = new Date(req.createdAt).getTime() > parseInt(lastSeenReq);
@@ -880,8 +910,8 @@
                         const hasPhone = req.phone && req.phone.length > 5;
 
                         html.push(`
-                            <div class="bg-white dark:bg-gray-800 p-3 rounded-xl border-black-custom mb-2 relative">
-                                ${isNew ? '<div class="absolute top-0 left-0 bg-red-500 text-white text-[8px] px-1 py-0.5 font-bold">جديد</div>' : ''}
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-300 dark:border-gray-600 mb-2 relative">
+                                ${isNew ? '<div class="absolute top-0 left-0 bg-red-500 text-white text-[8px] px-1 py-0.5 font-bold rounded-br-lg rounded-tl-xl">جديد</div>' : ''}
                                 <div class="flex justify-between mb-1">
                                     <h4 class="font-bold text-xs text-black dark:text-white">${req.requesterName}</h4>
                                     <span class="text-[9px] text-gray-400">${new Date(req.createdAt).toLocaleDateString('ar-EG')}</span>
@@ -891,7 +921,7 @@
                                 <div class="flex gap-1">
                                     <button onclick="window.openChat('${req.uid}','${req.requesterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800">محادثة</button>
                                     ${hasPhone ? `<a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-100 text-green-700 py-1.5 rounded text-[10px] font-bold text-center border border-green-200">واتس</a>
-                                    <a href="tel:${req.phone}" class="flex-1 bg-gray-100 text-gray-700 py-1.5 rounded text-[10px] font-bold text-center border border-gray-200">اتصال</a>` : ''}
+                                    <a href="tel:+20${req.phone}" class="flex-1 bg-gray-100 text-gray-700 py-1.5 rounded text-[10px] font-bold text-center border border-gray-200">اتصال</a>` : ''}
                                 </div>
                             </div>
                         `);
@@ -900,7 +930,6 @@
                     if(html.length === 0) container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-2">لا توجد طلبات</p>';
                     else container.innerHTML = html.join('');
 
-                    // تحديث الإشعارات
                     if(newCount > 0 && userProfile.settings?.notifEnabled) {
                         document.getElementById('notif-dot').classList.remove('hidden');
                         document.getElementById('notif-list').innerHTML = `<div class="p-2 bg-blue-50 rounded border border-blue-200 mb-2"><p class="text-xs text-blue-800 font-bold">🔔 يوجد ${newCount} طلبات مطابقة لمهنتك!</p></div>`;
@@ -910,7 +939,6 @@
                 });
             }
 
-            // 4. مراقب الوظائف
             onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
                 if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد وظائف</p>'; return; }
@@ -942,11 +970,11 @@
                                 <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap mb-3 border-l-2 border-gray-200 pl-2">${j.desc}</p>
 
                                 <div class="flex gap-1">
-                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-2 rounded text-xs font-bold hover:bg-gray-800">محادثة</button>` : '<span class="flex-1 text-center text-[10px] text-gray-400 py-2 bg-gray-50">إعلانك</span>'}
+                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-2 rounded text-xs font-bold hover:bg-gray-800">محادثة</button>` : '<span class="flex-1 text-center text-[10px] text-gray-400 py-2 bg-gray-50 border border-gray-200 rounded">إعلانك</span>'}
                                     
                                     ${hasPhone && !isMyPost ? `
-                                    <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-600 text-white py-2 rounded text-xs font-bold text-center hover:bg-green-700">واتس</a>
-                                    <a href="tel:${j.contactPhone}" class="w-10 bg-gray-200 text-black flex items-center justify-center rounded hover:bg-gray-300">📞</a>
+                                    <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-600 text-white py-2 rounded text-xs font-bold text-center hover:bg-green-700">واتساب</a>
+                                    <a href="tel:+20${j.contactPhone}" class="w-10 bg-gray-200 text-black flex items-center justify-center rounded hover:bg-gray-300">📞</a>
                                     ` : ''}
                                 </div>
                             </div>
@@ -955,19 +983,17 @@
                 list.innerHTML = html.join('');
             });
 
-            // 5. نشاطي
             const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
             onSnapshot(qActivity, (snap) => {
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
-                const btn = document.getElementById('btn-show-more-activity');
                 const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
                 
-                if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl"><p class="text-xs text-gray-400">لا يوجد نشاط</p></div>'; btn.classList.add('hidden'); return; }
+                if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl"><p class="text-xs text-gray-400">لا يوجد نشاط</p></div>'; return; }
                 
-                docs.forEach((act, idx) => {
+                docs.forEach((act) => {
                     const el = document.createElement('div');
                     const isJob = act.type === 'job';
-                    el.className = `bg-white dark:bg-gray-800 p-2 rounded-lg mb-2 flex justify-between items-center border-black-custom ${idx > 2 ? 'hidden extra-act' : ''}`;
+                    el.className = `bg-white dark:bg-gray-800 p-2 rounded-lg mb-2 flex justify-between items-center border border-gray-200 dark:border-gray-600`;
                     el.innerHTML = `
                         <div class="flex items-center gap-2">
                             <span class="text-lg">${isJob ? '💼' : '🛠️'}</span>
@@ -976,22 +1002,14 @@
                                 <p class="text-[9px] text-gray-400">${new Date(act.createdAt).toLocaleDateString('ar-EG')}</p>
                             </div>
                         </div>
-                        <button onclick="window.deleteRequest('${act.id}')" class="text-red-500 hover:text-red-700 text-xs font-bold">حذف</button>
+                        <button onclick="window.deleteRequest('${act.id}')" class="text-red-500 hover:text-red-700 text-xs font-bold bg-red-50 px-2 py-1 rounded">حذف</button>
                     `;
                     list.appendChild(el);
                 });
-                
-                if(docs.length > 3) {
-                    btn.classList.remove('hidden');
-                    btn.onclick = () => {
-                        document.querySelectorAll('.extra-act').forEach(e => e.classList.remove('hidden'));
-                        btn.classList.add('hidden');
-                    };
-                } else btn.classList.add('hidden');
             });
         }
 
-        window.deleteRequest = async (id) => { if(confirm('حذف؟')) await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'requests', id)); };
+        window.deleteRequest = async (id) => { if(confirm('حذف هذا النشاط؟')) await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'requests', id)); };
         window.toggleNotifPanel = () => { document.getElementById('notif-panel').classList.toggle('hidden'); };
 
         window.openProfileModal = async (userStr) => {
@@ -1007,7 +1025,8 @@
 
             const actionsDiv = document.getElementById('modal-actions'); actionsDiv.innerHTML = '';
             if (!user.settings?.hidePhone) {
-                actionsDiv.innerHTML = `<a href="https://wa.me/20${user.phone}" target="_blank" class="flex-1 py-2 bg-green-600 text-white rounded-lg font-bold text-xs text-center hover:bg-green-700">واتساب</a>`;
+                const justPhone = user.phone.replace('+20', '');
+                actionsDiv.innerHTML = `<a href="https://wa.me/20${justPhone}" target="_blank" class="flex-1 py-2 bg-green-600 text-white rounded-lg font-bold text-xs text-center hover:bg-green-700">واتساب</a>`;
             }
             const chatBtn = document.createElement('button');
             chatBtn.className = "flex-1 py-2 bg-black text-white rounded-lg font-bold text-xs shadow hover:bg-gray-800";
@@ -1022,30 +1041,24 @@
         async function loadReviews(targetId) {
              const list = document.getElementById('modal-reviews-list');
              const starsDisplay = document.getElementById('modal-stars-display');
-             list.innerHTML = '<p class="text-[10px] text-gray-400 text-center">جاري التحميل...</p>';
+             list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2">جاري التحميل...</p>';
              
              const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', targetId));
              const snap = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js").then(m => m.getDocs(q));
              
              list.innerHTML = '';
              let totalStars = 0;
-             if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center">لا يوجد تقييمات</p>'; starsDisplay.innerText = '0.0'; document.getElementById('btn-show-more-reviews').classList.add('hidden'); }
+             if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2">لا توجد تقييمات حتى الآن</p>'; starsDisplay.innerText = '0.0'; }
              else {
                  const reviews =[]; snap.forEach(d => reviews.push(d.data()));
-                 reviews.forEach((r, i) => {
+                 reviews.forEach((r) => {
                      totalStars += parseInt(r.stars);
                      const el = document.createElement('div');
-                     el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 rounded mb-1 border border-gray-200 dark:border-gray-600 ${i>2?'hidden extra-rev':''}`;
+                     el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 rounded mb-1 border border-gray-200 dark:border-gray-600`;
                      el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${window.getCloudinaryUrl(r.fromPhoto, 'thumb')}" class="w-5 h-5 rounded-full border border-black"><span class="text-[10px] font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px]">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
                      list.appendChild(el);
                  });
                  starsDisplay.innerText = (totalStars / reviews.length).toFixed(1);
-                 
-                 const btn = document.getElementById('btn-show-more-reviews');
-                 if(reviews.length > 3) {
-                     btn.classList.remove('hidden');
-                     btn.onclick = () => { document.querySelectorAll('.extra-rev').forEach(e => e.classList.remove('hidden')); btn.classList.add('hidden'); };
-                 } else btn.classList.add('hidden');
              }
         }
 
@@ -1054,7 +1067,7 @@
             const text = document.getElementById('review-text').value;
             const stars = document.querySelector('input[name="stars"]:checked')?.value;
            
-            if(!stars || !currentChatId) return window.showToast('اختر النجوم', 'error');
+            if(!stars || !currentChatId) return window.showToast('أدخل التقييم أولاً', 'error');
            
             btn.innerText = '...';
             btn.disabled = true;
@@ -1065,7 +1078,7 @@
                     fromId: currentUser.uid, fromName: userProfile.name, fromPhoto: userProfile.photoURL,
                     toId: otherUserId, stars, comment: text || '', createdAt: new Date().toISOString()
                 });
-                window.showToast('تم التقييم');
+                window.showToast('تم إرسال التقييم');
                 document.getElementById('rate-modal').classList.add('hidden');
                 document.getElementById('form-review').reset();
             } catch(e) {
@@ -1101,24 +1114,6 @@
             });
         };
 
-        document.getElementById('form-message').onsubmit = async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('msg-input');
-            const text = input.value.trim();
-            if (!text || !currentChatId) return;
-           
-            try {
-                const now = new Date().toISOString();
-                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages'), {
-                    text, senderId: currentUser.uid, createdAt: now
-                });
-                await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
-                    lastMessage: text, lastUpdated: now, users:[currentUser.uid, currentChatId.replace(currentUser.uid, '').replace('_', '')]
-                }, { merge: true });
-                input.value = '';
-            } catch(err) { window.showToast('فشل', 'error'); }
-        };
-
         window.renderDirectory = () => {
             const cont = document.getElementById('dir-list');
             const list = allUsersCache.slice(0,50);
@@ -1137,7 +1132,7 @@
             document.getElementById('page-title').innerText = profName;
             const filtered = allUsersCache.filter(u => u.profession === profName);
             const cont = document.getElementById('cat-list-container');
-            if(filtered.length === 0) { cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500">لا يوجد مسجلين</p></div>`; return; }
+            if(filtered.length === 0) { cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500">لا يوجد مسجلين حالياً</p></div>`; return; }
             cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
         };
 
@@ -1158,7 +1153,7 @@
 
                 await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
                     name: document.getElementById('edit-name').value,
-                    phone: document.getElementById('edit-phone').value,
+                    phone: `+20${document.getElementById('edit-phone').value}`,
                     city: document.getElementById('edit-center').value,
                     area: document.getElementById('edit-village').value,
                     photoURL: finalPhotoURL
@@ -1177,7 +1172,7 @@
                     hidePhone: document.getElementById('toggle-hide-phone').checked,
                     hideProfile: document.getElementById('toggle-hide-profile').checked
                 }});
-                window.showToast('تم الحفظ'); window.goBack();
+                window.showToast('تم الحفظ بنجاح'); window.goBack();
             } catch (e) { window.showToast('خطأ', 'error'); }
         };
 
@@ -1190,7 +1185,7 @@
             if (mode === 'req') {
                 formReq.classList.remove('hidden'); 
                 formJob.classList.add('hidden');
-                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-600 bg-blue-50 text-blue-600 transition-all";
+                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all";
                 btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all";
             } else {
                 formReq.classList.add('hidden'); 
@@ -1222,8 +1217,8 @@
                     uid: currentUser.uid,
                     createdAt: new Date().toISOString()
                 });
-                window.showToast('تم النشر'); e.target.reset(); window.goBack();
-            } catch(err) { window.showToast(err.message || 'خطأ', 'error'); }
+                window.showToast('تم النشر بنجاح'); e.target.reset(); window.goBack();
+            } catch(err) { window.showToast(err.message || 'حدث خطأ', 'error'); }
         };
        
         document.getElementById('form-req').onsubmit = async (e) => {
@@ -1238,7 +1233,7 @@
                     requesterName: userProfile.name,
                     createdAt: new Date().toISOString()
                 });
-                window.showToast('تم النشر'); e.target.reset(); window.goBack();
+                window.showToast('تم النشر بنجاح'); e.target.reset(); window.goBack();
             } catch(err) { window.showToast('خطأ', 'error'); }
         };
        
