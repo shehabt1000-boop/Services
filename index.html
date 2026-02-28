@@ -1,27 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>دليل الشرقية V21 - الماسية</title>
-    
+   
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+   
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
+   
     <!-- Config -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Cairo', 'sans-serif'] },
+                    fontFamily: { sans:['Cairo', 'sans-serif'] },
                     colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' },
                     animation: { 'fade': 'fadeIn 0.2s ease-in-out', 'pop': 'popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)' },
-                    keyframes: { 
+                    keyframes: {
                         fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
                         popIn: { '0%': { transform: 'scale(0.9)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
                     }
@@ -34,29 +33,29 @@
         body { font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         button { cursor: pointer; touch-action: manipulation; }
-        
+       
         /* Glass Header */
         .glass-header { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid #000; }
         .dark .glass-header { background: rgba(17, 24, 39, 0.98); border-bottom: 2px solid #4b5563; }
-        
+       
         /* Inputs - Compact & Bordered */
-        input, select, textarea { 
-            border: 2px solid #d1d5db; 
+        input, select, textarea {
+            border: 2px solid #d1d5db;
             background-color: #ffffff;
-            transition: all 0.2s; 
+            transition: all 0.2s;
             font-size: 13px; /* Smaller font for compact look */
         }
-        input:focus, select:focus, textarea:focus { 
-            border-color: #000000; 
+        input:focus, select:focus, textarea:focus {
+            border-color: #000000;
             outline: none;
         }
-        .dark input, .dark select, .dark textarea { 
-            background-color: #1f2937; 
-            border-color: #4b5563; 
+        .dark input, .dark select, .dark textarea {
+            background-color: #1f2937;
+            border-color: #4b5563;
             color: white;
         }
         .dark input:focus { border-color: #fff; }
-        
+       
         /* Black Borders Custom Class */
         .border-black-custom {
             border: 2px solid #000000 !important;
@@ -66,7 +65,7 @@
             border: 2px solid #6b7280 !important;
             box-shadow: 2px 2px 0px #6b7280 !important;
         }
-        
+       
         /* Provider Card */
         .provider-card {
             border: 2px solid #000000;
@@ -87,7 +86,7 @@
         /* Badge */
         .badge { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; border: 1px solid #000; }
         .dark .badge { border-color: #fff; }
-        
+       
         /* Stars */
         .star-rating { direction: ltr; display: inline-flex; }
         .star-rating input { display: none; }
@@ -117,7 +116,8 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                 <span id="notif-dot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
             </button>
-            <img id="header-avatar" src="https://via.placeholder.com/40" class="w-8 h-8 rounded-full bg-gray-200 object-cover border-2 border-black dark:border-gray-400 cursor-pointer" onclick="window.navTo('profile')">
+            <!-- إزالة التحميل الكسول ليظل ثابتاً -->
+            <img id="header-avatar" src="" class="w-8 h-8 rounded-full bg-gray-200 object-cover border-2 border-black dark:border-gray-400 cursor-pointer" onclick="window.navTo('profile')">
         </div>
     </header>
 
@@ -132,7 +132,7 @@
         </div>
     </div>
 
-    <!-- AUTH VIEW (COMPACT & BRUTALIST) -->
+    <!-- AUTH VIEW -->
     <div id="auth-view" class="hidden min-h-screen flex flex-col justify-center p-4 md:max-w-md md:mx-auto">
         <div class="text-center mb-4">
             <h1 class="text-2xl font-extrabold border-b-4 border-black inline-block pb-1 dark:border-white">خدمات الشرقية</h1>
@@ -153,16 +153,16 @@
             </div>
         </form>
 
-        <!-- Signup Form (SUPER COMPACT) -->
+        <!-- Signup Form -->
         <form id="form-signup" class="hidden bg-white dark:bg-gray-800 p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
             <!-- Image -->
             <div class="flex justify-center mb-3">
                 <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-400 relative overflow-hidden cursor-pointer" onclick="document.getElementById('signup-file').click()">
-                    <img id="signup-preview" src="https://via.placeholder.com/100?text=+" class="w-full h-full object-cover opacity-60 hover:opacity-100">
+                    <img id="signup-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" class="w-full h-full object-cover opacity-80 hover:opacity-100">
                 </div>
                 <input type="file" id="signup-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'signup-preview')">
             </div>
-            
+           
             <!-- Fields Grid -->
             <div class="space-y-2">
                 <div class="grid grid-cols-2 gap-2">
@@ -172,7 +172,7 @@
 
                 <input type="email" id="signup-email" placeholder="البريد الإلكتروني" class="w-full p-2 rounded-lg text-xs h-9" required>
                 <input type="password" id="signup-pass" placeholder="كلمة المرور" class="w-full p-2 rounded-lg text-xs h-9" required>
-                
+               
                 <div class="grid grid-cols-2 gap-2">
                     <select id="signup-center" onchange="window.updateVillages()" class="w-full p-1 rounded-lg text-xs h-9 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
                     <select id="signup-village" class="w-full p-1 rounded-lg text-xs h-9 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
@@ -200,7 +200,7 @@
 
     <!-- APP VIEW -->
     <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative transition-all duration-300">
-        
+       
         <!-- HOME -->
         <section id="page-home" class="page-section px-3 animate-fade">
             <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 space-y-2">
@@ -213,11 +213,11 @@
                     <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
                 </div>
             </div>
-            
+           
             <div id="view-services" class="pb-4">
                 <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-5 gap-2"></div>
             </div>
-            
+           
             <div id="view-jobs" class="hidden space-y-3 pb-4 max-w-2xl mx-auto">
                 <p class="text-center text-gray-400 py-10">جاري تحميل الوظائف...</p>
             </div>
@@ -240,11 +240,12 @@
         <section id="page-add" class="page-section hidden px-4 animate-fade">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
                 <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
+                <!-- تعديل أزرار طلب خدمة ووظيفة لتنشيط وتناسق صحيح -->
                 <div class="flex gap-2 mb-4">
                     <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-600 bg-blue-50 text-blue-600 transition-all">طلب خدمة</button>
-                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 text-gray-500 transition-all">وظيفة</button>
+                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 text-gray-500 bg-white transition-all">وظيفة</button>
                 </div>
-                
+               
                 <form id="form-req" class="space-y-3">
                     <select id="req-prof" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
                     <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
@@ -256,7 +257,7 @@
                 <form id="form-job" class="hidden space-y-3">
                     <select id="job-title-select" onchange="if(this.value==='أخرى') document.getElementById('job-custom-title').classList.remove('hidden'); else document.getElementById('job-custom-title').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
                     <input type="text" id="job-custom-title" placeholder="اكتب اسم الوظيفة..." class="hidden w-full p-2 rounded-lg border-2 border-blue-300 bg-blue-50">
-                    
+                   
                     <div class="grid grid-cols-2 gap-2">
                          <input type="number" id="job-salary" placeholder="الراتب (ج.م)" class="w-full p-2 rounded-lg text-xs">
                          <input type="text" id="job-hours" placeholder="ساعات العمل" class="w-full p-2 rounded-lg text-xs">
@@ -299,7 +300,7 @@
                         </div>
                     </div>
                 </div>
-                
+               
                 <div id="provider-dashboard" class="hidden mb-4">
                     <h3 class="font-bold text-xs mb-2 px-1">✨ طلبات تناسبك</h3>
                     <div id="matching-reqs-list" class="space-y-2"></div>
@@ -373,7 +374,7 @@
                 <img id="modal-img" src="" class="w-20 h-20 rounded-full border-2 border-black dark:border-gray-500 mb-2 object-cover">
                 <h2 id="modal-name" class="text-lg font-extrabold dark:text-white"></h2>
                 <p id="modal-role" class="text-xs text-blue-600 font-bold mb-3"></p>
-                
+               
                 <div class="w-full bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 text-center mb-4">
                     <div class="grid grid-cols-2 gap-2 text-xs">
                         <div><span class="text-gray-400 block">العنوان</span><span id="modal-addr" class="font-bold"></span></div>
@@ -453,13 +454,13 @@
         import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, addDoc, where, updateDoc, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyA5OiTcX95GBgiJoDHnY3y7N23o-j8hsQ8",
+            apiKey: "AIzaSyD7XMCaPTY73bfs8On_woRiFC7dmw2pwP4",
             authDomain: "services-cef84.firebaseapp.com",
             databaseURL: "https://services-cef84-default-rtdb.firebaseio.com",
             projectId: "services-cef84",
             storageBucket: "services-cef84.firebasestorage.app",
             messagingSenderId: "902396219187",
-            appId: "1:902396219187:web:3ba084a724266afa8bb846"
+            appId: "1:902396219187:web:1d2ae6eb91215b148bb846"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -468,25 +469,25 @@
         const APP_ID = 'services-cef84';
 
         const sharkiaData = {
-            "الزقازيق": ["هرية رزنة","شيبة","العصلوجي","بنايوس","الزنكلون","كفر الحصر","كفر عبد العزيز","كفر الحمام","النكارية","الشبانات","شوبك بسطة","بيشة قايد","الطاهرة","الزهراء","طوخ","ميت أبو علي","كفر السواقي","كفر منلا","كفر أبو حسين","عزبة البكري","كفر محفوظ","كفر الشرفا","عزبة العرب","عزبة الجندي","كفر المزارقة","بيشة نوي","كفر داوود","برازيل","المسلمية","الطيبة","القومية","الجامعة","الزراعة","الغشام","المنتزه","حي الزهور","حي الحسينية","حي النحال","حي عمر بن الخطاب","ميدان عرابي","شارع فاروق","شارع الجلاء"],
-            "منيا القمح": ["المدينة","السعديين","كفر السعديين","كفر الشيخ سفر","شرشرة","ميت سهيل","التلين","سنهوا","كفر سلامة","شلشلمون","بني هلال","عزبة الطباخ","صهرجت الكبرى","صهرجت الصغرى","العزيزية","كفر الشيخ إبراهيم","البناتية","ملّيوس","كفر العرب"],
-            "بلبيس": ["المدينة","أنشاص الرمل","تل روزن","العلاقمة","غيتة","كفر أيوب سليمان","ميت ربيعة","سلمنت","الكتيبة","كفر أبودقن","العدلية","كفر أيوب","كفر إبراهيم العايدي","أولاد سيف","كفر أبو شحاتة","السعادات"],
-            "أبو حماد": ["المدينة","كفر أبو نجم","الأسدية","عزبة أبو عامر","الصوة","الطحاوية","الدويانية","القطاوية","أبو خروع","كفر البلاسي","عزبة جودة"],
-            "فاقوس": ["المدينة","الصوالح","الكيلانية","الملاحات","الديدامون","قنتير","السماعنة","سماكين الغرب","سماكين الشرق","أبو شلبي","النمروط","الغزالي","قهبونة","أبو ياسين","المنشأة الجديدة","جلفيا"],
-            "الحسينية": ["المدينة","سعود","منشأة أبو عامر","العبودي","الجمالية","بحر البقر","الأخيوة","الروضة","المناجاة","القصبي شرق","القصبي غرب","العائط"],
-            "أبو كبير": ["المدينة","الرحمانية","المشاعلة","طوخ القراموص","هربيط","أبو شحاتة","كفر الشيخ عيسى","بني عياض","كفر بني عياض","كفر أبو حطب"],
-            "ديرب نجم": ["المدينة","صفط زريق","جميزة بني عمرو","ديرب البلد","الهوابر","عزبة يوسف","إكوه","المناصافور","طحا المرج"],
-            "كفر صقر": ["المدينة","أبو الشقوق","حانوت","الهجارسة","القُرين القديمة","كفر السويركي"],
-            "أولاد صقر": ["المدينة","تلراك","منشأة ناصف","بني حسن","الهجارسة","القطيع"],
-            "الإبراهيمية": ["المدينة","كفور نجم","العدوة","السدس","كفر أبو شريعة","شلش"],
-            "مشتول السوق": ["المدينة","سنهوا","الصحافة","المنير","العقدة","العريشية"],
-            "ههيا": ["المدينة","العلاقمة","السكاكرة","المهدية","كفر أبو كبير","شرشيمة"],
-            "العاشر من رمضان": ["المجاورة 1-10", "المجاورة 11-30", "المجاورة 31-50", "المنطقة الصناعية", "الأردنية"]
+            "الزقازيق":["هرية رزنة","شيبة","العصلوجي","بنايوس","الزنكلون","كفر الحصر","كفر عبد العزيز","كفر الحمام","النكارية","الشبانات","شوبك بسطة","بيشة قايد","الطاهرة","الزهراء","طوخ","ميت أبو علي","كفر السواقي","كفر منلا","كفر أبو حسين","عزبة البكري","كفر محفوظ","كفر الشرفا","عزبة العرب","عزبة الجندي","كفر المزارقة","بيشة نوي","كفر داوود","برازيل","المسلمية","الطيبة","القومية","الجامعة","الزراعة","الغشام","المنتزه","حي الزهور","حي الحسينية","حي النحال","حي عمر بن الخطاب","ميدان عرابي","شارع فاروق","شارع الجلاء"],
+            "منيا القمح":["المدينة","السعديين","كفر السعديين","كفر الشيخ سفر","شرشرة","ميت سهيل","التلين","سنهوا","كفر سلامة","شلشلمون","بني هلال","عزبة الطباخ","صهرجت الكبرى","صهرجت الصغرى","العزيزية","كفر الشيخ إبراهيم","البناتية","ملّيوس","كفر العرب"],
+            "بلبيس":["المدينة","أنشاص الرمل","تل روزن","العلاقمة","غيتة","كفر أيوب سليمان","ميت ربيعة","سلمنت","الكتيبة","كفر أبودقن","العدلية","كفر أيوب","كفر إبراهيم العايدي","أولاد سيف","كفر أبو شحاتة","السعادات"],
+            "أبو حماد":["المدينة","كفر أبو نجم","الأسدية","عزبة أبو عامر","الصوة","الطحاوية","الدويانية","القطاوية","أبو خروع","كفر البلاسي","عزبة جودة"],
+            "فاقوس":["المدينة","الصوالح","الكيلانية","الملاحات","الديدامون","قنتير","السماعنة","سماكين الغرب","سماكين الشرق","أبو شلبي","النمروط","الغزالي","قهبونة","أبو ياسين","المنشأة الجديدة","جلفيا"],
+            "الحسينية":["المدينة","سعود","منشأة أبو عامر","العبودي","الجمالية","بحر البقر","الأخيوة","الروضة","المناجاة","القصبي شرق","القصبي غرب","العائط"],
+            "أبو كبير":["المدينة","الرحمانية","المشاعلة","طوخ القراموص","هربيط","أبو شحاتة","كفر الشيخ عيسى","بني عياض","كفر بني عياض","كفر أبو حطب"],
+            "ديرب نجم":["المدينة","صفط زريق","جميزة بني عمرو","ديرب البلد","الهوابر","عزبة يوسف","إكوه","المناصافور","طحا المرج"],
+            "كفر صقر":["المدينة","أبو الشقوق","حانوت","الهجارسة","القُرين القديمة","كفر السويركي"],
+            "أولاد صقر":["المدينة","تلراك","منشأة ناصف","بني حسن","الهجارسة","القطيع"],
+            "الإبراهيمية":["المدينة","كفور نجم","العدوة","السدس","كفر أبو شريعة","شلش"],
+            "مشتول السوق":["المدينة","سنهوا","الصحافة","المنير","العقدة","العريشية"],
+            "ههيا":["المدينة","العلاقمة","السكاكرة","المهدية","كفر أبو كبير","شرشيمة"],
+            "العاشر من رمضان":["المجاورة 1-10", "المجاورة 11-30", "المجاورة 31-50", "المنطقة الصناعية", "الأردنية"]
         };
 
-        const professions = ["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","جزمجي","مكوجي","حلاق","كوافير","ماكيير","مصور","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل بناء","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
-        const validImages = ['313690/pexels-photo-313690.jpeg','40568/medical-appointment-doctor-healthcare-40568.jpeg','3212114/pexels-photo-3212114.jpeg','1432675/pexels-photo-1432675.jpeg','4489749/pexels-photo-4489749.jpeg','5212345/pexels-photo-5212345.jpeg','270348/pexels-photo-270348.jpeg','4386466/pexels-photo-4386466.jpeg','5816291/pexels-photo-5816291.jpeg','159306/construction-site-build-construction-work-159306.jpeg','1267320/pexels-photo-1267320.jpeg','1319460/pexels-photo-1319460.jpeg','4495018/pexels-photo-4495018.jpeg','4391470/pexels-photo-4391470.jpeg','5845633/pexels-photo-5845633.jpeg','6197116/pexels-photo-6197116.jpeg','5591581/pexels-photo-5591581.jpeg','3771069/pexels-photo-3771069.jpeg','2582937/pexels-photo-2582937.jpeg','102127/pexels-photo-102127.jpeg','5370665/pexels-photo-5370665.jpeg','863988/pexels-photo-863988.jpeg','323705/pexels-photo-323705.jpeg','996329/pexels-photo-996329.jpeg','264636/pexels-photo-264636.jpeg','2834626/pexels-photo-2834626.jpeg','3184418/pexels-photo-3184418.jpeg'];
-        
+        const professions =["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","جزمجي","مكوجي","حلاق","كوافير","ماكيير","مصور","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل بناء","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
+        const validImages =['313690/pexels-photo-313690.jpeg','40568/medical-appointment-doctor-healthcare-40568.jpeg','3212114/pexels-photo-3212114.jpeg','1432675/pexels-photo-1432675.jpeg','4489749/pexels-photo-4489749.jpeg','5212345/pexels-photo-5212345.jpeg','270348/pexels-photo-270348.jpeg','4386466/pexels-photo-4386466.jpeg','5816291/pexels-photo-5816291.jpeg','159306/construction-site-build-construction-work-159306.jpeg','1267320/pexels-photo-1267320.jpeg','1319460/pexels-photo-1319460.jpeg','4495018/pexels-photo-4495018.jpeg','4391470/pexels-photo-4391470.jpeg','5845633/pexels-photo-5845633.jpeg','6197116/pexels-photo-6197116.jpeg','5591581/pexels-photo-5591581.jpeg','3771069/pexels-photo-3771069.jpeg','2582937/pexels-photo-2582937.jpeg','102127/pexels-photo-102127.jpeg','5370665/pexels-photo-5370665.jpeg','863988/pexels-photo-863988.jpeg','323705/pexels-photo-323705.jpeg','996329/pexels-photo-996329.jpeg','264636/pexels-photo-264636.jpeg','2834626/pexels-photo-2834626.jpeg','3184418/pexels-photo-3184418.jpeg'];
+       
         function getProfImage(profName) {
             if(profName==="خدمات أخرى") return `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
             let hash = 0;
@@ -495,35 +496,57 @@
             return `https://images.pexels.com/photos/${validImages[index]}?auto=compress&cs=tinysrgb&w=200`;
         }
 
-        let currentUser = null, userProfile = null, navStack = ['home'], tempImgBase64 = null, currentChatId = null, allUsersCache = [], chatListener = null, currentModalUserId = null;
+        let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], chatListener = null, currentModalUserId = null;
         let lastSeenReq = localStorage.getItem('lastSeenReq') || 0;
         let lastSeenChat = localStorage.getItem('lastSeenChat') || 0;
+        let tempSelectedFile = null;
+
+        const CLOUD_NAME = "db9h7zm1h"; 
+        const UPLOAD_PRESET = "souq_upload";
+
+        window.uploadToCloudinary = async (file) => {
+            const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+            const fd = new FormData();
+            fd.append("file", file);
+            fd.append("upload_preset", UPLOAD_PRESET);
+
+            const res = await fetch(url, { method: "POST", body: fd });
+            if (!res.ok) throw new Error("فشل رفع الصورة");
+            const data = await res.json();
+            return data.secure_url; 
+        };
+
+        window.getCloudinaryUrl = (url, size = 'thumb') => {
+            if (!url) return 'https://via.placeholder.com/40';
+            
+            // 🔥 حل سحري لقتل الـ Base64 القديم ومنع اللاج:
+            // إذا كانت الصورة طويلة جداً (Base64 قديم) سيتم تجاهلها وعرض أيقونة افتراضية لمنع تهنيج المتصفح
+            if (url.startsWith('data:image') && url.length > 50000) {
+                return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239ca3af"%3E%3Cpath d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/%3E%3C/svg%3E';
+            }
+
+            if (!url.includes('res.cloudinary.com')) return url; 
+            const parts = url.split('/upload/');
+            if (parts.length < 2) return url;
+            if (size === 'thumb') return `${parts[0]}/upload/w_100,h_100,c_fill,q_auto,f_auto/${parts[1]}`;
+            if (size === 'medium') return `${parts[0]}/upload/w_500,c_limit,q_auto,f_auto/${parts[1]}`;
+            return `${parts[0]}/upload/q_auto,f_auto/${parts[1]}`;
+        };
 
         window.showToast = (msg, type='success') => {
             const box = document.getElementById('toast-box');
             const el = document.createElement('div');
-            el.className = `toast-msg ${type}`; 
+            el.className = `toast-msg ${type}`;
             el.innerText = msg;
             box.appendChild(el);
             requestAnimationFrame(() => el.classList.add('show'));
             setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
         };
 
-        window.handleImageUpload = async (input, previewId, isProfile=false) => {
+        window.handleImageUpload = (input, previewId, isProfile=false) => {
             if (input.files[0]) {
-                const reader = new FileReader();
-                reader.readAsDataURL(input.files[0]);
-                reader.onload = (e) => {
-                    const img = new Image(); img.src = e.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const scaleSize = 600 / img.width;
-                        canvas.width = 600; canvas.height = img.height * scaleSize;
-                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                        tempImgBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                        document.getElementById(previewId).src = tempImgBase64;
-                    }
-                }
+                tempSelectedFile = input.files[0];
+                document.getElementById(previewId).src = URL.createObjectURL(input.files[0]);
             }
         };
 
@@ -548,11 +571,11 @@
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             if (pageId === 'home') navStack = ['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
-            
+           
             const backBtn = document.getElementById('btn-back');
             if (pageId === 'home') { document.getElementById('page-title').innerText = 'الرئيسية'; backBtn.classList.add('hidden'); }
             else { backBtn.classList.remove('hidden'); document.getElementById('page-title').innerText = 'رجوع'; }
-            
+           
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
             const navMap = {'home':0, 'directory':1, 'chat':3, 'profile':4};
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
@@ -574,8 +597,7 @@
 
         function initApp() {
             const opts = professions.map(p => `<option value="${p}">${p}</option>`).join('');
-            const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';
-            ['signup-prof', 'req-prof'].forEach(id => document.getElementById(id).innerHTML = '<option value="">اختر المهنة...</option>'+opts);
+            const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';['signup-prof', 'req-prof'].forEach(id => document.getElementById(id).innerHTML = '<option value="">اختر المهنة...</option>'+opts);
             document.getElementById('job-title-select').innerHTML = '<option value="">اختر المسمى...</option>'+optsWithOther;
             renderProfessionsGrid(professions);
         }
@@ -584,7 +606,8 @@
             const grid = document.getElementById('professions-grid');
             const html = list.map(p => `
                 <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-white dark:bg-gray-800 hover:scale-105 transition-transform">
-                    <img src="${getProfImage(p)}" loading="lazy" class="w-full h-full object-cover">
+                    <!-- تمت إزالة loading="lazy" ليظل مخزناً بالذاكرة بدون تقطيع -->
+                    <img src="${getProfImage(p)}" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-xs drop-shadow-md text-center">${p}</span>
                     </div>
@@ -630,9 +653,23 @@
         };
 
         window.switchAuthMode = (mode) => {
-            if(mode==='login'){ document.getElementById('form-login').classList.remove('hidden'); document.getElementById('form-signup').classList.add('hidden'); }
-            else { document.getElementById('form-login').classList.add('hidden'); document.getElementById('form-signup').classList.remove('hidden'); populateCenters(); }
+            const btnLogin = document.getElementById('btn-mode-login');
+            const btnSignup = document.getElementById('btn-mode-signup');
+            const formLogin = document.getElementById('form-login');
+            const formSignup = document.getElementById('form-signup');
+
+            if(mode === 'login'){
+                formLogin.classList.remove('hidden'); formSignup.classList.add('hidden');
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-white shadow-sm text-black border border-gray-300 transition-all";
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
+            } else {
+                formLogin.classList.add('hidden'); formSignup.classList.remove('hidden');
+                populateCenters();
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold bg-white shadow-sm text-black border border-gray-300 transition-all";
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all";
+            }
         };
+
         window.toggleProfVisibility = (show) => document.getElementById('prof-container').style.display = show ? 'block' : 'none';
 
         document.getElementById('form-login').onsubmit = async (e) => {
@@ -647,66 +684,95 @@
                 const role = document.querySelector('input[name="role"]:checked').value;
                 const prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
                 if(role === 'provider' && !prof) throw new Error('اختر المهنة');
-                
+               
                 const center = document.getElementById('signup-center').value;
                 const village = document.getElementById('signup-village').value;
                 if(!center || !village) throw new Error('يرجى اختيار الموقع');
 
                 const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value, document.getElementById('signup-pass').value);
                 const gender = document.querySelector('input[name="gender"]:checked').value;
-                const photo = tempImgBase64 || `https://ui-avatars.com/api/?name=${document.getElementById('signup-name').value}&background=${gender==='male'?'0D8ABC':'E91E63'}&color=fff`;
+                const userName = document.getElementById('signup-name').value;
+                
+                let finalPhotoURL = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=${gender==='male'?'0D8ABC':'E91E63'}&color=fff`;
+                if (tempSelectedFile) {
+                    finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
+                    tempSelectedFile = null; 
+                }
 
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
-                    uid: cred.user.uid, name: document.getElementById('signup-name').value,
-                    phone: document.getElementById('signup-phone').value, 
-                    city: center, area: village,
-                    role, profession: prof, photoURL: photo, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
+                    uid: cred.user.uid, 
+                    name: userName,
+                    phone: document.getElementById('signup-phone').value,
+                    city: center, 
+                    area: village,
+                    role, 
+                    profession: prof, 
+                    photoURL: finalPhotoURL, 
+                    gender, 
+                    settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
                     createdAt: new Date().toISOString()
                 });
-                window.showToast('تم التسجيل');
-            } catch (err) { window.showToast(err.message, 'error'); document.getElementById('loader').classList.add('hidden'); }
+                window.showToast('تم التسجيل بنجاح');
+            } catch (err) { 
+                let errorMsg = err.message;
+                if (err.code === 'auth/email-already-in-use') errorMsg = 'البريد الإلكتروني مستخدم مسبقاً';
+                if (err.code === 'auth/weak-password') errorMsg = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)';
+                if (err.code === 'auth/invalid-email') errorMsg = 'البريد الإلكتروني غير صالح';
+                
+                window.showToast(errorMsg, 'error'); 
+                document.getElementById('loader').classList.add('hidden'); 
+            }
         };
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 if(userProfile && userProfile.uid === user.uid) { document.getElementById('loader').classList.add('hidden'); return; }
-                
-                const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid));
-                if (snap.exists()) {
-                    userProfile = snap.data();
-                    if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
-                    
-                    document.getElementById('auth-view').classList.add('hidden');
-                    document.getElementById('app-view').classList.remove('hidden');
-                    document.getElementById('app-header').classList.remove('hidden');
-                    document.getElementById('nav-bar').classList.remove('hidden');
-                    document.getElementById('header-avatar').src = userProfile.photoURL;
+               
+                try {
+                    const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid));
+                    if (snap.exists()) {
+                        userProfile = snap.data();
+                        if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
+                       
+                        document.getElementById('auth-view').classList.add('hidden');
+                        document.getElementById('app-view').classList.remove('hidden');
+                        document.getElementById('app-header').classList.remove('hidden');
+                        document.getElementById('nav-bar').classList.remove('hidden');
+                        document.getElementById('header-avatar').src = window.getCloudinaryUrl(userProfile.photoURL, 'thumb');
 
-                    document.getElementById('prof-name-view').innerText = userProfile.name;
-                    document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? userProfile.profession : 'عميل';
-                    document.getElementById('prof-address-view').innerText = `${userProfile.city || ''} - ${userProfile.area || ''}`;
-                    document.getElementById('prof-img-view').src = userProfile.photoURL;
+                        document.getElementById('prof-name-view').innerText = userProfile.name;
+                        document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? userProfile.profession : 'عميل';
+                        document.getElementById('prof-address-view').innerText = `${userProfile.city || ''} - ${userProfile.area || ''}`;
+                        document.getElementById('prof-img-view').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
 
-                    // Fill Edit Form
-                    document.getElementById('edit-name').value = userProfile.name;
-                    // document.getElementById('edit-email').value = currentUser.email; // Removed to save space in edit
-                    document.getElementById('edit-phone').value = userProfile.phone;
-                    document.getElementById('edit-img-preview').src = userProfile.photoURL;
-                    
-                    populateCenters('edit');
-                    document.getElementById('edit-center').value = userProfile.city || '';
-                    window.updateVillages('edit');
-                    setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
+                        // Fill Edit Form
+                        document.getElementById('edit-name').value = userProfile.name;
+                        document.getElementById('edit-phone').value = userProfile.phone;
+                        document.getElementById('edit-img-preview').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
+                       
+                        populateCenters('edit');
+                        document.getElementById('edit-center').value = userProfile.city || '';
+                        window.updateVillages('edit');
+                        setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
 
-                    if(userProfile.role === 'provider') {
-                        document.getElementById('provider-dashboard').classList.remove('hidden');
-                    } else document.getElementById('provider-dashboard').classList.add('hidden');
+                        if(userProfile.role === 'provider') {
+                            document.getElementById('provider-dashboard').classList.remove('hidden');
+                        } else document.getElementById('provider-dashboard').classList.add('hidden');
 
-                    initApp();
-                    startListeners();
-                    window.navTo('home');
+                        initApp();
+                        startListeners();
+                        window.navTo('home');
+                    } else {
+                        signOut(auth);
+                        window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
+                    }
+                } catch (error) {
+                    console.error("Firestore Error:", error);
+                    signOut(auth);
+                    window.showToast('عذراً، يجب تفعيل قواعد البيانات (Rules) في Firebase أولاً', 'error');
                 }
+                
                 document.getElementById('loader').classList.add('hidden');
             } else {
                 document.getElementById('app-view').classList.add('hidden');
@@ -719,10 +785,10 @@
 
         function startListeners() {
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
-            
+           
             onSnapshot(chatQuery, (snap) => {
                 const list = document.getElementById('chat-history-list');
-                const myChats = [];
+                const myChats =[];
                 let newMsgCount = 0;
                 snap.forEach(d => {
                     const c = d.data();
@@ -742,7 +808,7 @@
                     const isNew = new Date(c.lastUpdated).getTime() > parseInt(lastSeenChat);
                     return `
                        <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2 flex items-center gap-2">
-                           <img src="${otherUser.photoURL}" class="w-10 h-10 rounded-full object-cover border border-black">
+                           <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black">
                            <div class="flex-1 min-w-0">
                                <div class="flex justify-between">
                                    <h4 class="font-bold text-xs dark:text-white truncate">${otherUser.name}</h4>
@@ -759,10 +825,10 @@
             });
 
             onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
-                allUsersCache = [];
-                snap.forEach(d => { 
-                    const u = d.data(); 
-                    if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u); 
+                allUsersCache =[];
+                snap.forEach(d => {
+                    const u = d.data();
+                    if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
                 });
                 window.renderDirectory();
             });
@@ -772,8 +838,8 @@
                 onSnapshot(q, (snap) => {
                     const container = document.getElementById('matching-reqs-list'); container.innerHTML = '';
                     let newCount = 0;
-                    const html = [];
-                    
+                    const html =[];
+                   
                     snap.forEach(d => {
                         const req = d.data();
                         if(req.uid === currentUser.uid) return;
@@ -798,7 +864,7 @@
                             </div>
                         `);
                     });
-                    
+                   
                     if(html.length === 0) container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-2">لا توجد طلبات</p>';
                     else container.innerHTML = html.join('');
 
@@ -809,30 +875,29 @@
                 });
             }
 
-            // JOBS FEED - BRUTALIST CARD DESIGN
             onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
                 if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد وظائف</p>'; return; }
-                
-                const html = [];
+               
+                const html =[];
                 snap.forEach(d => {
                     const j = d.data();
                     const hasPhone = j.contactPhone && j.contactPhone.length > 5;
                     const isMyPost = j.uid === currentUser.uid;
-                    
+                   
                     html.push(`
                         <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom mb-3 overflow-hidden">
                             <div class="p-3">
                                 <div class="flex justify-between items-start mb-2">
                                     <div class="flex gap-2 items-center">
-                                        <img src="${j.posterPhoto||'https://via.placeholder.com/40'}" class="w-8 h-8 rounded-full object-cover border border-black">
+                                        <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black">
                                         <div>
                                             <h3 class="font-bold text-black dark:text-white text-sm">${j.title}</h3>
                                             <p class="text-[9px] text-gray-500">${j.posterName} • ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</p>
                                         </div>
                                     </div>
                                 </div>
-                                
+                               
                                 <div class="flex gap-1 mb-2 flex-wrap">
                                     <span class="badge bg-gray-100 text-black">${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
                                     ${j.salary ? `<span class="badge bg-gray-100 text-black">${j.salary} ج.م</span>` : ''}
@@ -843,7 +908,7 @@
 
                                 <div class="flex gap-1">
                                     ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-2 rounded text-xs font-bold hover:bg-gray-800">محادثة</button>` : '<span class="flex-1 text-center text-[10px] text-gray-400 py-2 bg-gray-50">إعلانك</span>'}
-                                    
+                                   
                                     ${hasPhone && !isMyPost ? `
                                     <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-600 text-white py-2 rounded text-xs font-bold text-center hover:bg-green-700">واتس</a>
                                     <a href="tel:${j.contactPhone}" class="w-10 bg-gray-200 text-black flex items-center justify-center rounded hover:bg-gray-300">📞</a>
@@ -855,15 +920,14 @@
                 list.innerHTML = html.join('');
             });
 
-            // MY ACTIVITY - BRUTALIST LIST DESIGN
             const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
             onSnapshot(qActivity, (snap) => {
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
                 const btn = document.getElementById('btn-show-more-activity');
-                const docs = []; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
-                
+                const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
+               
                 if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl"><p class="text-xs text-gray-400">لا يوجد نشاط</p></div>'; btn.classList.add('hidden'); return; }
-                
+               
                 docs.forEach((act, idx) => {
                     const el = document.createElement('div');
                     const isJob = act.type === 'job';
@@ -880,7 +944,7 @@
                     `;
                     list.appendChild(el);
                 });
-                
+               
                 if(docs.length > 3) {
                     btn.classList.remove('hidden');
                     btn.onclick = () => {
@@ -896,9 +960,9 @@
 
         window.openProfileModal = async (userStr) => {
             const user = JSON.parse(decodeURIComponent(userStr));
-            currentModalUserId = user.uid; 
-            
-            document.getElementById('modal-img').src = user.photoURL;
+            currentModalUserId = user.uid;
+           
+            document.getElementById('modal-img').src = window.getCloudinaryUrl(user.photoURL, 'medium');
             document.getElementById('modal-name').innerText = user.name;
             document.getElementById('modal-role').innerText = user.role === 'provider' ? user.profession : 'عميل';
             document.getElementById('modal-addr').innerText = `${user.city || ''} - ${user.area || ''}`;
@@ -914,7 +978,7 @@
             chatBtn.innerText = "محادثة";
             chatBtn.onclick = () => { document.getElementById('profile-modal').classList.add('hidden'); window.openChat(user.uid, user.name); };
             actionsDiv.appendChild(chatBtn);
-            
+           
             loadReviews(user.uid);
             document.getElementById('profile-modal').classList.remove('hidden');
         };
@@ -929,14 +993,14 @@
              
              list.innerHTML = '';
              let totalStars = 0;
-             if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center">لا يوجد تقييمات</p>'; starsDisplay.innerText = '0.0'; document.getElementById('btn-show-more-reviews').classList.add('hidden'); } 
+             if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center">لا يوجد تقييمات</p>'; starsDisplay.innerText = '0.0'; document.getElementById('btn-show-more-reviews').classList.add('hidden'); }
              else {
-                 const reviews = []; snap.forEach(d => reviews.push(d.data()));
+                 const reviews =[]; snap.forEach(d => reviews.push(d.data()));
                  reviews.forEach((r, i) => {
                      totalStars += parseInt(r.stars);
                      const el = document.createElement('div');
                      el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 rounded mb-1 border border-gray-200 dark:border-gray-600 ${i>2?'hidden extra-rev':''}`;
-                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${r.fromPhoto}" class="w-5 h-5 rounded-full border border-black"><span class="text-[10px] font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px]">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
+                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${window.getCloudinaryUrl(r.fromPhoto, 'thumb')}" class="w-5 h-5 rounded-full border border-black"><span class="text-[10px] font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px]">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
                      list.appendChild(el);
                  });
                  starsDisplay.innerText = (totalStars / reviews.length).toFixed(1);
@@ -953,12 +1017,12 @@
             const btn = document.getElementById('btn-submit-rate');
             const text = document.getElementById('review-text').value;
             const stars = document.querySelector('input[name="stars"]:checked')?.value;
-            
+           
             if(!stars || !currentChatId) return window.showToast('اختر النجوم', 'error');
-            
+           
             btn.innerText = '...';
             btn.disabled = true;
-            
+           
             try {
                 const otherUserId = currentChatId.replace(currentUser.uid, '').replace('_', '');
                 await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), {
@@ -977,12 +1041,12 @@
         };
 
         window.openChat = (uid, name) => {
-            currentChatId = [currentUser.uid, uid].sort().join('_');
+            currentChatId =[currentUser.uid, uid].sort().join('_');
             document.getElementById('chat-room-name').innerText = name;
             window.navTo('chat-room');
-            
-            setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), { 
-                users: [currentUser.uid, uid],
+           
+            setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
+                users:[currentUser.uid, uid],
             }, { merge: true });
 
             const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
@@ -990,7 +1054,7 @@
             if (chatListener) chatListener();
             chatListener = onSnapshot(q, (snap) => {
                 const box = document.getElementById('messages-container'); box.innerHTML = '';
-                const html = [];
+                const html =[];
                 snap.forEach(d => {
                     const m = d.data();
                     const isMe = m.senderId === currentUser.uid;
@@ -1006,59 +1070,70 @@
             const input = document.getElementById('msg-input');
             const text = input.value.trim();
             if (!text || !currentChatId) return;
-            
+           
             try {
                 const now = new Date().toISOString();
-                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages'), { 
-                    text, senderId: currentUser.uid, createdAt: now 
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages'), {
+                    text, senderId: currentUser.uid, createdAt: now
                 });
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
-                    lastMessage: text, lastUpdated: now, users: [currentUser.uid, currentChatId.replace(currentUser.uid, '').replace('_', '')] 
+                    lastMessage: text, lastUpdated: now, users:[currentUser.uid, currentChatId.replace(currentUser.uid, '').replace('_', '')]
                 }, { merge: true });
-                input.value = ''; 
+                input.value = '';
             } catch(err) { window.showToast('فشل', 'error'); }
         };
 
-        window.renderDirectory = () => { 
-            const cont = document.getElementById('dir-list'); 
+        window.renderDirectory = () => {
+            const cont = document.getElementById('dir-list');
             const list = allUsersCache.slice(0,50);
             cont.innerHTML = list.map(u => createUserCard(u)).join('');
         };
 
-        window.filterDirectory = () => { 
-            const term = document.getElementById('dir-search').value.trim(); 
-            const cont = document.getElementById('dir-list'); 
-            const filtered = term ? allUsersCache.filter(u => u.name.includes(term)||u.profession?.includes(term)) : allUsersCache.slice(0,50); 
+        window.filterDirectory = () => {
+            const term = document.getElementById('dir-search').value.trim();
+            const cont = document.getElementById('dir-list');
+            const filtered = term ? allUsersCache.filter(u => u.name.includes(term)||u.profession?.includes(term)) : allUsersCache.slice(0,50);
             cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
         };
 
-        window.openCategory = (profName) => { 
-            window.navTo('category-details'); 
-            document.getElementById('page-title').innerText = profName; 
-            const filtered = allUsersCache.filter(u => u.profession === profName); 
-            const cont = document.getElementById('cat-list-container'); 
-            if(filtered.length === 0) { cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500">لا يوجد مسجلين</p></div>`; return; } 
+        window.openCategory = (profName) => {
+            window.navTo('category-details');
+            document.getElementById('page-title').innerText = profName;
+            const filtered = allUsersCache.filter(u => u.profession === profName);
+            const cont = document.getElementById('cat-list-container');
+            if(filtered.length === 0) { cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500">لا يوجد مسجلين</p></div>`; return; }
             cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
         };
 
-        function createUserCard(u) { 
-            const userStr = encodeURIComponent(JSON.stringify(u)); 
-            return `<div onclick="window.openProfileModal('${userStr}')" class="border-black-custom bg-white dark:bg-gray-800 p-2 rounded-xl flex items-center gap-2 cursor-pointer animate-fade hover:bg-gray-50 transition-colors"><img src="${u.photoURL}" loading="lazy" class="w-10 h-10 rounded-full object-cover bg-gray-200 border-2 border-black"><div class="flex-1"><h4 class="font-bold text-sm dark:text-white">${u.name} ${u.gender==='female'?'🌸':''}</h4><p class="text-[10px] text-blue-600 font-bold bg-blue-50 inline-block px-1 rounded mt-0.5 border border-blue-200">${u.role==='provider'?u.profession:'عميل'}</p></div></div>`; 
+        function createUserCard(u) {
+            const userStr = encodeURIComponent(JSON.stringify(u));
+            return `<div onclick="window.openProfileModal('${userStr}')" class="border-black-custom bg-white dark:bg-gray-800 p-2 rounded-xl flex items-center gap-2 cursor-pointer animate-fade hover:bg-gray-50 transition-colors"><img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover bg-gray-200 border-2 border-black"><div class="flex-1"><h4 class="font-bold text-sm dark:text-white">${u.name} ${u.gender==='female'?'🌸':''}</h4><p class="text-[10px] text-blue-600 font-bold bg-blue-50 inline-block px-1 rounded mt-0.5 border border-blue-200">${u.role==='provider'?u.profession:'عميل'}</p></div></div>`;
         }
-        
+       
         window.saveProfileChanges = async () => {
             try {
+                document.getElementById('loader').classList.remove('hidden');
+                
+                let finalPhotoURL = userProfile.photoURL;
+                if (tempSelectedFile) {
+                    finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
+                    tempSelectedFile = null;
+                }
+
                 await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
-                    name: document.getElementById('edit-name').value, 
+                    name: document.getElementById('edit-name').value,
                     phone: document.getElementById('edit-phone').value,
                     city: document.getElementById('edit-center').value,
                     area: document.getElementById('edit-village').value,
-                    photoURL: tempImgBase64 || userProfile.photoURL
+                    photoURL: finalPhotoURL
                 });
                 window.location.reload();
-            } catch (e) { window.showToast('خطأ', 'error'); }
+            } catch (e) { 
+                window.showToast('حدث خطأ أثناء الحفظ', 'error'); 
+                document.getElementById('loader').classList.add('hidden');
+            }
         };
-        
+       
         window.saveSettings = async () => {
             try {
                 await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), { settings: {
@@ -1070,55 +1145,71 @@
             } catch (e) { window.showToast('خطأ', 'error'); }
         };
 
-        window.switchAddMode = (mode) => { if(mode==='req'){ document.getElementById('form-req').classList.remove('hidden'); document.getElementById('form-job').classList.add('hidden'); document.getElementById('btn-add-req').classList.add('bg-blue-600','text-white','border-blue-600'); document.getElementById('btn-add-req').classList.remove('bg-blue-50','text-blue-600'); document.getElementById('btn-add-job').classList.remove('border-gray-300'); document.getElementById('btn-add-job').classList.add('border-gray-300'); } else { document.getElementById('form-job').classList.remove('hidden'); document.getElementById('form-req').classList.add('hidden'); document.getElementById('btn-add-job').classList.add('bg-black','text-white','border-black'); document.getElementById('btn-add-job').classList.remove('text-gray-500'); document.getElementById('btn-add-req').classList.remove('bg-blue-600','text-white'); document.getElementById('btn-add-req').classList.add('bg-blue-50','text-blue-600'); } };
-        
-        document.getElementById('form-job').onsubmit = async (e) => { 
-            e.preventDefault(); 
-            try { 
+        // تم إصلاح أزرار طلب الخدمة / الوظيفة هنا
+        window.switchAddMode = (mode) => {
+            const btnReq = document.getElementById('btn-add-req');
+            const btnJob = document.getElementById('btn-add-job');
+            const formReq = document.getElementById('form-req');
+            const formJob = document.getElementById('form-job');
+
+            if (mode === 'req') {
+                formReq.classList.remove('hidden'); 
+                formJob.classList.add('hidden');
+                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-600 bg-blue-50 text-blue-600 transition-all";
+                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all";
+            } else {
+                formReq.classList.add('hidden'); 
+                formJob.classList.remove('hidden');
+                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all";
+                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all";
+            }
+        };
+       
+        document.getElementById('form-job').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
                 let title = document.getElementById('job-title-select').value;
                 if (title === 'أخرى') title = document.getElementById('job-custom-title').value;
                 if(!title) throw new Error('أدخل المسمى الوظيفي');
 
-                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), { 
-                    type: 'job', 
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), {
+                    type: 'job',
                     title: title,
                     salary: document.getElementById('job-salary').value,
                     hours: document.getElementById('job-hours').value,
                     shift: document.getElementById('job-shift').value,
                     jobType: document.getElementById('job-type').value,
-                    desc: document.getElementById('job-desc').value, 
-                    contactPhone: document.getElementById('job-phone').value, 
-                    posterName: userProfile.name, 
-                    posterPhoto: userProfile.photoURL, 
-                    posterPhone: userProfile.phone, 
-                    uid: currentUser.uid, 
-                    createdAt: new Date().toISOString() 
-                }); 
-                window.showToast('تم النشر'); e.target.reset(); window.goBack(); 
-            } catch(err) { window.showToast(err.message || 'خطأ', 'error'); } 
+                    desc: document.getElementById('job-desc').value,
+                    contactPhone: document.getElementById('job-phone').value,
+                    posterName: userProfile.name,
+                    posterPhoto: userProfile.photoURL,
+                    posterPhone: userProfile.phone,
+                    uid: currentUser.uid,
+                    createdAt: new Date().toISOString()
+                });
+                window.showToast('تم النشر'); e.target.reset(); window.goBack();
+            } catch(err) { window.showToast(err.message || 'خطأ', 'error'); }
         };
-        
-        document.getElementById('form-req').onsubmit = async (e) => { 
-            e.preventDefault(); 
-            try { 
-                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), { 
-                    type: 'service', 
-                    profession: document.getElementById('req-prof').value, 
-                    desc: document.getElementById('req-desc').value, 
+       
+        document.getElementById('form-req').onsubmit = async (e) => {
+            e.preventDefault();
+            try {
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), {
+                    type: 'service',
+                    profession: document.getElementById('req-prof').value,
+                    desc: document.getElementById('req-desc').value,
                     phone: document.getElementById('req-phone').value,
-                    uid: currentUser.uid, 
-                    requesterName: userProfile.name, 
-                    createdAt: new Date().toISOString() 
-                }); 
-                window.showToast('تم النشر'); e.target.reset(); window.goBack(); 
-            } catch(err) { window.showToast('خطأ', 'error'); } 
+                    uid: currentUser.uid,
+                    requesterName: userProfile.name,
+                    createdAt: new Date().toISOString()
+                });
+                window.showToast('تم النشر'); e.target.reset(); window.goBack();
+            } catch(err) { window.showToast('خطأ', 'error'); }
         };
-        
+       
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
         window.logout = () => { signOut(auth); navStack = ['home']; };
         window.toggleTheme = () => document.documentElement.classList.toggle('dark');
     </script>
 </body>
 </html>
-
-
