@@ -116,7 +116,6 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                 <span id="notif-dot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
             </button>
-            <!-- إزالة التحميل الكسول ليظل ثابتاً -->
             <img id="header-avatar" src="" class="w-8 h-8 rounded-full bg-gray-200 object-cover border-2 border-black dark:border-gray-400 cursor-pointer" onclick="window.navTo('profile')">
         </div>
     </header>
@@ -128,7 +127,7 @@
             <button onclick="window.toggleNotifPanel()" class="text-gray-400 hover:text-red-500 font-bold">✕</button>
         </div>
         <div id="notif-list" class="space-y-2 max-h-60 overflow-y-auto">
-            <p class="text-center text-xs text-gray-400 py-4">لا توجد إشعارات</p>
+            <p class="text-center text-xs text-gray-400 py-4">لا توجد إشعارات حالياً</p>
         </div>
     </div>
 
@@ -240,7 +239,6 @@
         <section id="page-add" class="page-section hidden px-4 animate-fade">
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
                 <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
-                <!-- تعديل أزرار طلب خدمة ووظيفة لتنشيط وتناسق صحيح -->
                 <div class="flex gap-2 mb-4">
                     <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-600 bg-blue-50 text-blue-600 transition-all">طلب خدمة</button>
                     <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 text-gray-500 bg-white transition-all">وظيفة</button>
@@ -488,6 +486,18 @@
         const professions =["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","جزمجي","مكوجي","حلاق","كوافير","ماكيير","مصور","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل بناء","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
         const validImages =['313690/pexels-photo-313690.jpeg','40568/medical-appointment-doctor-healthcare-40568.jpeg','3212114/pexels-photo-3212114.jpeg','1432675/pexels-photo-1432675.jpeg','4489749/pexels-photo-4489749.jpeg','5212345/pexels-photo-5212345.jpeg','270348/pexels-photo-270348.jpeg','4386466/pexels-photo-4386466.jpeg','5816291/pexels-photo-5816291.jpeg','159306/construction-site-build-construction-work-159306.jpeg','1267320/pexels-photo-1267320.jpeg','1319460/pexels-photo-1319460.jpeg','4495018/pexels-photo-4495018.jpeg','4391470/pexels-photo-4391470.jpeg','5845633/pexels-photo-5845633.jpeg','6197116/pexels-photo-6197116.jpeg','5591581/pexels-photo-5591581.jpeg','3771069/pexels-photo-3771069.jpeg','2582937/pexels-photo-2582937.jpeg','102127/pexels-photo-102127.jpeg','5370665/pexels-photo-5370665.jpeg','863988/pexels-photo-863988.jpeg','323705/pexels-photo-323705.jpeg','996329/pexels-photo-996329.jpeg','264636/pexels-photo-264636.jpeg','2834626/pexels-photo-2834626.jpeg','3184418/pexels-photo-3184418.jpeg'];
        
+        // ====== ملء قوائم المهن فور تحميل الصفحة لتجنب القوائم الفارغة ======
+        function populateProfessionsGlobally() {
+            const opts = professions.map(p => `<option value="${p}">${p}</option>`).join('');
+            const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';
+            
+            if(document.getElementById('signup-prof')) document.getElementById('signup-prof').innerHTML = '<option value="">اختر المهنة...</option>'+opts;
+            if(document.getElementById('req-prof')) document.getElementById('req-prof').innerHTML = '<option value="">اختر المهنة...</option>'+opts;
+            if(document.getElementById('job-title-select')) document.getElementById('job-title-select').innerHTML = '<option value="">اختر المسمى...</option>'+optsWithOther;
+        }
+        populateProfessionsGlobally();
+        // ====================================================================
+
         function getProfImage(profName) {
             if(profName==="خدمات أخرى") return `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
             let hash = 0;
@@ -496,7 +506,7 @@
             return `https://images.pexels.com/photos/${validImages[index]}?auto=compress&cs=tinysrgb&w=200`;
         }
 
-        let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], chatListener = null, currentModalUserId = null;
+        let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
         let lastSeenReq = localStorage.getItem('lastSeenReq') || 0;
         let lastSeenChat = localStorage.getItem('lastSeenChat') || 0;
         let tempSelectedFile = null;
@@ -519,8 +529,6 @@
         window.getCloudinaryUrl = (url, size = 'thumb') => {
             if (!url) return 'https://via.placeholder.com/40';
             
-            // 🔥 حل سحري لقتل الـ Base64 القديم ومنع اللاج:
-            // إذا كانت الصورة طويلة جداً (Base64 قديم) سيتم تجاهلها وعرض أيقونة افتراضية لمنع تهنيج المتصفح
             if (url.startsWith('data:image') && url.length > 50000) {
                 return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239ca3af"%3E%3Cpath d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/%3E%3C/svg%3E';
             }
@@ -561,6 +569,7 @@
                 lastSeenChat = Date.now();
                 localStorage.setItem('lastSeenChat', lastSeenChat);
                 document.getElementById('notif-dot').classList.add('hidden');
+                if(typeof window.renderChatsUI === 'function') window.renderChatsUI(); // تحديث فوري لاخفاء النقط الزرقاء
             }
             if (pageId === 'chat-room') {
                 document.getElementById('page-chat-room').classList.remove('hidden');
@@ -596,9 +605,6 @@
         };
 
         function initApp() {
-            const opts = professions.map(p => `<option value="${p}">${p}</option>`).join('');
-            const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';['signup-prof', 'req-prof'].forEach(id => document.getElementById(id).innerHTML = '<option value="">اختر المهنة...</option>'+opts);
-            document.getElementById('job-title-select').innerHTML = '<option value="">اختر المسمى...</option>'+optsWithOther;
             renderProfessionsGrid(professions);
         }
 
@@ -606,7 +612,6 @@
             const grid = document.getElementById('professions-grid');
             const html = list.map(p => `
                 <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-white dark:bg-gray-800 hover:scale-105 transition-transform">
-                    <!-- تمت إزالة loading="lazy" ليظل مخزناً بالذاكرة بدون تقطيع -->
                     <img src="${getProfImage(p)}" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-xs drop-shadow-md text-center">${p}</span>
@@ -679,7 +684,8 @@
         };
 
         document.getElementById('form-signup').onsubmit = async (e) => {
-            e.preventDefault(); document.getElementById('loader').classList.remove('hidden');
+            e.preventDefault(); 
+            document.getElementById('loader').classList.remove('hidden');
             try {
                 const role = document.querySelector('input[name="role"]:checked').value;
                 const prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
@@ -689,16 +695,20 @@
                 const village = document.getElementById('signup-village').value;
                 if(!center || !village) throw new Error('يرجى اختيار الموقع');
 
-                const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value, document.getElementById('signup-pass').value);
                 const gender = document.querySelector('input[name="gender"]:checked').value;
                 const userName = document.getElementById('signup-name').value;
                 
+                // 1. رفع الصورة أولاً (لمنع التزامن الخاطئ)
                 let finalPhotoURL = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=${gender==='male'?'0D8ABC':'E91E63'}&color=fff`;
                 if (tempSelectedFile) {
                     finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
                     tempSelectedFile = null; 
                 }
 
+                // 2. إنشاء حساب في Authentication
+                const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value, document.getElementById('signup-pass').value);
+
+                // 3. حفظ البيانات في Firestore
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
                     uid: cred.user.uid, 
                     name: userName,
@@ -712,6 +722,7 @@
                     settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
                     createdAt: new Date().toISOString()
                 });
+
                 window.showToast('تم التسجيل بنجاح');
             } catch (err) { 
                 let errorMsg = err.message;
@@ -720,6 +731,10 @@
                 if (err.code === 'auth/invalid-email') errorMsg = 'البريد الإلكتروني غير صالح';
                 
                 window.showToast(errorMsg, 'error'); 
+                // مسح الحساب إذا فشل حفظ البيانات لمنع الحسابات المعلقة
+                if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) {
+                    await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
+                }
                 document.getElementById('loader').classList.add('hidden'); 
             }
         };
@@ -783,47 +798,58 @@
             }
         });
 
-        function startListeners() {
-            const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
-           
-            onSnapshot(chatQuery, (snap) => {
-                const list = document.getElementById('chat-history-list');
-                const myChats =[];
-                let newMsgCount = 0;
-                snap.forEach(d => {
-                    const c = d.data();
-                    myChats.push({id: d.id, ...c});
-                    if (new Date(c.lastUpdated).getTime() > parseInt(lastSeenChat)) newMsgCount++;
-                });
+        // دالة مساعدة لرسم المحادثات بشكل مستقل لتجنب ظهور "مجهول" وتحديث النقطة الزرقاء
+        window.renderChatsUI = function() {
+            const list = document.getElementById('chat-history-list');
+            let newMsgCount = 0;
+            
+            if(myChatsCache.length === 0) { 
+                list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد محادثات</p>'; 
+                return; 
+            }
 
-                list.innerHTML = '';
-                if(myChats.length === 0) { list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد محادثات</p>'; return; }
+            myChatsCache.sort((a,b) => new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0));
 
-                myChats.sort((a,b) => new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0));
+            const html = myChatsCache.map(c => {
+                const otherId = c.users.find(u => u !== currentUser.uid);
+                // البحث عن المستخدم، واذا لم يتم تحميله بعد نظهر مؤقتاً "جاري التحميل" وليس مجهول
+                const otherUser = allUsersCache.find(u => u.uid === otherId) || { name: 'مستخدم (جاري التحميل...)', photoURL: 'https://via.placeholder.com/40' };
+                
+                const time = c.lastUpdated ? new Date(c.lastUpdated).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) : '';
+                const isNew = new Date(c.lastUpdated).getTime() > parseInt(lastSeenChat);
+                if(isNew) newMsgCount++;
 
-                const html = myChats.map(c => {
-                    const otherId = c.users.find(u => u !== currentUser.uid);
-                    const otherUser = allUsersCache.find(u => u.uid === otherId) || { name: 'مستخدم', photoURL: 'https://via.placeholder.com/40' };
-                    const time = c.lastUpdated ? new Date(c.lastUpdated).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) : '';
-                    const isNew = new Date(c.lastUpdated).getTime() > parseInt(lastSeenChat);
-                    return `
-                       <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2 flex items-center gap-2">
-                           <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black">
-                           <div class="flex-1 min-w-0">
-                               <div class="flex justify-between">
-                                   <h4 class="font-bold text-xs dark:text-white truncate">${otherUser.name}</h4>
-                                   <span class="text-[9px] text-gray-500">${time}</span>
-                               </div>
-                               <p class="text-[10px] text-gray-500 truncate ${isNew?'font-bold text-black dark:text-white':''}">${c.lastMessage || '...'}</p>
+                return `
+                   <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2 flex items-center gap-2">
+                       <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black">
+                       <div class="flex-1 min-w-0">
+                           <div class="flex justify-between">
+                               <h4 class="font-bold text-xs dark:text-white truncate">${otherUser.name}</h4>
+                               <span class="text-[9px] text-gray-500">${time}</span>
                            </div>
-                           ${isNew ? '<div class="w-2 h-2 bg-blue-600 rounded-full"></div>' : ''}
+                           <p class="text-[10px] text-gray-500 truncate ${isNew?'font-bold text-black dark:text-white':''}">${c.lastMessage || '...'}</p>
                        </div>
-                    `;
-                }).join('');
-                list.innerHTML = html;
-                if (newMsgCount > 0 && navStack[navStack.length-1] !== 'chat') document.getElementById('notif-dot').classList.remove('hidden');
+                       ${isNew ? '<div class="w-2 h-2 bg-blue-600 rounded-full"></div>' : ''}
+                   </div>
+                `;
+            }).join('');
+            
+            list.innerHTML = html;
+            if (newMsgCount > 0 && navStack[navStack.length-1] !== 'chat') {
+                document.getElementById('notif-dot').classList.remove('hidden');
+            }
+        };
+
+        function startListeners() {
+            // 1. مراقب المحادثات
+            const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
+            onSnapshot(chatQuery, (snap) => {
+                myChatsCache =[];
+                snap.forEach(d => myChatsCache.push({id: d.id, ...d.data()}));
+                window.renderChatsUI(); // رسم الواجهة
             });
 
+            // 2. مراقب المستخدمين الدليل
             onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
                 allUsersCache =[];
                 snap.forEach(d => {
@@ -831,18 +857,24 @@
                     if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
                 });
                 window.renderDirectory();
+                window.renderChatsUI(); // تحديث المحادثات لتظهر الأسماء الحقيقية بدلاً من مجهول
             });
 
+            // 3. مراقب الطلبات لمقدمي الخدمات (تم إصلاح مشكلة ה- Index هنا)
             if(userProfile.role === 'provider') {
-                const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'), where('profession','==',userProfile.profession));
+                // نطلب جميع الخدمات فقط، ونفلتر المهنة برمجياً لتجنب الحاجة لـ Composite Index
+                const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'));
                 onSnapshot(q, (snap) => {
-                    const container = document.getElementById('matching-reqs-list'); container.innerHTML = '';
+                    const container = document.getElementById('matching-reqs-list'); 
+                    container.innerHTML = '';
                     let newCount = 0;
                     const html =[];
                    
                     snap.forEach(d => {
                         const req = d.data();
-                        if(req.uid === currentUser.uid) return;
+                        // الفلترة هنا:
+                        if(req.uid === currentUser.uid || req.profession !== userProfile.profession) return; 
+
                         const isNew = new Date(req.createdAt).getTime() > parseInt(lastSeenReq);
                         if(isNew) newCount++;
                         const hasPhone = req.phone && req.phone.length > 5;
@@ -868,23 +900,26 @@
                     if(html.length === 0) container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-2">لا توجد طلبات</p>';
                     else container.innerHTML = html.join('');
 
-                    if(newCount > 0 && userProfile.settings.notifEnabled && navStack[navStack.length-1] !== 'profile') {
+                    // تحديث الإشعارات
+                    if(newCount > 0 && userProfile.settings?.notifEnabled) {
                         document.getElementById('notif-dot').classList.remove('hidden');
-                        document.getElementById('notif-list').innerHTML = `<div class="p-2 bg-orange-50 rounded border border-orange-200"><p class="text-xs text-orange-800 font-bold">يوجد ${newCount} طلبات جديدة!</p></div>`;
+                        document.getElementById('notif-list').innerHTML = `<div class="p-2 bg-blue-50 rounded border border-blue-200 mb-2"><p class="text-xs text-blue-800 font-bold">🔔 يوجد ${newCount} طلبات مطابقة لمهنتك!</p></div>`;
+                    } else {
+                        document.getElementById('notif-list').innerHTML = '<p class="text-center text-xs text-gray-400 py-4">لا توجد إشعارات حالياً</p>';
                     }
                 });
             }
 
+            // 4. مراقب الوظائف
             onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
                 if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد وظائف</p>'; return; }
-               
                 const html =[];
                 snap.forEach(d => {
                     const j = d.data();
                     const hasPhone = j.contactPhone && j.contactPhone.length > 5;
                     const isMyPost = j.uid === currentUser.uid;
-                   
+                    
                     html.push(`
                         <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom mb-3 overflow-hidden">
                             <div class="p-3">
@@ -897,7 +932,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+                                
                                 <div class="flex gap-1 mb-2 flex-wrap">
                                     <span class="badge bg-gray-100 text-black">${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
                                     ${j.salary ? `<span class="badge bg-gray-100 text-black">${j.salary} ج.م</span>` : ''}
@@ -908,7 +943,7 @@
 
                                 <div class="flex gap-1">
                                     ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-2 rounded text-xs font-bold hover:bg-gray-800">محادثة</button>` : '<span class="flex-1 text-center text-[10px] text-gray-400 py-2 bg-gray-50">إعلانك</span>'}
-                                   
+                                    
                                     ${hasPhone && !isMyPost ? `
                                     <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-600 text-white py-2 rounded text-xs font-bold text-center hover:bg-green-700">واتس</a>
                                     <a href="tel:${j.contactPhone}" class="w-10 bg-gray-200 text-black flex items-center justify-center rounded hover:bg-gray-300">📞</a>
@@ -920,14 +955,15 @@
                 list.innerHTML = html.join('');
             });
 
+            // 5. نشاطي
             const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
             onSnapshot(qActivity, (snap) => {
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
                 const btn = document.getElementById('btn-show-more-activity');
                 const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
-               
+                
                 if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl"><p class="text-xs text-gray-400">لا يوجد نشاط</p></div>'; btn.classList.add('hidden'); return; }
-               
+                
                 docs.forEach((act, idx) => {
                     const el = document.createElement('div');
                     const isJob = act.type === 'job';
@@ -944,7 +980,7 @@
                     `;
                     list.appendChild(el);
                 });
-               
+                
                 if(docs.length > 3) {
                     btn.classList.remove('hidden');
                     btn.onclick = () => {
@@ -1145,7 +1181,6 @@
             } catch (e) { window.showToast('خطأ', 'error'); }
         };
 
-        // تم إصلاح أزرار طلب الخدمة / الوظيفة هنا
         window.switchAddMode = (mode) => {
             const btnReq = document.getElementById('btn-add-req');
             const btnJob = document.getElementById('btn-add-job');
