@@ -1,1 +1,1124 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>دليل الشرقية V21 - الماسية</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Cairo', 'sans-serif'] },
+                    colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' },
+                    animation: { 'fade': 'fadeIn 0.2s ease-in-out', 'pop': 'popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)' },
+                    keyframes: { 
+                        fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+                        popIn: { '0%': { transform: 'scale(0.9)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        button { cursor: pointer; touch-action: manipulation; }
+        
+        /* Glass Header */
+        .glass-header { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid #000; }
+        .dark .glass-header { background: rgba(17, 24, 39, 0.98); border-bottom: 2px solid #4b5563; }
+        
+        /* Inputs - Compact & Bordered */
+        input, select, textarea { 
+            border: 2px solid #d1d5db; 
+            background-color: #ffffff;
+            transition: all 0.2s; 
+            font-size: 13px; /* Smaller font for compact look */
+        }
+        input:focus, select:focus, textarea:focus { 
+            border-color: #000000; 
+            outline: none;
+        }
+        .dark input, .dark select, .dark textarea { 
+            background-color: #1f2937; 
+            border-color: #4b5563; 
+            color: white;
+        }
+        .dark input:focus { border-color: #fff; }
+        
+        /* Black Borders Custom Class */
+        .border-black-custom {
+            border: 2px solid #000000 !important;
+            box-shadow: 2px 2px 0px #000000 !important; /* Brutalist Shadow */
+        }
+        .dark .border-black-custom {
+            border: 2px solid #6b7280 !important;
+            box-shadow: 2px 2px 0px #6b7280 !important;
+        }
+        
+        /* Provider Card */
+        .provider-card {
+            border: 2px solid #000000;
+            box-shadow: 2px 2px 0px #000000;
+        }
+        .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
+
+        /* Modals */
+        .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
+        .dark .full-screen-modal { background: #111827; }
+
+        /* Toast */
+        #toast-box { position: fixed; top: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 9999; pointer-events: none; }
+        .toast-msg { background: #000; color: white; padding: 8px 20px; border: 2px solid #fff; border-radius: 30px; font-size: 12px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: translateY(-20px); transition: all 0.3s; }
+        .toast-msg.show { opacity: 1; transform: translateY(0); }
+
+        /* Badge */
+        .badge { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; border: 1px solid #000; }
+        .dark .badge { border-color: #fff; }
+        
+        /* Stars */
+        .star-rating { direction: ltr; display: inline-flex; }
+        .star-rating input { display: none; }
+        .star-rating label { color: #ddd; font-size: 24px; padding: 0 2px; cursor: pointer; transition: color 0.2s; }
+        .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #fbbf24; }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 transition-colors duration-200">
+
+    <div id="toast-box"></div>
+
+    <!-- Loader -->
+    <div id="loader" class="fixed inset-0 bg-white dark:bg-gray-900 z-[200] flex flex-col items-center justify-center">
+        <div class="animate-spin rounded-full h-10 w-10 border-4 border-black dark:border-white border-t-transparent"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto transition-all duration-300">
+        <div class="flex items-center gap-3">
+            <button id="btn-back" onclick="window.goBack()" class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <h1 id="page-title" class="text-base font-extrabold">الرئيسية</h1>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="window.toggleNotifPanel()" class="relative p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-gray-500 transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                <span id="notif-dot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
+            </button>
+            <img id="header-avatar" src="https://via.placeholder.com/40" class="w-8 h-8 rounded-full bg-gray-200 object-cover border-2 border-black dark:border-gray-400 cursor-pointer" onclick="window.navTo('profile')">
+        </div>
+    </header>
+
+    <!-- Notification Panel -->
+    <div id="notif-panel" class="fixed top-16 left-4 right-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_#000] z-40 hidden md:max-w-md md:mx-auto animate-pop origin-top-right p-4">
+        <div class="flex justify-between items-center mb-2 border-b-2 border-gray-100 pb-2 dark:border-gray-700">
+            <h3 class="font-bold text-sm">الإشعارات</h3>
+            <button onclick="window.toggleNotifPanel()" class="text-gray-400 hover:text-red-500 font-bold">✕</button>
+        </div>
+        <div id="notif-list" class="space-y-2 max-h-60 overflow-y-auto">
+            <p class="text-center text-xs text-gray-400 py-4">لا توجد إشعارات</p>
+        </div>
+    </div>
+
+    <!-- AUTH VIEW (COMPACT & BRUTALIST) -->
+    <div id="auth-view" class="hidden min-h-screen flex flex-col justify-center p-4 md:max-w-md md:mx-auto">
+        <div class="text-center mb-4">
+            <h1 class="text-2xl font-extrabold border-b-4 border-black inline-block pb-1 dark:border-white">خدمات الشرقية</h1>
+        </div>
+
+        <!-- Auth Toggle -->
+        <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-lg flex mb-4 border-2 border-black dark:border-gray-500 h-12">
+            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-white shadow-sm text-black border border-gray-300 transition-all">دخول</button>
+            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all">جديد</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="form-login" class="space-y-3">
+            <div class="space-y-3 bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
+                <input type="email" id="login-email" placeholder="البريد الإلكتروني" class="w-full p-3 rounded-lg text-sm" required>
+                <input type="password" id="login-pass" placeholder="كلمة المرور" class="w-full p-3 rounded-lg text-sm" required>
+                <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm hover:bg-gray-900 active:scale-95 transition-transform">تسجيل الدخول</button>
+            </div>
+        </form>
+
+        <!-- Signup Form (SUPER COMPACT) -->
+        <form id="form-signup" class="hidden bg-white dark:bg-gray-800 p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
+            <!-- Image -->
+            <div class="flex justify-center mb-3">
+                <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-400 relative overflow-hidden cursor-pointer" onclick="document.getElementById('signup-file').click()">
+                    <img id="signup-preview" src="https://via.placeholder.com/100?text=+" class="w-full h-full object-cover opacity-60 hover:opacity-100">
+                </div>
+                <input type="file" id="signup-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'signup-preview')">
+            </div>
+            
+            <!-- Fields Grid -->
+            <div class="space-y-2">
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="signup-name" placeholder="الاسم" class="w-full p-2 rounded-lg text-xs h-9" required>
+                    <input type="tel" id="signup-phone" placeholder="الهاتف" class="w-full p-2 rounded-lg text-xs h-9" required>
+                </div>
+
+                <input type="email" id="signup-email" placeholder="البريد الإلكتروني" class="w-full p-2 rounded-lg text-xs h-9" required>
+                <input type="password" id="signup-pass" placeholder="كلمة المرور" class="w-full p-2 rounded-lg text-xs h-9" required>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="signup-center" onchange="window.updateVillages()" class="w-full p-1 rounded-lg text-xs h-9 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
+                    <select id="signup-village" class="w-full p-1 rounded-lg text-xs h-9 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 items-center">
+                        <label class="flex-1 text-center cursor-pointer text-[10px]"><input type="radio" name="gender" value="male" checked> 👨</label>
+                        <label class="flex-1 text-center cursor-pointer text-[10px]"><input type="radio" name="gender" value="female"> 👩</label>
+                    </div>
+                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 items-center">
+                        <label class="flex-1 text-center cursor-pointer text-[10px] font-bold"><input type="radio" name="role" value="client" checked onchange="window.toggleProfVisibility(false)"> عميل</label>
+                        <label class="flex-1 text-center cursor-pointer text-[10px] font-bold"><input type="radio" name="role" value="provider" onchange="window.toggleProfVisibility(true)"> مقدم</label>
+                    </div>
+                </div>
+
+                <div id="prof-container" class="hidden mt-2">
+                    <select id="signup-prof" class="w-full p-2 rounded-lg text-xs h-9"><option value="">اختر المهنة...</option></select>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-lg font-bold text-sm mt-3 shadow hover:bg-green-700 active:scale-95 transition-all">تسجيل</button>
+        </form>
+    </div>
+
+    <!-- APP VIEW -->
+    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative transition-all duration-300">
+        
+        <!-- HOME -->
+        <section id="page-home" class="page-section px-3 animate-fade">
+            <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 space-y-2">
+                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
+                    <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all">خدمات</button>
+                    <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all">وظائف</button>
+                </div>
+                <div id="prof-search-box" class="relative max-w-md mx-auto">
+                    <input type="text" id="prof-search" onkeyup="window.filterProfessions()" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
+                    <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
+                </div>
+            </div>
+            
+            <div id="view-services" class="pb-4">
+                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-5 gap-2"></div>
+            </div>
+            
+            <div id="view-jobs" class="hidden space-y-3 pb-4 max-w-2xl mx-auto">
+                <p class="text-center text-gray-400 py-10">جاري تحميل الوظائف...</p>
+            </div>
+        </section>
+
+        <!-- CATEGORY -->
+        <section id="page-category-details" class="page-section hidden px-3 animate-fade">
+            <div id="cat-list-container" class="space-y-3 pb-20 grid md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- DIRECTORY -->
+        <section id="page-directory" class="page-section hidden px-3 animate-fade">
+            <div class="max-w-md mx-auto">
+                <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
+                <div id="dir-list" class="space-y-2 pb-20"></div>
+            </div>
+        </section>
+
+        <!-- ADD -->
+        <section id="page-add" class="page-section hidden px-4 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
+                <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
+                <div class="flex gap-2 mb-4">
+                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-600 bg-blue-50 text-blue-600 transition-all">طلب خدمة</button>
+                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 text-gray-500 transition-all">وظيفة</button>
+                </div>
+                
+                <form id="form-req" class="space-y-3">
+                    <select id="req-prof" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
+                    <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
+                    <input type="tel" id="req-phone" placeholder="رقم الواتس/الهاتف (اختياري)" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300">
+                    <p class="text-[10px] text-gray-400">زر التواصل سيظهر تلقائياً عند إضافة الرقم.</p>
+                    <button type="submit" class="w-full py-3 bg-blue-600 text-white rounded-lg font-bold text-sm shadow hover:bg-blue-700">نشر الطلب</button>
+                </form>
+
+                <form id="form-job" class="hidden space-y-3">
+                    <select id="job-title-select" onchange="if(this.value==='أخرى') document.getElementById('job-custom-title').classList.remove('hidden'); else document.getElementById('job-custom-title').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
+                    <input type="text" id="job-custom-title" placeholder="اكتب اسم الوظيفة..." class="hidden w-full p-2 rounded-lg border-2 border-blue-300 bg-blue-50">
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                         <input type="number" id="job-salary" placeholder="الراتب (ج.م)" class="w-full p-2 rounded-lg text-xs">
+                         <input type="text" id="job-hours" placeholder="ساعات العمل" class="w-full p-2 rounded-lg text-xs">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <select id="job-shift" class="w-full p-2 rounded-lg text-xs">
+                            <option value="صباحي">شيفت صباحي</option>
+                            <option value="مسائي">شيفت مسائي</option>
+                            <option value="متغير">شيفت متغير</option>
+                        </select>
+                        <select id="job-type" class="w-full p-2 rounded-lg text-xs">
+                            <option value="full">دوام كامل</option>
+                            <option value="part">دوام جزئي</option>
+                        </select>
+                    </div>
+
+                    <input type="tel" id="job-phone" placeholder="رقم التواصل" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required>
+
+                    <textarea id="job-desc" rows="4" placeholder="تفاصيل الوظيفة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
+                    <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm shadow hover:bg-gray-800">نشر الوظيفة</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section id="page-profile" class="page-section hidden px-3 animate-fade">
+            <div class="max-w-md mx-auto">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 mb-4 relative overflow-hidden mt-4">
+                    <div class="flex flex-col items-center">
+                        <img id="prof-img-view" src="" class="w-20 h-20 rounded-full border-2 border-black dark:border-gray-500 bg-white object-cover">
+                        <h2 id="prof-name-view" class="text-lg font-extrabold mt-2 dark:text-white"></h2>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="prof-role-view" class="badge bg-blue-100 text-blue-800 border-blue-800"></span>
+                            <span id="prof-address-view" class="text-xs text-gray-500 dark:text-gray-400 font-bold"></span>
+                        </div>
+                        <div class="flex gap-2 mt-4 w-full px-4">
+                            <button onclick="window.navTo('edit-profile')" class="flex-1 py-2 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs hover:bg-gray-200">تعديل</button>
+                            <button onclick="window.navTo('settings')" class="flex-1 py-2 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs hover:bg-gray-200">إعدادات</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="provider-dashboard" class="hidden mb-4">
+                    <h3 class="font-bold text-xs mb-2 px-1">✨ طلبات تناسبك</h3>
+                    <div id="matching-reqs-list" class="space-y-2"></div>
+                </div>
+
+                <div class="pb-20">
+                    <h3 class="font-bold text-gray-500 text-xs mb-2 px-1">نشاطي</h3>
+                    <div id="my-activity" class="space-y-2 min-h-[50px]"></div>
+                    <button id="btn-show-more-activity" class="hidden w-full py-2 text-blue-600 text-xs font-bold mt-2 bg-blue-50 rounded-lg border border-blue-200">عرض المزيد</button>
+                    <button onclick="window.logout()" class="w-full mt-6 py-3 text-red-500 bg-red-50 border-2 border-red-100 rounded-lg font-bold text-xs hover:bg-red-100">خروج</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDIT PROFILE -->
+        <section id="page-edit-profile" class="page-section hidden px-4 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
+                <div class="flex flex-col items-center mb-4">
+                    <img id="edit-img-preview" src="" class="w-20 h-20 rounded-full object-cover border-2 border-black">
+                    <button onclick="document.getElementById('edit-file').click()" class="text-xs font-bold text-blue-600 underline mt-1">تغيير الصورة</button>
+                    <input type="file" id="edit-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'edit-img-preview', true)">
+                </div>
+                <div class="space-y-3">
+                    <input type="text" id="edit-name" class="w-full p-2 rounded-lg text-sm" placeholder="الاسم">
+                    <input type="tel" id="edit-phone" class="w-full p-2 rounded-lg text-sm" placeholder="الهاتف">
+                    <div class="grid grid-cols-2 gap-2">
+                         <select id="edit-center" onchange="window.updateVillages('edit')" class="w-full p-2 rounded-lg text-xs"></select>
+                         <select id="edit-village" class="w-full p-2 rounded-lg text-xs"></select>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="window.saveProfileChanges()" class="flex-1 py-2 bg-black text-white rounded-lg font-bold text-sm">حفظ</button>
+                    <button onclick="window.goBack()" class="flex-1 py-2 bg-gray-200 text-black rounded-lg font-bold text-sm">إلغاء</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="page-settings" class="page-section hidden px-4 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
+                <h3 class="font-bold text-base mb-3 border-b-2 border-gray-100 pb-2">الإعدادات</h3>
+                <div class="space-y-2">
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">🔔 الإشعارات</span><input type="checkbox" id="toggle-notif" class="accent-black w-4 h-4" checked>
+                    </label>
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">📞 إخفاء رقمي</span><input type="checkbox" id="toggle-hide-phone" class="accent-red-500 w-4 h-4">
+                    </label>
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">👻 الملف الشخصي</span><input type="checkbox" id="toggle-hide-profile" class="accent-red-500 w-4 h-4">
+                    </label>
+                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs">🌙 الوضع الليلي</span><input type="checkbox" id="theme-toggle" class="accent-blue-600 w-4 h-4" onchange="window.toggleTheme()">
+                    </label>
+                </div>
+                <button onclick="window.saveSettings()" class="w-full py-2.5 bg-black text-white rounded-lg font-bold mt-4 text-sm">حفظ التغييرات</button>
+            </div>
+        </section>
+
+        <!-- CHAT LIST -->
+        <section id="page-chat" class="page-section hidden px-3 animate-fade">
+            <div id="chat-history-list" class="space-y-2 pb-20 max-w-md mx-auto"><p class="text-center text-gray-400 py-10">جاري تحميل المحادثات...</p></div>
+        </section>
+    </div>
+
+    <!-- PROFILE POPUP -->
+    <div id="profile-modal" class="modal-overlay hidden animate-pop overflow-y-auto">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-sm rounded-xl border-black-custom p-5 relative shadow-2xl my-10">
+            <button onclick="document.getElementById('profile-modal').classList.add('hidden')" class="absolute top-3 left-3 font-bold text-gray-400 hover:text-red-500 text-xl">✕</button>
+            <div class="flex flex-col items-center">
+                <img id="modal-img" src="" class="w-20 h-20 rounded-full border-2 border-black dark:border-gray-500 mb-2 object-cover">
+                <h2 id="modal-name" class="text-lg font-extrabold dark:text-white"></h2>
+                <p id="modal-role" class="text-xs text-blue-600 font-bold mb-3"></p>
+                
+                <div class="w-full bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 text-center mb-4">
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div><span class="text-gray-400 block">العنوان</span><span id="modal-addr" class="font-bold"></span></div>
+                        <div><span class="text-gray-400 block">الجنس</span><span id="modal-gender" class="font-bold"></span></div>
+                    </div>
+                    <div class="mt-2 border-t border-gray-200 pt-2">
+                        <span class="text-gray-400 block">الهاتف</span><span id="modal-phone-disp" class="font-bold text-sm"></span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 w-full mb-4" id="modal-actions"></div>
+
+                <div class="w-full border-t-2 border-gray-100 pt-3 dark:border-gray-700">
+                    <h4 class="font-bold text-xs mb-2 flex items-center justify-between">
+                        <span>⭐ التقييمات</span>
+                        <span id="modal-stars-display" class="text-yellow-500 font-bold"></span>
+                    </h4>
+                    <div id="modal-reviews-list" class="space-y-2"></div>
+                    <button id="btn-show-more-reviews" class="hidden w-full py-1 text-blue-600 text-[10px] font-bold mt-1">المزيد</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RATE MODAL -->
+    <div id="rate-modal" class="modal-overlay hidden animate-pop">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl">
+            <h3 class="text-center font-bold mb-3 text-sm">تقييم التجربة</h3>
+            <form id="form-review">
+                <div class="star-rating mb-3 flex flex-row-reverse justify-center gap-1">
+                    <input type="radio" name="stars" id="s5" value="5"><label for="s5">★</label>
+                    <input type="radio" name="stars" id="s4" value="4"><label for="s4">★</label>
+                    <input type="radio" name="stars" id="s3" value="3"><label for="s3">★</label>
+                    <input type="radio" name="stars" id="s2" value="2"><label for="s2">★</label>
+                    <input type="radio" name="stars" id="s1" value="1"><label for="s1">★</label>
+                </div>
+                <textarea id="review-text" rows="2" placeholder="تعليقك..." class="w-full p-2 text-xs rounded-lg border-2 border-gray-200 mb-3"></textarea>
+                <div class="flex gap-2">
+                    <button type="button" id="btn-submit-rate" onclick="window.submitReview()" class="flex-1 bg-black text-white py-2 rounded-lg font-bold text-xs">إرسال</button>
+                    <button type="button" onclick="document.getElementById('rate-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CHAT ROOM -->
+    <div id="page-chat-room" class="full-screen-modal hidden md:max-w-4xl md:mx-auto md:inset-auto md:h-[600px] md:rounded-xl md:border-2 border-black md:top-20 overflow-hidden">
+        <div class="h-14 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
+            <div class="flex items-center gap-2">
+                <button onclick="window.goBack()" class="p-1 hover:bg-gray-100 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
+                <h3 id="chat-room-name" class="font-bold text-base">...</h3>
+            </div>
+            <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-bold text-xs border border-yellow-300">
+                ★ تقييم
+            </button>
+        </div>
+        <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900"></div>
+        <form id="form-message" class="p-2 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 shrink-0">
+            <input type="text" id="msg-input" class="flex-1 p-2 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm" placeholder="اكتب رسالة..." autocomplete="off">
+            <button type="submit" id="btn-send-msg" class="p-2 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
+        </form>
+    </div>
+
+    <!-- NAV -->
+    <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
+        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
+        <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] font-bold">الدليل</span></button>
+        <div class="relative -top-5"><button onclick="window.navTo('add')" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
+        <button onclick="window.navTo('chat')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg><span class="text-[9px] font-bold">محادثات</span></button>
+        <button onclick="window.navTo('profile')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="text-[9px] font-bold">حسابي</span></button>
+    </nav>
+
+    <!-- LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, addDoc, where, updateDoc, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA5OiTcX95GBgiJoDHnY3y7N23o-j8hsQ8",
+            authDomain: "services-cef84.firebaseapp.com",
+            databaseURL: "https://services-cef84-default-rtdb.firebaseio.com",
+            projectId: "services-cef84",
+            storageBucket: "services-cef84.firebasestorage.app",
+            messagingSenderId: "902396219187",
+            appId: "1:902396219187:web:3ba084a724266afa8bb846"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const APP_ID = 'services-cef84';
+
+        const sharkiaData = {
+            "الزقازيق": ["هرية رزنة","شيبة","العصلوجي","بنايوس","الزنكلون","كفر الحصر","كفر عبد العزيز","كفر الحمام","النكارية","الشبانات","شوبك بسطة","بيشة قايد","الطاهرة","الزهراء","طوخ","ميت أبو علي","كفر السواقي","كفر منلا","كفر أبو حسين","عزبة البكري","كفر محفوظ","كفر الشرفا","عزبة العرب","عزبة الجندي","كفر المزارقة","بيشة نوي","كفر داوود","برازيل","المسلمية","الطيبة","القومية","الجامعة","الزراعة","الغشام","المنتزه","حي الزهور","حي الحسينية","حي النحال","حي عمر بن الخطاب","ميدان عرابي","شارع فاروق","شارع الجلاء"],
+            "منيا القمح": ["المدينة","السعديين","كفر السعديين","كفر الشيخ سفر","شرشرة","ميت سهيل","التلين","سنهوا","كفر سلامة","شلشلمون","بني هلال","عزبة الطباخ","صهرجت الكبرى","صهرجت الصغرى","العزيزية","كفر الشيخ إبراهيم","البناتية","ملّيوس","كفر العرب"],
+            "بلبيس": ["المدينة","أنشاص الرمل","تل روزن","العلاقمة","غيتة","كفر أيوب سليمان","ميت ربيعة","سلمنت","الكتيبة","كفر أبودقن","العدلية","كفر أيوب","كفر إبراهيم العايدي","أولاد سيف","كفر أبو شحاتة","السعادات"],
+            "أبو حماد": ["المدينة","كفر أبو نجم","الأسدية","عزبة أبو عامر","الصوة","الطحاوية","الدويانية","القطاوية","أبو خروع","كفر البلاسي","عزبة جودة"],
+            "فاقوس": ["المدينة","الصوالح","الكيلانية","الملاحات","الديدامون","قنتير","السماعنة","سماكين الغرب","سماكين الشرق","أبو شلبي","النمروط","الغزالي","قهبونة","أبو ياسين","المنشأة الجديدة","جلفيا"],
+            "الحسينية": ["المدينة","سعود","منشأة أبو عامر","العبودي","الجمالية","بحر البقر","الأخيوة","الروضة","المناجاة","القصبي شرق","القصبي غرب","العائط"],
+            "أبو كبير": ["المدينة","الرحمانية","المشاعلة","طوخ القراموص","هربيط","أبو شحاتة","كفر الشيخ عيسى","بني عياض","كفر بني عياض","كفر أبو حطب"],
+            "ديرب نجم": ["المدينة","صفط زريق","جميزة بني عمرو","ديرب البلد","الهوابر","عزبة يوسف","إكوه","المناصافور","طحا المرج"],
+            "كفر صقر": ["المدينة","أبو الشقوق","حانوت","الهجارسة","القُرين القديمة","كفر السويركي"],
+            "أولاد صقر": ["المدينة","تلراك","منشأة ناصف","بني حسن","الهجارسة","القطيع"],
+            "الإبراهيمية": ["المدينة","كفور نجم","العدوة","السدس","كفر أبو شريعة","شلش"],
+            "مشتول السوق": ["المدينة","سنهوا","الصحافة","المنير","العقدة","العريشية"],
+            "ههيا": ["المدينة","العلاقمة","السكاكرة","المهدية","كفر أبو كبير","شرشيمة"],
+            "العاشر من رمضان": ["المجاورة 1-10", "المجاورة 11-30", "المجاورة 31-50", "المنطقة الصناعية", "الأردنية"]
+        };
+
+        const professions = ["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","جزمجي","مكوجي","حلاق","كوافير","ماكيير","مصور","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل بناء","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
+        const validImages = ['313690/pexels-photo-313690.jpeg','40568/medical-appointment-doctor-healthcare-40568.jpeg','3212114/pexels-photo-3212114.jpeg','1432675/pexels-photo-1432675.jpeg','4489749/pexels-photo-4489749.jpeg','5212345/pexels-photo-5212345.jpeg','270348/pexels-photo-270348.jpeg','4386466/pexels-photo-4386466.jpeg','5816291/pexels-photo-5816291.jpeg','159306/construction-site-build-construction-work-159306.jpeg','1267320/pexels-photo-1267320.jpeg','1319460/pexels-photo-1319460.jpeg','4495018/pexels-photo-4495018.jpeg','4391470/pexels-photo-4391470.jpeg','5845633/pexels-photo-5845633.jpeg','6197116/pexels-photo-6197116.jpeg','5591581/pexels-photo-5591581.jpeg','3771069/pexels-photo-3771069.jpeg','2582937/pexels-photo-2582937.jpeg','102127/pexels-photo-102127.jpeg','5370665/pexels-photo-5370665.jpeg','863988/pexels-photo-863988.jpeg','323705/pexels-photo-323705.jpeg','996329/pexels-photo-996329.jpeg','264636/pexels-photo-264636.jpeg','2834626/pexels-photo-2834626.jpeg','3184418/pexels-photo-3184418.jpeg'];
+        
+        function getProfImage(profName) {
+            if(profName==="خدمات أخرى") return `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
+            let hash = 0;
+            for (let i = 0; i < profName.length; i++) hash = profName.charCodeAt(i) + ((hash << 5) - hash);
+            const index = Math.abs(hash) % validImages.length;
+            return `https://images.pexels.com/photos/${validImages[index]}?auto=compress&cs=tinysrgb&w=200`;
+        }
+
+        let currentUser = null, userProfile = null, navStack = ['home'], tempImgBase64 = null, currentChatId = null, allUsersCache = [], chatListener = null, currentModalUserId = null;
+        let lastSeenReq = localStorage.getItem('lastSeenReq') || 0;
+        let lastSeenChat = localStorage.getItem('lastSeenChat') || 0;
+
+        window.showToast = (msg, type='success') => {
+            const box = document.getElementById('toast-box');
+            const el = document.createElement('div');
+            el.className = `toast-msg ${type}`; 
+            el.innerText = msg;
+            box.appendChild(el);
+            requestAnimationFrame(() => el.classList.add('show'));
+            setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
+        };
+
+        window.handleImageUpload = async (input, previewId, isProfile=false) => {
+            if (input.files[0]) {
+                const reader = new FileReader();
+                reader.readAsDataURL(input.files[0]);
+                reader.onload = (e) => {
+                    const img = new Image(); img.src = e.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const scaleSize = 600 / img.width;
+                        canvas.width = 600; canvas.height = img.height * scaleSize;
+                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                        tempImgBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                        document.getElementById(previewId).src = tempImgBase64;
+                    }
+                }
+            }
+        };
+
+        window.navTo = (pageId) => {
+            window.scrollTo(0, 0);
+            if(pageId === 'profile') {
+                lastSeenReq = Date.now();
+                localStorage.setItem('lastSeenReq', lastSeenReq);
+                document.getElementById('notif-dot').classList.add('hidden');
+            }
+            if(pageId === 'chat') {
+                lastSeenChat = Date.now();
+                localStorage.setItem('lastSeenChat', lastSeenChat);
+                document.getElementById('notif-dot').classList.add('hidden');
+            }
+            if (pageId === 'chat-room') {
+                document.getElementById('page-chat-room').classList.remove('hidden');
+                navStack.push('chat-room'); return;
+            }
+            document.getElementById('page-chat-room').classList.add('hidden');
+            if (chatListener) { chatListener(); chatListener = null; }
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            if (pageId === 'home') navStack = ['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+            
+            const backBtn = document.getElementById('btn-back');
+            if (pageId === 'home') { document.getElementById('page-title').innerText = 'الرئيسية'; backBtn.classList.add('hidden'); }
+            else { backBtn.classList.remove('hidden'); document.getElementById('page-title').innerText = 'رجوع'; }
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
+            const navMap = {'home':0, 'directory':1, 'chat':3, 'profile':4};
+            if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
+        };
+
+        window.goBack = () => {
+            if (navStack.length > 1) {
+                navStack.pop();
+                const prevPage = navStack[navStack.length-1];
+                document.getElementById('page-chat-room').classList.add('hidden');
+                if (prevPage !== 'chat-room') {
+                    document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+                    document.getElementById(`page-${prevPage}`).classList.remove('hidden');
+                }
+                if (prevPage === 'home') document.getElementById('btn-back').classList.add('hidden');
+                window.scrollTo(0, 0);
+            }
+        };
+
+        function initApp() {
+            const opts = professions.map(p => `<option value="${p}">${p}</option>`).join('');
+            const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';
+            ['signup-prof', 'req-prof'].forEach(id => document.getElementById(id).innerHTML = '<option value="">اختر المهنة...</option>'+opts);
+            document.getElementById('job-title-select').innerHTML = '<option value="">اختر المسمى...</option>'+optsWithOther;
+            renderProfessionsGrid(professions);
+        }
+
+        function renderProfessionsGrid(list) {
+            const grid = document.getElementById('professions-grid');
+            const html = list.map(p => `
+                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-white dark:bg-gray-800 hover:scale-105 transition-transform">
+                    <img src="${getProfImage(p)}" loading="lazy" class="w-full h-full object-cover">
+                    <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
+                        <span class="font-bold text-white text-xs drop-shadow-md text-center">${p}</span>
+                    </div>
+                </div>
+            `).join('');
+            grid.innerHTML = html;
+        }
+
+        window.updateVillages = (prefix = 'signup') => {
+            const centerSelect = document.getElementById(`${prefix}-center`);
+            const villageSelect = document.getElementById(`${prefix}-village`);
+            const selectedCenter = centerSelect.value;
+            villageSelect.innerHTML = '<option value="">القرية...</option>';
+            if (selectedCenter && sharkiaData[selectedCenter]) {
+                sharkiaData[selectedCenter].forEach(village => {
+                    const opt = document.createElement('option');
+                    opt.value = village;
+                    opt.innerText = village;
+                    villageSelect.appendChild(opt);
+                });
+            }
+        };
+
+        function populateCenters(prefix = 'signup') {
+            const centerSelect = document.getElementById(`${prefix}-center`);
+            centerSelect.innerHTML = '<option value="">المركز...</option>';
+            Object.keys(sharkiaData).forEach(center => {
+                const opt = document.createElement('option');
+                opt.value = center;
+                opt.innerText = center;
+                centerSelect.appendChild(opt);
+            });
+        }
+
+        let searchTimeout;
+        window.filterProfessions = () => {
+            clearTimeout(searchTimeout);
+            const term = document.getElementById('prof-search').value.trim();
+            searchTimeout = setTimeout(() => {
+                if(!term) { renderProfessionsGrid(professions); return; }
+                renderProfessionsGrid(professions.filter(p => p.includes(term)));
+            }, 200);
+        };
+
+        window.switchAuthMode = (mode) => {
+            if(mode==='login'){ document.getElementById('form-login').classList.remove('hidden'); document.getElementById('form-signup').classList.add('hidden'); }
+            else { document.getElementById('form-login').classList.add('hidden'); document.getElementById('form-signup').classList.remove('hidden'); populateCenters(); }
+        };
+        window.toggleProfVisibility = (show) => document.getElementById('prof-container').style.display = show ? 'block' : 'none';
+
+        document.getElementById('form-login').onsubmit = async (e) => {
+            e.preventDefault(); document.getElementById('loader').classList.remove('hidden');
+            try { await signInWithEmailAndPassword(auth, document.getElementById('login-email').value, document.getElementById('login-pass').value); }
+            catch (err) { window.showToast('خطأ في البيانات', 'error'); document.getElementById('loader').classList.add('hidden'); }
+        };
+
+        document.getElementById('form-signup').onsubmit = async (e) => {
+            e.preventDefault(); document.getElementById('loader').classList.remove('hidden');
+            try {
+                const role = document.querySelector('input[name="role"]:checked').value;
+                const prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
+                if(role === 'provider' && !prof) throw new Error('اختر المهنة');
+                
+                const center = document.getElementById('signup-center').value;
+                const village = document.getElementById('signup-village').value;
+                if(!center || !village) throw new Error('يرجى اختيار الموقع');
+
+                const cred = await createUserWithEmailAndPassword(auth, document.getElementById('signup-email').value, document.getElementById('signup-pass').value);
+                const gender = document.querySelector('input[name="gender"]:checked').value;
+                const photo = tempImgBase64 || `https://ui-avatars.com/api/?name=${document.getElementById('signup-name').value}&background=${gender==='male'?'0D8ABC':'E91E63'}&color=fff`;
+
+                await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
+                    uid: cred.user.uid, name: document.getElementById('signup-name').value,
+                    phone: document.getElementById('signup-phone').value, 
+                    city: center, area: village,
+                    role, profession: prof, photoURL: photo, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
+                    createdAt: new Date().toISOString()
+                });
+                window.showToast('تم التسجيل');
+            } catch (err) { window.showToast(err.message, 'error'); document.getElementById('loader').classList.add('hidden'); }
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                if(userProfile && userProfile.uid === user.uid) { document.getElementById('loader').classList.add('hidden'); return; }
+                
+                const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid));
+                if (snap.exists()) {
+                    userProfile = snap.data();
+                    if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
+                    
+                    document.getElementById('auth-view').classList.add('hidden');
+                    document.getElementById('app-view').classList.remove('hidden');
+                    document.getElementById('app-header').classList.remove('hidden');
+                    document.getElementById('nav-bar').classList.remove('hidden');
+                    document.getElementById('header-avatar').src = userProfile.photoURL;
+
+                    document.getElementById('prof-name-view').innerText = userProfile.name;
+                    document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? userProfile.profession : 'عميل';
+                    document.getElementById('prof-address-view').innerText = `${userProfile.city || ''} - ${userProfile.area || ''}`;
+                    document.getElementById('prof-img-view').src = userProfile.photoURL;
+
+                    // Fill Edit Form
+                    document.getElementById('edit-name').value = userProfile.name;
+                    // document.getElementById('edit-email').value = currentUser.email; // Removed to save space in edit
+                    document.getElementById('edit-phone').value = userProfile.phone;
+                    document.getElementById('edit-img-preview').src = userProfile.photoURL;
+                    
+                    populateCenters('edit');
+                    document.getElementById('edit-center').value = userProfile.city || '';
+                    window.updateVillages('edit');
+                    setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
+
+                    if(userProfile.role === 'provider') {
+                        document.getElementById('provider-dashboard').classList.remove('hidden');
+                    } else document.getElementById('provider-dashboard').classList.add('hidden');
+
+                    initApp();
+                    startListeners();
+                    window.navTo('home');
+                }
+                document.getElementById('loader').classList.add('hidden');
+            } else {
+                document.getElementById('app-view').classList.add('hidden');
+                document.getElementById('app-header').classList.add('hidden');
+                document.getElementById('nav-bar').classList.add('hidden');
+                document.getElementById('auth-view').classList.remove('hidden');
+                document.getElementById('loader').classList.add('hidden');
+            }
+        });
+
+        function startListeners() {
+            const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
+            
+            onSnapshot(chatQuery, (snap) => {
+                const list = document.getElementById('chat-history-list');
+                const myChats = [];
+                let newMsgCount = 0;
+                snap.forEach(d => {
+                    const c = d.data();
+                    myChats.push({id: d.id, ...c});
+                    if (new Date(c.lastUpdated).getTime() > parseInt(lastSeenChat)) newMsgCount++;
+                });
+
+                list.innerHTML = '';
+                if(myChats.length === 0) { list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد محادثات</p>'; return; }
+
+                myChats.sort((a,b) => new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0));
+
+                const html = myChats.map(c => {
+                    const otherId = c.users.find(u => u !== currentUser.uid);
+                    const otherUser = allUsersCache.find(u => u.uid === otherId) || { name: 'مستخدم', photoURL: 'https://via.placeholder.com/40' };
+                    const time = c.lastUpdated ? new Date(c.lastUpdated).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) : '';
+                    const isNew = new Date(c.lastUpdated).getTime() > parseInt(lastSeenChat);
+                    return `
+                       <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2 flex items-center gap-2">
+                           <img src="${otherUser.photoURL}" class="w-10 h-10 rounded-full object-cover border border-black">
+                           <div class="flex-1 min-w-0">
+                               <div class="flex justify-between">
+                                   <h4 class="font-bold text-xs dark:text-white truncate">${otherUser.name}</h4>
+                                   <span class="text-[9px] text-gray-500">${time}</span>
+                               </div>
+                               <p class="text-[10px] text-gray-500 truncate ${isNew?'font-bold text-black dark:text-white':''}">${c.lastMessage || '...'}</p>
+                           </div>
+                           ${isNew ? '<div class="w-2 h-2 bg-blue-600 rounded-full"></div>' : ''}
+                       </div>
+                    `;
+                }).join('');
+                list.innerHTML = html;
+                if (newMsgCount > 0 && navStack[navStack.length-1] !== 'chat') document.getElementById('notif-dot').classList.remove('hidden');
+            });
+
+            onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
+                allUsersCache = [];
+                snap.forEach(d => { 
+                    const u = d.data(); 
+                    if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u); 
+                });
+                window.renderDirectory();
+            });
+
+            if(userProfile.role === 'provider') {
+                const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'), where('profession','==',userProfile.profession));
+                onSnapshot(q, (snap) => {
+                    const container = document.getElementById('matching-reqs-list'); container.innerHTML = '';
+                    let newCount = 0;
+                    const html = [];
+                    
+                    snap.forEach(d => {
+                        const req = d.data();
+                        if(req.uid === currentUser.uid) return;
+                        const isNew = new Date(req.createdAt).getTime() > parseInt(lastSeenReq);
+                        if(isNew) newCount++;
+                        const hasPhone = req.phone && req.phone.length > 5;
+
+                        html.push(`
+                            <div class="bg-white dark:bg-gray-800 p-3 rounded-xl border-black-custom mb-2 relative">
+                                ${isNew ? '<div class="absolute top-0 left-0 bg-red-500 text-white text-[8px] px-1 py-0.5 font-bold">جديد</div>' : ''}
+                                <div class="flex justify-between mb-1">
+                                    <h4 class="font-bold text-xs text-black dark:text-white">${req.requesterName}</h4>
+                                    <span class="text-[9px] text-gray-400">${new Date(req.createdAt).toLocaleDateString('ar-EG')}</span>
+                                </div>
+                                <p class="text-[10px] font-bold text-blue-600 mb-1">مطلوب: ${req.profession}</p>
+                                <p class="text-[10px] text-gray-600 dark:text-gray-300 mb-2 bg-gray-50 p-1 rounded">${req.desc}</p>
+                                <div class="flex gap-1">
+                                    <button onclick="window.openChat('${req.uid}','${req.requesterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800">محادثة</button>
+                                    ${hasPhone ? `<a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-100 text-green-700 py-1.5 rounded text-[10px] font-bold text-center border border-green-200">واتس</a>
+                                    <a href="tel:${req.phone}" class="flex-1 bg-gray-100 text-gray-700 py-1.5 rounded text-[10px] font-bold text-center border border-gray-200">اتصال</a>` : ''}
+                                </div>
+                            </div>
+                        `);
+                    });
+                    
+                    if(html.length === 0) container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-2">لا توجد طلبات</p>';
+                    else container.innerHTML = html.join('');
+
+                    if(newCount > 0 && userProfile.settings.notifEnabled && navStack[navStack.length-1] !== 'profile') {
+                        document.getElementById('notif-dot').classList.remove('hidden');
+                        document.getElementById('notif-list').innerHTML = `<div class="p-2 bg-orange-50 rounded border border-orange-200"><p class="text-xs text-orange-800 font-bold">يوجد ${newCount} طلبات جديدة!</p></div>`;
+                    }
+                });
+            }
+
+            // JOBS FEED - BRUTALIST CARD DESIGN
+            onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
+                const list = document.getElementById('view-jobs');
+                if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد وظائف</p>'; return; }
+                
+                const html = [];
+                snap.forEach(d => {
+                    const j = d.data();
+                    const hasPhone = j.contactPhone && j.contactPhone.length > 5;
+                    const isMyPost = j.uid === currentUser.uid;
+                    
+                    html.push(`
+                        <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom mb-3 overflow-hidden">
+                            <div class="p-3">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div class="flex gap-2 items-center">
+                                        <img src="${j.posterPhoto||'https://via.placeholder.com/40'}" class="w-8 h-8 rounded-full object-cover border border-black">
+                                        <div>
+                                            <h3 class="font-bold text-black dark:text-white text-sm">${j.title}</h3>
+                                            <p class="text-[9px] text-gray-500">${j.posterName} • ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-1 mb-2 flex-wrap">
+                                    <span class="badge bg-gray-100 text-black">${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
+                                    ${j.salary ? `<span class="badge bg-gray-100 text-black">${j.salary} ج.م</span>` : ''}
+                                    ${j.shift ? `<span class="badge bg-gray-100 text-black">${j.shift}</span>` : ''}
+                                </div>
+
+                                <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap mb-3 border-l-2 border-gray-200 pl-2">${j.desc}</p>
+
+                                <div class="flex gap-1">
+                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-2 rounded text-xs font-bold hover:bg-gray-800">محادثة</button>` : '<span class="flex-1 text-center text-[10px] text-gray-400 py-2 bg-gray-50">إعلانك</span>'}
+                                    
+                                    ${hasPhone && !isMyPost ? `
+                                    <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-600 text-white py-2 rounded text-xs font-bold text-center hover:bg-green-700">واتس</a>
+                                    <a href="tel:${j.contactPhone}" class="w-10 bg-gray-200 text-black flex items-center justify-center rounded hover:bg-gray-300">📞</a>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>`);
+                });
+                list.innerHTML = html.join('');
+            });
+
+            // MY ACTIVITY - BRUTALIST LIST DESIGN
+            const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
+            onSnapshot(qActivity, (snap) => {
+                const list = document.getElementById('my-activity'); list.innerHTML = '';
+                const btn = document.getElementById('btn-show-more-activity');
+                const docs = []; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
+                
+                if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl"><p class="text-xs text-gray-400">لا يوجد نشاط</p></div>'; btn.classList.add('hidden'); return; }
+                
+                docs.forEach((act, idx) => {
+                    const el = document.createElement('div');
+                    const isJob = act.type === 'job';
+                    el.className = `bg-white dark:bg-gray-800 p-2 rounded-lg mb-2 flex justify-between items-center border-black-custom ${idx > 2 ? 'hidden extra-act' : ''}`;
+                    el.innerHTML = `
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg">${isJob ? '💼' : '🛠️'}</span>
+                            <div>
+                                <p class="text-xs font-bold text-black dark:text-white">${isJob ? act.title : act.profession}</p>
+                                <p class="text-[9px] text-gray-400">${new Date(act.createdAt).toLocaleDateString('ar-EG')}</p>
+                            </div>
+                        </div>
+                        <button onclick="window.deleteRequest('${act.id}')" class="text-red-500 hover:text-red-700 text-xs font-bold">حذف</button>
+                    `;
+                    list.appendChild(el);
+                });
+                
+                if(docs.length > 3) {
+                    btn.classList.remove('hidden');
+                    btn.onclick = () => {
+                        document.querySelectorAll('.extra-act').forEach(e => e.classList.remove('hidden'));
+                        btn.classList.add('hidden');
+                    };
+                } else btn.classList.add('hidden');
+            });
+        }
+
+        window.deleteRequest = async (id) => { if(confirm('حذف؟')) await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'requests', id)); };
+        window.toggleNotifPanel = () => { document.getElementById('notif-panel').classList.toggle('hidden'); };
+
+        window.openProfileModal = async (userStr) => {
+            const user = JSON.parse(decodeURIComponent(userStr));
+            currentModalUserId = user.uid; 
+            
+            document.getElementById('modal-img').src = user.photoURL;
+            document.getElementById('modal-name').innerText = user.name;
+            document.getElementById('modal-role').innerText = user.role === 'provider' ? user.profession : 'عميل';
+            document.getElementById('modal-addr').innerText = `${user.city || ''} - ${user.area || ''}`;
+            document.getElementById('modal-phone-disp').innerText = (user.settings?.hidePhone) ? 'مخفي 🔒' : user.phone;
+            document.getElementById('modal-gender').innerText = user.gender === 'male' ? 'ذكر' : 'أنثى';
+
+            const actionsDiv = document.getElementById('modal-actions'); actionsDiv.innerHTML = '';
+            if (!user.settings?.hidePhone) {
+                actionsDiv.innerHTML = `<a href="https://wa.me/20${user.phone}" target="_blank" class="flex-1 py-2 bg-green-600 text-white rounded-lg font-bold text-xs text-center hover:bg-green-700">واتساب</a>`;
+            }
+            const chatBtn = document.createElement('button');
+            chatBtn.className = "flex-1 py-2 bg-black text-white rounded-lg font-bold text-xs shadow hover:bg-gray-800";
+            chatBtn.innerText = "محادثة";
+            chatBtn.onclick = () => { document.getElementById('profile-modal').classList.add('hidden'); window.openChat(user.uid, user.name); };
+            actionsDiv.appendChild(chatBtn);
+            
+            loadReviews(user.uid);
+            document.getElementById('profile-modal').classList.remove('hidden');
+        };
+
+        async function loadReviews(targetId) {
+             const list = document.getElementById('modal-reviews-list');
+             const starsDisplay = document.getElementById('modal-stars-display');
+             list.innerHTML = '<p class="text-[10px] text-gray-400 text-center">جاري التحميل...</p>';
+             
+             const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', targetId));
+             const snap = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js").then(m => m.getDocs(q));
+             
+             list.innerHTML = '';
+             let totalStars = 0;
+             if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center">لا يوجد تقييمات</p>'; starsDisplay.innerText = '0.0'; document.getElementById('btn-show-more-reviews').classList.add('hidden'); } 
+             else {
+                 const reviews = []; snap.forEach(d => reviews.push(d.data()));
+                 reviews.forEach((r, i) => {
+                     totalStars += parseInt(r.stars);
+                     const el = document.createElement('div');
+                     el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 rounded mb-1 border border-gray-200 dark:border-gray-600 ${i>2?'hidden extra-rev':''}`;
+                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${r.fromPhoto}" class="w-5 h-5 rounded-full border border-black"><span class="text-[10px] font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px]">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
+                     list.appendChild(el);
+                 });
+                 starsDisplay.innerText = (totalStars / reviews.length).toFixed(1);
+                 
+                 const btn = document.getElementById('btn-show-more-reviews');
+                 if(reviews.length > 3) {
+                     btn.classList.remove('hidden');
+                     btn.onclick = () => { document.querySelectorAll('.extra-rev').forEach(e => e.classList.remove('hidden')); btn.classList.add('hidden'); };
+                 } else btn.classList.add('hidden');
+             }
+        }
+
+        window.submitReview = async () => {
+            const btn = document.getElementById('btn-submit-rate');
+            const text = document.getElementById('review-text').value;
+            const stars = document.querySelector('input[name="stars"]:checked')?.value;
+            
+            if(!stars || !currentChatId) return window.showToast('اختر النجوم', 'error');
+            
+            btn.innerText = '...';
+            btn.disabled = true;
+            
+            try {
+                const otherUserId = currentChatId.replace(currentUser.uid, '').replace('_', '');
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), {
+                    fromId: currentUser.uid, fromName: userProfile.name, fromPhoto: userProfile.photoURL,
+                    toId: otherUserId, stars, comment: text || '', createdAt: new Date().toISOString()
+                });
+                window.showToast('تم التقييم');
+                document.getElementById('rate-modal').classList.add('hidden');
+                document.getElementById('form-review').reset();
+            } catch(e) {
+                window.showToast('خطأ', 'error');
+            } finally {
+                btn.innerText = 'إرسال';
+                btn.disabled = false;
+            }
+        };
+
+        window.openChat = (uid, name) => {
+            currentChatId = [currentUser.uid, uid].sort().join('_');
+            document.getElementById('chat-room-name').innerText = name;
+            window.navTo('chat-room');
+            
+            setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), { 
+                users: [currentUser.uid, uid],
+            }, { merge: true });
+
+            const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
+            const q = query(msgsRef, orderBy('createdAt', 'asc'));
+            if (chatListener) chatListener();
+            chatListener = onSnapshot(q, (snap) => {
+                const box = document.getElementById('messages-container'); box.innerHTML = '';
+                const html = [];
+                snap.forEach(d => {
+                    const m = d.data();
+                    const isMe = m.senderId === currentUser.uid;
+                    html.push(`<div class="flex ${isMe?'justify-end':'justify-start'} animate-fade"><div class="max-w-[85%] p-2 rounded-lg text-xs shadow-[2px_2px_0px_#000] ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">${m.text}</div></div>`);
+                });
+                box.innerHTML = html.join('');
+                box.scrollTop = box.scrollHeight;
+            });
+        };
+
+        document.getElementById('form-message').onsubmit = async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('msg-input');
+            const text = input.value.trim();
+            if (!text || !currentChatId) return;
+            
+            try {
+                const now = new Date().toISOString();
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages'), { 
+                    text, senderId: currentUser.uid, createdAt: now 
+                });
+                await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
+                    lastMessage: text, lastUpdated: now, users: [currentUser.uid, currentChatId.replace(currentUser.uid, '').replace('_', '')] 
+                }, { merge: true });
+                input.value = ''; 
+            } catch(err) { window.showToast('فشل', 'error'); }
+        };
+
+        window.renderDirectory = () => { 
+            const cont = document.getElementById('dir-list'); 
+            const list = allUsersCache.slice(0,50);
+            cont.innerHTML = list.map(u => createUserCard(u)).join('');
+        };
+
+        window.filterDirectory = () => { 
+            const term = document.getElementById('dir-search').value.trim(); 
+            const cont = document.getElementById('dir-list'); 
+            const filtered = term ? allUsersCache.filter(u => u.name.includes(term)||u.profession?.includes(term)) : allUsersCache.slice(0,50); 
+            cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
+        };
+
+        window.openCategory = (profName) => { 
+            window.navTo('category-details'); 
+            document.getElementById('page-title').innerText = profName; 
+            const filtered = allUsersCache.filter(u => u.profession === profName); 
+            const cont = document.getElementById('cat-list-container'); 
+            if(filtered.length === 0) { cont.innerHTML = `<div class="text-center py-10"><p class="text-gray-500">لا يوجد مسجلين</p></div>`; return; } 
+            cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
+        };
+
+        function createUserCard(u) { 
+            const userStr = encodeURIComponent(JSON.stringify(u)); 
+            return `<div onclick="window.openProfileModal('${userStr}')" class="border-black-custom bg-white dark:bg-gray-800 p-2 rounded-xl flex items-center gap-2 cursor-pointer animate-fade hover:bg-gray-50 transition-colors"><img src="${u.photoURL}" loading="lazy" class="w-10 h-10 rounded-full object-cover bg-gray-200 border-2 border-black"><div class="flex-1"><h4 class="font-bold text-sm dark:text-white">${u.name} ${u.gender==='female'?'🌸':''}</h4><p class="text-[10px] text-blue-600 font-bold bg-blue-50 inline-block px-1 rounded mt-0.5 border border-blue-200">${u.role==='provider'?u.profession:'عميل'}</p></div></div>`; 
+        }
+        
+        window.saveProfileChanges = async () => {
+            try {
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
+                    name: document.getElementById('edit-name').value, 
+                    phone: document.getElementById('edit-phone').value,
+                    city: document.getElementById('edit-center').value,
+                    area: document.getElementById('edit-village').value,
+                    photoURL: tempImgBase64 || userProfile.photoURL
+                });
+                window.location.reload();
+            } catch (e) { window.showToast('خطأ', 'error'); }
+        };
+        
+        window.saveSettings = async () => {
+            try {
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), { settings: {
+                    notifEnabled: document.getElementById('toggle-notif').checked,
+                    hidePhone: document.getElementById('toggle-hide-phone').checked,
+                    hideProfile: document.getElementById('toggle-hide-profile').checked
+                }});
+                window.showToast('تم الحفظ'); window.goBack();
+            } catch (e) { window.showToast('خطأ', 'error'); }
+        };
+
+        window.switchAddMode = (mode) => { if(mode==='req'){ document.getElementById('form-req').classList.remove('hidden'); document.getElementById('form-job').classList.add('hidden'); document.getElementById('btn-add-req').classList.add('bg-blue-600','text-white','border-blue-600'); document.getElementById('btn-add-req').classList.remove('bg-blue-50','text-blue-600'); document.getElementById('btn-add-job').classList.remove('border-gray-300'); document.getElementById('btn-add-job').classList.add('border-gray-300'); } else { document.getElementById('form-job').classList.remove('hidden'); document.getElementById('form-req').classList.add('hidden'); document.getElementById('btn-add-job').classList.add('bg-black','text-white','border-black'); document.getElementById('btn-add-job').classList.remove('text-gray-500'); document.getElementById('btn-add-req').classList.remove('bg-blue-600','text-white'); document.getElementById('btn-add-req').classList.add('bg-blue-50','text-blue-600'); } };
+        
+        document.getElementById('form-job').onsubmit = async (e) => { 
+            e.preventDefault(); 
+            try { 
+                let title = document.getElementById('job-title-select').value;
+                if (title === 'أخرى') title = document.getElementById('job-custom-title').value;
+                if(!title) throw new Error('أدخل المسمى الوظيفي');
+
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), { 
+                    type: 'job', 
+                    title: title,
+                    salary: document.getElementById('job-salary').value,
+                    hours: document.getElementById('job-hours').value,
+                    shift: document.getElementById('job-shift').value,
+                    jobType: document.getElementById('job-type').value,
+                    desc: document.getElementById('job-desc').value, 
+                    contactPhone: document.getElementById('job-phone').value, 
+                    posterName: userProfile.name, 
+                    posterPhoto: userProfile.photoURL, 
+                    posterPhone: userProfile.phone, 
+                    uid: currentUser.uid, 
+                    createdAt: new Date().toISOString() 
+                }); 
+                window.showToast('تم النشر'); e.target.reset(); window.goBack(); 
+            } catch(err) { window.showToast(err.message || 'خطأ', 'error'); } 
+        };
+        
+        document.getElementById('form-req').onsubmit = async (e) => { 
+            e.preventDefault(); 
+            try { 
+                await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), { 
+                    type: 'service', 
+                    profession: document.getElementById('req-prof').value, 
+                    desc: document.getElementById('req-desc').value, 
+                    phone: document.getElementById('req-phone').value,
+                    uid: currentUser.uid, 
+                    requesterName: userProfile.name, 
+                    createdAt: new Date().toISOString() 
+                }); 
+                window.showToast('تم النشر'); e.target.reset(); window.goBack(); 
+            } catch(err) { window.showToast('خطأ', 'error'); } 
+        };
+        
+        window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
+        window.logout = () => { signOut(auth); navStack = ['home']; };
+        window.toggleTheme = () => document.documentElement.classList.toggle('dark');
+    </script>
+</body>
+</html>
+
+
