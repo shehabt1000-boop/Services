@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V3 - الماسية</title>
+    <title>دليل الشرقية V2 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -688,8 +688,8 @@
 function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
             const html = list.map(p => `
-                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-200 dark:bg-gray-700 hover:scale-105 transition-transform">
-                    <img src="${getProfImage(p)}" loading="lazy" class="w-full h-full object-cover transition-opacity duration-300">
+                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform">
+                    <img src="${getProfImage(p)}" decoding="async" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
                     </div>
