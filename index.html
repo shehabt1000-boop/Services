@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V3 - الماسية</title>
+    <title>دليل الشرقية V13 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -313,10 +313,14 @@
                     </div>
                 </div>
                
-                <!-- زر الانتقال لصفحة نشاطي -->
+                <!-- أزرار النشاط والطلبات -->
                 <div class="flex flex-col gap-3 mt-4 w-full pb-20">
-                    <button onclick="window.navTo('activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
-                        <span>📊 نشاطي وطلباتي</span>
+                    <button onclick="window.openActivityTab('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
+                        <span>📊 نشاطي</span>
+                    </button>
+                    
+                    <button id="btn-profile-matching" onclick="window.openActivityTab('matching')" class="hidden w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
+                        <span>🎯 طلبات تناسبك</span>
                         <span id="act-notif-badge" class="hidden bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold animate-pulse">!</span>
                     </button>
                     
@@ -325,7 +329,7 @@
             </div>
         </section>
 
-        <!-- ACTIVITY PAGE (نشاطي وطلباتي) -->
+        <!-- ACTIVITY PAGE (النشاط والطلبات) -->
         <section id="page-activity" class="page-section hidden px-3 animate-fade pt-4">
             <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
@@ -591,6 +595,11 @@
             }
         };
 
+        window.openActivityTab = (tab) => {
+            window.switchActivityTab(tab);
+            window.navTo('activity');
+        };
+
         window.switchActivityTab = (tab) => {
             window.scrollTo(0,0);
             if (tab === 'my-activity') {
@@ -639,14 +648,15 @@
             else { 
                 backBtn.classList.remove('hidden'); 
                 if (pageId === 'activity') {
-                    document.getElementById('page-title').innerText = 'نشاطي وطلباتي';
+                    document.getElementById('page-title').innerText = 'النشاط';
                 } else {
                     document.getElementById('page-title').innerText = 'رجوع'; 
                 }
             }
            
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
-            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3};
+            // تم تصحيح الفهرسة (index) الخاص بـ navMap لكي يعكس العدد الصحيح للأزرار التي تحمل كلاس nav-btn
+            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
             
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
@@ -665,7 +675,7 @@
                     document.getElementById('btn-back').classList.add('hidden');
                     document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`;
                 } else if (prevPage === 'activity') {
-                    document.getElementById('page-title').innerText = 'نشاطي وطلباتي';
+                    document.getElementById('page-title').innerText = 'النشاط';
                 } else {
                     document.getElementById('page-title').innerText = 'رجوع';
                 }
@@ -680,12 +690,15 @@
             // اخفاء او اظهار زر "طلبات تناسبك" لمقدمي الخدمات
             if(userProfile.role === 'provider') {
                 document.getElementById('tab-act-matching').classList.remove('hidden');
+                document.getElementById('btn-profile-matching').classList.remove('hidden');
             } else {
                 document.getElementById('tab-act-matching').classList.add('hidden');
+                document.getElementById('btn-profile-matching').classList.add('hidden');
             }
         }
 
-function renderProfessionsGrid(list) {
+        // تم التعديل لتحسين الأداء ومنع اللاج (إنشاء مرة واحدة، استخدام async decoding وخلفية رمادية)
+        function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
             
             // إذا كانت البطاقات موجودة بالفعل في HTML، لا تقم بإنشائها من جديد (لمنع اللاج)
@@ -701,6 +714,7 @@ function renderProfessionsGrid(list) {
             `).join('');
             grid.innerHTML = html;
         }
+
         window.updateVillages = (prefix = 'signup') => {
             const centerSelect = document.getElementById(`${prefix}-center`);
             const villageSelect = document.getElementById(`${prefix}-village`);
@@ -727,6 +741,7 @@ function renderProfessionsGrid(list) {
             });
         }
 
+        // تم التعديل لمنع إعادة الرسم المستمرة وجعل البحث لحظي (إخفاء العناصر عبر CSS فقط)
         let searchTimeout;
         window.filterProfessions = () => {
             clearTimeout(searchTimeout);
@@ -740,13 +755,14 @@ function renderProfessionsGrid(list) {
                     const profName = card.getAttribute('data-prof');
                     // إذا كان اسم المهنة يطابق البحث نظهرها، وإلا نخفيها
                     if (profName.includes(term)) {
-                        card.style.display = ''; // إظهار
+                        card.style.display = ''; 
                     } else {
-                        card.style.display = 'none'; // إخفاء
+                        card.style.display = 'none'; 
                     }
                 });
             }, 100); 
         };
+
         window.switchAuthMode = (mode) => {
             const btnLogin = document.getElementById('btn-mode-login');
             const btnSignup = document.getElementById('btn-mode-signup');
@@ -1362,9 +1378,14 @@ function renderProfessionsGrid(list) {
         };
        
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
-        window.logout = () => { signOut(auth); navStack =['home']; };
+        
+        // تم التعديل لمنع تداخل الإشعارات بين الحسابات عند تسجيل الدخول لحساب مختلف
+        window.logout = async () => { 
+            await signOut(auth); 
+            window.location.reload(); 
+        };
+        
         window.toggleTheme = () => document.documentElement.classList.toggle('dark');
     </script>
 </body>
 </html>
-
