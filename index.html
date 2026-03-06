@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V2 - الماسية</title>
+    <title>دليل الشرقية V3 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -687,8 +687,12 @@
 
 function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
+            
+            // إذا كانت البطاقات موجودة بالفعل في HTML، لا تقم بإنشائها من جديد (لمنع اللاج)
+            if (grid.children.length > 0) return; 
+            
             const html = list.map(p => `
-                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform">
+                <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform">
                     <img src="${getProfImage(p)}" decoding="async" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
@@ -727,12 +731,22 @@ function renderProfessionsGrid(list) {
         window.filterProfessions = () => {
             clearTimeout(searchTimeout);
             const term = document.getElementById('prof-search').value.trim();
+            
             searchTimeout = setTimeout(() => {
-                if(!term) { renderProfessionsGrid(professions); return; }
-                renderProfessionsGrid(professions.filter(p => p.includes(term)));
-            }, 200);
+                // تحديد جميع البطاقات الموجودة مسبقاً في الشاشة
+                const cards = document.querySelectorAll('#professions-grid .provider-card');
+                
+                cards.forEach(card => {
+                    const profName = card.getAttribute('data-prof');
+                    // إذا كان اسم المهنة يطابق البحث نظهرها، وإلا نخفيها
+                    if (profName.includes(term)) {
+                        card.style.display = ''; // إظهار
+                    } else {
+                        card.style.display = 'none'; // إخفاء
+                    }
+                });
+            }, 100); 
         };
-
         window.switchAuthMode = (mode) => {
             const btnLogin = document.getElementById('btn-mode-login');
             const btnSignup = document.getElementById('btn-mode-signup');
