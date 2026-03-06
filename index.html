@@ -646,7 +646,7 @@
             }
            
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
-            const navMap = {'home':0, 'directory':1, 'chat':3, 'profile':4, 'activity':4}; // Activity keeps profile icon active
+            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3};
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
             
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
@@ -685,11 +685,11 @@
             }
         }
 
-        function renderProfessionsGrid(list) {
+function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
             const html = list.map(p => `
-                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-white dark:bg-gray-800 hover:scale-105 transition-transform">
-                    <img src="${getProfImage(p)}" class="w-full h-full object-cover">
+                <div onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-200 dark:bg-gray-700 hover:scale-105 transition-transform">
+                    <img src="${getProfImage(p)}" loading="lazy" class="w-full h-full object-cover transition-opacity duration-300">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
                     </div>
@@ -697,7 +697,6 @@
             `).join('');
             grid.innerHTML = html;
         }
-
         window.updateVillages = (prefix = 'signup') => {
             const centerSelect = document.getElementById(`${prefix}-center`);
             const villageSelect = document.getElementById(`${prefix}-village`);
@@ -1354,3 +1353,4 @@
     </script>
 </body>
 </html>
+
