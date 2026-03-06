@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V13 - الماسية</title>
+    <title>دليل الشرقية V5 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1379,13 +1379,21 @@
        
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
         
-        // تم التعديل لمنع تداخل الإشعارات بين الحسابات عند تسجيل الدخول لحساب مختلف
         window.logout = async () => { 
             await signOut(auth); 
             window.location.reload(); 
         };
         
         window.toggleTheme = () => document.documentElement.classList.toggle('dark');
+
+        // تسجيل السيرفر ووركر (Service Worker) الخاص بحفظ الصور
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('تم تفعيل الكاش للصور بنجاح!'))
+                    .catch(err => console.log('فشل تفعيل الكاش:', err));
+            });
+        }
     </script>
 </body>
 </html>
