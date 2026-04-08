@@ -9,6 +9,7 @@
   "orientation": "portrait",
   "dir": "rtl",
   "lang": "ar",
+
   "icons": [
     {
       "src": "icons/icon-192x192.png",
@@ -29,6 +30,16 @@
       "purpose": "maskable"
     }
   ],
+
+  "screenshots": [
+    {
+      "src": "screenshots-home.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+
   "id": "sharqia-services-v1",
   "scope": "https://shehabt1000-boop.github.io/Services/",
   "display_override": [
