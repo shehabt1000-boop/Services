@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <!-- PWA Meta Tags & SEO -->
-    <title>دليل الشرقيةv1-الماسية</title>
+    <title>دليل الشرقيةV2-الماسية</title>
     <meta name="description" content="دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.">
     <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
@@ -32,6 +32,15 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
    
+    <!-- Dark Mode Persistence Script (Runs immediately to prevent flash) -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <!-- Config -->
     <script>
         tailwind.config = {
@@ -216,9 +225,11 @@
                     <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all duration-100">خدمات</button>
                     <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all duration-100">وظائف</button>
                 </div>
-                <div id="prof-search-box" class="relative max-w-md mx-auto">
-                    <input type="text" id="prof-search" onkeyup="window.filterProfessions()" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
-                    <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
+                <div id="prof-search-box" class="relative max-w-md mx-auto flex gap-2">
+                    <div class="relative flex-1">
+                        <input type="text" id="prof-search" onkeyup="window.filterProfessions()" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
+                        <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
+                    </div>
                 </div>
             </div>
            
@@ -405,6 +416,9 @@
                     </label>
                     <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
                         <span class="font-bold text-xs">الملف الشخصي</span><input type="checkbox" id="toggle-hide-profile" class="accent-red-500 w-4 h-4">
+                    </label>
+                    <label id="setting-pause-reqs" class="hidden flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs text-red-600 dark:text-red-400">إيقاف تلقي الطلبات</span><input type="checkbox" id="toggle-pause-reqs" class="accent-red-500 w-4 h-4">
                     </label>
                     <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
                         <span class="font-bold text-xs">الوضع الليلي</span><input type="checkbox" id="theme-toggle" class="accent-blue-600 w-4 h-4" onchange="window.toggleTheme()">
@@ -611,7 +625,7 @@
 
         let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
         let tempSelectedFile = null;
-        let globalUnsubs = [];
+        let globalUnsubs =[];
 
         let reqNotifs =[];
         let reviewNotifs =[];
@@ -850,7 +864,7 @@
 
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
                     uid: cred.user.uid, name: userName, phone: `+20${phoneVal}`, city: center, area: village, addressDetail: addressDetail,
-                    role, profession: prof, photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
+                    role, profession: prof, photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false },
                     createdAt: new Date().toISOString()
                 });
                 
@@ -885,7 +899,7 @@
                     const profileData = await fetchProfileWithRetry(user.uid);
                     if (profileData) {
                         userProfile = profileData;
-                        if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
+                        if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false };
                        
                         document.getElementById('auth-view').classList.add('hidden');
                         document.getElementById('app-view').classList.remove('hidden');
@@ -908,6 +922,19 @@
                         setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
                         document.getElementById('edit-address-detail').value = userProfile.addressDetail || '';
 
+                        // تحديث واجهة الإعدادات بناءً على البيانات المحفوظة
+                        document.getElementById('toggle-notif').checked = userProfile.settings.notifEnabled !== false;
+                        document.getElementById('toggle-hide-phone').checked = userProfile.settings.hidePhone === true;
+                        document.getElementById('toggle-hide-profile').checked = userProfile.settings.hideProfile === true;
+                        document.getElementById('theme-toggle').checked = document.documentElement.classList.contains('dark');
+                        
+                        if (userProfile.role === 'provider') {
+                            document.getElementById('setting-pause-reqs').classList.remove('hidden');
+                            document.getElementById('toggle-pause-reqs').checked = userProfile.settings.pauseRequests === true;
+                        } else {
+                            document.getElementById('setting-pause-reqs').classList.add('hidden');
+                        }
+
                         initApp(); startListeners(); window.navTo('home');
                     } else {
                         signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
@@ -924,6 +951,15 @@
         });
 
         setTimeout(() => { window.hideLoader(); }, 15000);
+
+        window.toggleTheme = () => {
+            document.documentElement.classList.toggle('dark');
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+        };
 
         function renderNotificationsList() {
             let allNotifs =[...reqNotifs, ...reviewNotifs, ...(window.chatNotifsGlobal || [])];
@@ -1062,9 +1098,18 @@
             if(userProfile.role === 'provider') {
                 const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'));
                 const unsubReqs = onSnapshot(q, (snap) => {
-                    const container = document.getElementById('matching-reqs-list'); container.innerHTML = '';
-                    reqNotifs =[]; const html =[]; let hasNewMatching = false;
+                    const container = document.getElementById('matching-reqs-list'); 
+                    container.innerHTML = '';
+                    reqNotifs =[]; 
+                    const html =[]; 
+                    let hasNewMatching = false;
                    
+                    if (userProfile.settings?.pauseRequests) {
+                        container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-6 font-bold">أنت في وضع إيقاف تلقي الطلبات. يمكنك تفعيله من الإعدادات.</p>';
+                        renderNotificationsList();
+                        return;
+                    }
+
                     snap.forEach(d => {
                         const req = d.data();
                         if(req.uid === currentUser.uid || req.profession !== userProfile.profession) return; 
@@ -1444,10 +1489,17 @@
        
         window.saveSettings = async () => {
             try {
-                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), { settings: {
+                const newSettings = {
                     notifEnabled: document.getElementById('toggle-notif').checked,
-                    hidePhone: document.getElementById('toggle-hide-phone').checked, hideProfile: document.getElementById('toggle-hide-profile').checked
-                }});
+                    hidePhone: document.getElementById('toggle-hide-phone').checked,
+                    hideProfile: document.getElementById('toggle-hide-profile').checked,
+                    pauseRequests: document.getElementById('toggle-pause-reqs').checked
+                };
+                
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), { settings: newSettings });
+                
+                userProfile.settings = newSettings;
+                
                 window.showToast('تم الحفظ بنجاح'); window.goBack();
             } catch (e) { window.showToast('خطأ', 'error'); }
         };
@@ -1510,18 +1562,14 @@
             globalUnsubs =[];
             
             userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
-            reqNotifs = []; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack = ['home'];
+            reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack = ['home'];
             
             await signOut(auth); 
         };
-        
-        window.toggleTheme = () => document.documentElement.classList.toggle('dark');
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('تم تسجيل Service Worker بنجاح!', reg.scope))
-                    .catch(err => console.log('فشل تسجيل Service Worker:', err));
+                navigator.serviceWorker.register('sw.js').then(reg => console.log('تم تفعيل الكاش للصور بنجاح!')).catch(err => console.log('فشل تفعيل الكاش:', err));
             });
         }
     </script>
