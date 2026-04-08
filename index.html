@@ -34,98 +34,60 @@
         ::-webkit-scrollbar { width: 0px; background: transparent; }
         button { cursor: pointer; touch-action: manipulation; }
        
-        /* Custom Scrollbar for lists */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; display: block; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
         .dark .custom-scrollbar::-webkit-scrollbar-track { background: #374151; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #555; }
 
-        /* Glass Header */
         .glass-header { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid #000; }
         .dark .glass-header { background: rgba(17, 24, 39, 0.98); border-bottom: 2px solid #4b5563; }
        
-        /* Inputs - Compact & Bordered */
-        input, select, textarea {
-            border: 2px solid #d1d5db;
-            background-color: #ffffff;
-            transition: all 0.2s;
-            font-size: 13px;
-        }
-        input:focus, select:focus, textarea:focus {
-            border-color: #000000;
-            outline: none;
-        }
-        .dark input, .dark select, .dark textarea {
-            background-color: #1f2937;
-            border-color: #4b5563;
-            color: white;
-        }
+        input, select, textarea { border: 2px solid #d1d5db; background-color: #ffffff; transition: all 0.2s; font-size: 13px; }
+        input:focus, select:focus, textarea:focus { border-color: #000000; outline: none; }
+        .dark input, .dark select, .dark textarea { background-color: #1f2937; border-color: #4b5563; color: white; }
         .dark input:focus { border-color: #fff; }
        
-        /* Black Borders Custom Class */
-        .border-black-custom {
-            border: 2px solid #000000 !important;
-            box-shadow: 2px 2px 0px #000000 !important;
-        }
-        .dark .border-black-custom {
-            border: 2px solid #6b7280 !important;
-            box-shadow: 2px 2px 0px #6b7280 !important;
-        }
+        .border-black-custom { border: 2px solid #000000 !important; box-shadow: 2px 2px 0px #000000 !important; }
+        .dark .border-black-custom { border: 2px solid #6b7280 !important; box-shadow: 2px 2px 0px #6b7280 !important; }
        
-        /* Provider Card */
-        .provider-card {
-            border: 2px solid #000000;
-            box-shadow: 2px 2px 0px #000000;
-        }
+        .provider-card { border: 2px solid #000000; box-shadow: 2px 2px 0px #000000; }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
 
-        /* Modals */
         .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
         .dark .full-screen-modal { background: #111827; }
 
-        /* Toast */
         #toast-box { position: fixed; top: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 9999; pointer-events: none; }
         .toast-msg { background: #000; color: white; padding: 8px 20px; border: 2px solid #fff; border-radius: 30px; font-size: 12px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: translateY(-20px); transition: all 0.3s; }
         .toast-msg.show { opacity: 1; transform: translateY(0); }
 
-        /* Badge */
         .badge { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; border: 1px solid #000; }
         .dark .badge { border-color: #fff; }
        
-        /* Stars */
         .star-rating { direction: ltr; display: inline-flex; }
         .star-rating input { display: none; }
         .star-rating label { color: #ddd; font-size: 24px; padding: 0 2px; cursor: pointer; transition: color 0.2s; }
         .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #fbbf24; }
 
-        /* Loader specific transitions */
-        #loader.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
+        #loader.hidden { opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 transition-colors duration-200">
 
     <div id="toast-box"></div>
 
-    <!-- Luxurious Loader -->
-    <div id="loader" class="fixed inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-300">
+    <!-- Luxurious Chrome Loader -->
+    <div id="loader" class="fixed inset-0 bg-gradient-to-br from-gray-100 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-black backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-300">
         <div class="relative w-24 h-24 flex items-center justify-center">
-            <!-- Outer Ring -->
             <div class="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
-            <!-- Spinning Ring -->
             <div class="absolute inset-0 border-4 border-black dark:border-white rounded-full border-t-transparent animate-spin"></div>
-            <!-- Diamond Icon -->
             <svg class="w-8 h-8 text-black dark:text-white animate-pulse" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2.5L3.5 11 12 21.5 20.5 11 12 2.5zm0 2.8l5.5 6.2H6.5l5.5-6.2zM5.2 12.5h13.6L12 18.7 5.2 12.5z"/>
             </svg>
         </div>
         <h2 class="mt-5 text-sm font-extrabold tracking-widest text-black dark:text-white animate-pulse">دليل الشرقية</h2>
-        <p class="mt-1 text-[10px] font-bold text-gray-500">جاري التجهيز...</p>
+        <p class="mt-1 text-[10px] font-bold text-gray-600 dark:text-gray-400">جاري التجهيز...</p>
     </div>
 
     <!-- Header -->
@@ -162,7 +124,6 @@
             <h1 class="text-2xl font-extrabold border-b-4 border-black inline-block pb-1 dark:border-white">خدمات الشرقية</h1>
         </div>
 
-        <!-- Auth Toggle -->
         <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-lg flex mb-4 border-2 border-black dark:border-gray-500 h-12">
             <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all">دخول</button>
             <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all">جديد</button>
@@ -175,7 +136,6 @@
                     <input type="tel" id="login-phone" placeholder="مثال: 1012345678" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
                     <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                 </div>
-                
                 <input type="password" id="login-pass" placeholder="كلمة المرور" class="w-full p-3 rounded-lg text-sm" required>
                 <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm hover:bg-gray-900 active:scale-95 transition-transform">تسجيل الدخول</button>
             </div>
@@ -202,6 +162,8 @@
                     <select id="signup-center" onchange="window.updateVillages()" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
                     <select id="signup-village" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
                 </div>
+                <!-- حقل العنوان التفصيلي -->
+                <input type="text" id="signup-address-detail" placeholder="العنوان التفصيلي (الشارع، رقم العمارة... اختياري)" class="w-full p-2 rounded-lg text-xs h-10 bg-white dark:bg-gray-700">
 
                 <div class="grid grid-cols-2 gap-2">
                     <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 items-center">
@@ -215,7 +177,9 @@
                 </div>
 
                 <div id="prof-container" class="hidden mt-2">
-                    <select id="signup-prof" class="w-full p-2 rounded-lg text-xs h-10"><option value="">اختر المهنة...</option></select>
+                    <select id="signup-prof" onchange="if(this.value==='خدمات أخرى') document.getElementById('signup-custom-prof').classList.remove('hidden'); else document.getElementById('signup-custom-prof').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs h-10"><option value="">اختر المهنة...</option></select>
+                    <!-- حقل الخدمة المخصصة -->
+                    <input type="text" id="signup-custom-prof" placeholder="اكتب اسم الخدمة..." class="hidden w-full p-2 rounded-lg text-xs h-10 mt-2 border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
                 </div>
             </div>
 
@@ -256,7 +220,12 @@
         <!-- DIRECTORY -->
         <section id="page-directory" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
-                <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص..." class="w-full p-2 rounded-lg border-2 border-black mb-3 text-xs h-10">
+                <div class="flex gap-2 mb-3">
+                    <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 rounded-lg border-2 border-black text-xs h-10">
+                    <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                    </button>
+                </div>
                 <div id="dir-list" class="space-y-2 pb-20"></div>
             </div>
         </section>
@@ -271,7 +240,9 @@
                 </div>
                
                 <form id="form-req" class="space-y-3">
-                    <select id="req-prof" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
+                    <select id="req-prof" onchange="if(this.value==='خدمات أخرى') document.getElementById('req-custom-prof').classList.remove('hidden'); else document.getElementById('req-custom-prof').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
+                    <input type="text" id="req-custom-prof" placeholder="اكتب اسم الخدمة..." class="hidden w-full p-2 rounded-lg text-xs border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
+                    
                     <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
                     
                     <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors">
@@ -283,7 +254,7 @@
 
                 <form id="form-job" class="hidden space-y-3">
                     <select id="job-title-select" onchange="if(this.value==='أخرى') document.getElementById('job-custom-title').classList.remove('hidden'); else document.getElementById('job-custom-title').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
-                    <input type="text" id="job-custom-title" placeholder="اكتب اسم الوظيفة..." class="hidden w-full p-2 rounded-lg border-2 border-blue-300 bg-blue-50">
+                    <input type="text" id="job-custom-title" placeholder="اكتب اسم الوظيفة..." class="hidden w-full p-2 rounded-lg border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
                    
                     <div class="grid grid-cols-2 gap-2">
                          <input type="number" id="job-salary" placeholder="الراتب (ج.م)" class="w-full p-2 rounded-lg text-xs">
@@ -331,7 +302,6 @@
                     </div>
                 </div>
                
-                <!-- أزرار النشاط والطلبات -->
                 <div class="flex flex-col gap-3 mt-4 w-full pb-20">
                     <button onclick="window.openActivityTab('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform">
                         <span>📊 نشاطي</span>
@@ -347,7 +317,7 @@
             </div>
         </section>
 
-        <!-- ACTIVITY PAGE (النشاط والطلبات) -->
+        <!-- ACTIVITY PAGE -->
         <section id="page-activity" class="page-section hidden px-3 animate-fade pt-4">
             <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
@@ -385,6 +355,8 @@
                          <select id="edit-center" onchange="window.updateVillages('edit')" class="w-full p-2 rounded-lg text-xs"></select>
                          <select id="edit-village" class="w-full p-2 rounded-lg text-xs"></select>
                     </div>
+                    
+                    <input type="text" id="edit-address-detail" class="w-full p-2 rounded-lg text-xs" placeholder="العنوان التفصيلي (اختياري)">
                 </div>
                 <div class="flex gap-2 mt-4">
                     <button onclick="window.saveProfileChanges()" class="flex-1 py-2 bg-black text-white rounded-lg font-bold text-sm">حفظ</button>
@@ -432,7 +404,11 @@
                
                 <div class="w-full bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 text-center mb-4">
                     <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div><span class="text-gray-400 block">العنوان</span><span id="modal-addr" class="font-bold"></span></div>
+                        <div>
+                            <span class="text-gray-400 block">العنوان</span>
+                            <span id="modal-addr-detail" class="font-bold block text-[10px] text-gray-600 dark:text-gray-300"></span>
+                            <span id="modal-addr" class="font-bold"></span>
+                        </div>
                         <div><span class="text-gray-400 block">الجنس</span><span id="modal-gender" class="font-bold"></span></div>
                     </div>
                     <div class="mt-2 border-t border-gray-200 pt-2">
@@ -476,16 +452,49 @@
         </div>
     </div>
 
+    <!-- FILTER MODAL -->
+    <div id="filter-modal" class="modal-overlay hidden animate-pop">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl">
+            <h3 class="text-center font-bold mb-3 text-sm">تصفية البحث</h3>
+            <select id="filter-center" onchange="window.updateVillages('filter')" class="w-full p-2 mb-2 rounded-lg text-xs border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"></select>
+            <select id="filter-village" class="w-full p-2 mb-2 rounded-lg text-xs border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"><option value="">القرية...</option></select>
+            <select id="filter-prof" class="w-full p-2 mb-4 rounded-lg text-xs border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"></select>
+            <div class="flex gap-2">
+                <button onclick="window.applyFilter()" class="flex-1 bg-black text-white py-2 rounded-lg font-bold text-xs">تطبيق</button>
+                <button onclick="window.clearFilter()" class="flex-1 bg-red-500 text-white py-2 rounded-lg font-bold text-xs">إلغاء</button>
+                <button onclick="document.getElementById('filter-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE CHAT MODAL -->
+    <div id="delete-chat-modal" class="modal-overlay hidden animate-pop z-[200]">
+        <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl text-center">
+            <h3 class="font-bold mb-2 text-sm text-red-600">حذف المحادثة</h3>
+            <p class="text-xs text-gray-500 mb-4">هل أنت متأكد من حذف هذه المحادثة نهائياً؟</p>
+            <div class="flex gap-2">
+                <button onclick="window.confirmDeleteChat()" class="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold text-xs shadow-md">تأكيد الحذف</button>
+                <button onclick="document.getElementById('delete-chat-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <!-- CHAT ROOM -->
     <div id="page-chat-room" class="full-screen-modal hidden md:max-w-4xl md:mx-auto md:inset-auto md:h-[600px] md:rounded-xl md:border-2 border-black md:top-20 overflow-hidden">
         <div class="h-14 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
-            <div class="flex items-center gap-2">
-                <button onclick="window.goBack()" class="p-1 hover:bg-gray-100 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
-                <h3 id="chat-room-name" class="font-bold text-base">...</h3>
+            <div class="flex items-center gap-1">
+                <button onclick="window.goBack()" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
+                <div id="chat-header-profile" class="flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-1 pr-0 rounded-lg transition-colors">
+                    <img id="chat-room-avatar" src="" class="w-8 h-8 rounded-full border border-black dark:border-gray-500 object-cover bg-gray-200">
+                    <h3 id="chat-room-name" class="font-bold text-sm">...</h3>
+                </div>
             </div>
-            <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-bold text-xs border border-yellow-300">
-                ★ تقييم
-            </button>
+            <div class="flex items-center gap-1">
+                <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full font-bold text-[10px] border border-yellow-300">★ تقييم</button>
+                <button onclick="document.getElementById('delete-chat-modal').classList.remove('hidden')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                </button>
+            </div>
         </div>
         <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900 custom-scrollbar"></div>
         <form id="form-message" class="p-2 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 shrink-0">
@@ -547,109 +556,8 @@
 
         const professions =["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","عامل بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","صنيعي احذية","مكوجي","حلاق","كوافير","ميكب ارتيست","فوتوغرافي","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
  
-        // 102 items exactly matching the professions index
-        const validImages = [
-        "7654426/pexels-photo-16695382.jpeg",        // 0 محاسب
-        "15063590/pexels-photo-15063590.jpeg",        // 1 مهندس مدني
-        "23496713/pexels-photo-23496713.jpeg",        // 2 مهندس معماري
-        "32213424/pexels-photo-32213424.jpeg",      // 3 طبيب بشري
-        "18524124/pexels-photo-18524124.jpeg",      // 4 طبيب أسنان
-        "19471013/pexels-photo-19471013.jpeg",      // 5 صيدلي
-        "7468920/pexels-photo-7469477.jpeg",      // 6 ممرض
-        "5669619/pexels-photo-5669619.jpeg",      // 7 محامي
-        "35745620/pexels-photo-35745620.jpeg",      // 8 مدرس
-        "17078688/pexels-photo-17078688.jpeg",        // 9 جرافيك ديزاينر
-        "9553909/pexels-photo-9553909.jpeg",        // 10 مبرمج
-        "261662/pexels-photo-261662.jpeg",        // 11 كاتب محتوى
-        "7621355/pexels-photo-7621355.jpeg",        // 12 مسوق إلكتروني
-        "7681135/pexels-photo-7681135.jpeg",        // 13 مترجم
-        "34639577/pexels-photo-34639577.jpeg",        // 14 مدخل بيانات
-        "3184465/pexels-photo-3184465.jpeg",      // 15 موظف استقبال
-        "3760072/pexels-photo-3760072.jpeg",      // 16 سكرتير
-        "3338537/pexels-photo-3338537.jpeg",      // 17 شيف
-        "11566309/pexels-photo-11566309.jpeg",      // 18 ويتر
-        "302899/pexels-photo-302899.jpeg",        // 19 باريستا
-        "20065002/pexels-photo-20065002.jpeg",        // 20 سباك
-        "257736/pexels-photo-257736.jpeg",        // 21 كهربائي
-        "5974296/pexels-photo-5974296.jpeg",      // 22 نجار
-        "5691639/pexels-photo-5691639.jpeg",      // 23 نقاش
-        "17702198/pexels-photo-17702198.jpeg",        // 24 حداد
-        "19926190/pexels-photo-19926190.jpeg",        // 25 لحام
-        "8478268/pexels-photo-8478268.jpeg",        // 26 ميكانيكي سيارات
-        "5933476/pexels-photo-5933476.jpeg",        // 27 عفشجي
-        "8985963/pexels-photo-8985963.jpeg",      // 28 سمكري
-        "32391502/pexels-photo-32391502.jpeg",      // 29 كهربائي سيارات
-        "8985461/pexels-photo-8985461.jpeg",      // 30 سروجي سيارات
-        "33671149/pexels-photo-33671149.jpeg",      // 31 فني تكييف
-        "15483316/pexels-photo-15483316.jpeg",      // 32 فني دش
-        "34734504/pexels-photo-34734504.jpeg",      // 33 فني غسالات
-        "17842832/pexels-photo-17842832.jpeg",        // 34 فني ثلاجات
-        "31287022/pexels-photo-31287022.jpeg",      // 35 فني فلاتر
-        "569154/pexels-photo-569154.jpeg",        // 36 مبلط سيراميك
-        "5691613/pexels-photo-5691613.jpeg",        // 37 مبيض محارة
-        "11429199/pexels-photo-11429199.jpeg",      // 38 عامل بناء
-        "19386931/pexels-photo-19386931.jpeg",      // 39 مقاول
-        "7533923/pexels-photo-7533923.jpeg",      // 40 فني الوميتال
-        "5691612/pexels-photo-5691612.jpeg",      // 41 استورجي
-        "15016524/pexels-photo-15016524.jpeg",        // 42 منجد
-        "6461159/pexels-photo-6461159.jpeg",      // 43 ترزي
-        "34510831/pexels-photo-34510831.jpeg",        // 44 صنيعي احذية
-        "28576623/pexels-photo-28576623.jpeg",      // 45 مكوجي
-        "5970246/pexels-photo-5970246.jpeg",      // 46 حلاق
-        "3993304/pexels-photo-3993304.jpeg",      // 47 كوافير
-        "33271603/pexels-photo-33271603.jpeg",          // 48 ميكب ارتيست
-        "17057198/pexels-photo-17057198.jpeg",      // 49 فوتوغرافي
-        "9574453/pexels-photo-9574453.jpeg",      // 50 فني طباعة
-        "36861987/pexels-photo-36861987.jpeg",        // 51 فني كمبيوتر
-        "6755050/pexels-photo-6755050.jpeg",      // 52 فني موبايل
-        "10358853/pexels-photo-10358853.jpeg",        // 53 سائق خاص
-        "5721492/pexels-photo-5721492.jpeg",      // 54 سائق تاكسي
-        "10963705/pexels-photo-10963705.jpeg",      // 55 سائق نقل
-        "36764333/pexels-photo-36764333.jpeg",      // 56 دليفري
-        "14642832/pexels-photo-14642832.jpeg",        // 57 عامل نظافة
-        "11508780/pexels-photo-11508780.jpeg",      // 58 عامل بوفيه
-        "32415692/pexels-photo-32415692.jpeg",      // 60 عامل زراعي
-        "18774870/pexels-photo-18774870.jpeg",      // 61 جنايني
-        "31282369/pexels-photo-31282369.jpeg",        // 62 حارس عقار
-        "27765780/pexels-photo-27765780.jpeg",      // 63 فني كاميرات
-        "7918920/pexels-photo-7918920.jpeg",      // 64 فني شبكات
-        "8453052/pexels-photo-8453052.jpeg",      // 65 فني مصاعد
-        "11626073/pexels-photo-11626073.jpeg",      // 66 فني زجاج
-        "30112371/pexels-photo-30112371.jpeg",      // 67 فني رخام
-        "5538715/pexels-photo-5538715.jpeg",      // 68 فني جبس بورد
-        "4263067/pexels-photo-4263067.jpeg",      // 69 فني باركيه
-        "11135525/pexels-photo-11135525.jpeg",      // 70 خطاط
-        "16037006/pexels-photo-16037006.jpeg",      // 71 رسام
-        "35549798/pexels-photo-35549798.jpeg",      // 72 نحات
-        "8442326/pexels-photo-8442326.jpeg",      // 73 صائغ
-        "8327590/pexels-photo-8327590.jpeg",      // 74 ساعاتي
-        "114741/pexels-photo-114741.jpeg",      // 75 فني مفاتيح
-        "10699352/pexels-photo-10699352.jpeg",      // 76 فني إلكترونيات
-        "8460346/pexels-photo-8460346.jpeg",      // 77 فني تحاليل
-        "6501854/pexels-photo-6501854.jpeg",      // 78 فني أشعة
-        "20860582/pexels-photo-20860582.jpeg",      // 79 أخصائي علاج طبيعي
-        "8560049/pexels-photo-8560049.jpeg",      // 80 أخصائي تخاطب
-        "20597768/pexels-photo-20597768.jpeg",      // 81 محفظ قرآن
-        "35253989/pexels-photo-35253989.jpeg",      // 82 مأذون
-        "6248797/pexels-photo-6248797.jpeg",      // 83 طباخ منزلي
-        "8770586/pexels-photo-8770586.jpeg",      // 84 بيبي سيتر
-        "18459193/pexels-photo-18459193.jpeg",      // 85 جليس مسنين
-        "13451897/pexels-photo-13451897.jpeg",      // 86 مدرب جيم
-        "30468227/pexels-photo-30468227.jpeg",      // 87 مدرب سباحة
-        "17108182/pexels-photo-17108182.jpeg",      // 88 مدرب سواقة
-        "34365475/pexels-photo-34365475.jpeg",      // 89 سمسار عقارات
-        "14235412/pexels-photo-14235412.jpeg",        // 90 تاجر ملابس
-        "35770688/pexels-photo-35770688.jpeg",      // 91 تاجر أغذية
-        "36123358/pexels-photo-36123358.jpeg",      // 92 مندوب مبيعات
-        "26904218/pexels-photo-26904218.jpeg",      // 93 كاشير
-        "5874519/pexels-photo-5874519.jpeg",      // 94 مدير محل
-        "6749753/pexels-photo-6749753.jpeg",      // 95 فني بصريات
-        "18662954/pexels-photo-18662954.jpeg",      // 96 فني أسنان
-        "32101180/pexels-photo-32101180.jpeg",      // 97 مدرب كرة قدم
-        "32108803/pexels-photo-32108803.jpeg",      // 98 حكم
-        "24286930/pexels-photo-24286930.jpeg",      // 99 يوتيوبر
-        "15846543/pexels-photo-15846543.jpeg",      // 100 صانع محتوى
-        "5123456/pexels-photo-5123456.jpeg"       // 101 خدمات أخرى
+        const validImages =[
+        "7654426/pexels-photo-16695382.jpeg", "15063590/pexels-photo-15063590.jpeg", "23496713/pexels-photo-23496713.jpeg", "32213424/pexels-photo-32213424.jpeg", "18524124/pexels-photo-18524124.jpeg", "19471013/pexels-photo-19471013.jpeg", "7468920/pexels-photo-7469477.jpeg", "5669619/pexels-photo-5669619.jpeg", "35745620/pexels-photo-35745620.jpeg", "17078688/pexels-photo-17078688.jpeg", "9553909/pexels-photo-9553909.jpeg", "261662/pexels-photo-261662.jpeg", "7621355/pexels-photo-7621355.jpeg", "7681135/pexels-photo-7681135.jpeg", "34639577/pexels-photo-34639577.jpeg", "3184465/pexels-photo-3184465.jpeg", "3760072/pexels-photo-3760072.jpeg", "3338537/pexels-photo-3338537.jpeg", "11566309/pexels-photo-11566309.jpeg", "302899/pexels-photo-302899.jpeg", "20065002/pexels-photo-20065002.jpeg", "257736/pexels-photo-257736.jpeg", "5974296/pexels-photo-5974296.jpeg", "5691639/pexels-photo-5691639.jpeg", "17702198/pexels-photo-17702198.jpeg", "19926190/pexels-photo-19926190.jpeg", "8478268/pexels-photo-8478268.jpeg", "5933476/pexels-photo-5933476.jpeg", "8985963/pexels-photo-8985963.jpeg", "32391502/pexels-photo-32391502.jpeg", "8985461/pexels-photo-8985461.jpeg", "33671149/pexels-photo-33671149.jpeg", "15483316/pexels-photo-15483316.jpeg", "34734504/pexels-photo-34734504.jpeg", "17842832/pexels-photo-17842832.jpeg", "31287022/pexels-photo-31287022.jpeg", "569154/pexels-photo-569154.jpeg", "5691613/pexels-photo-5691613.jpeg", "11429199/pexels-photo-11429199.jpeg", "19386931/pexels-photo-19386931.jpeg", "7533923/pexels-photo-7533923.jpeg", "5691612/pexels-photo-5691612.jpeg", "15016524/pexels-photo-15016524.jpeg", "6461159/pexels-photo-6461159.jpeg", "34510831/pexels-photo-34510831.jpeg", "28576623/pexels-photo-28576623.jpeg", "5970246/pexels-photo-5970246.jpeg", "3993304/pexels-photo-3993304.jpeg", "33271603/pexels-photo-33271603.jpeg", "17057198/pexels-photo-17057198.jpeg", "9574453/pexels-photo-9574453.jpeg", "36861987/pexels-photo-36861987.jpeg", "6755050/pexels-photo-6755050.jpeg", "10358853/pexels-photo-10358853.jpeg", "5721492/pexels-photo-5721492.jpeg", "10963705/pexels-photo-10963705.jpeg", "36764333/pexels-photo-36764333.jpeg", "14642832/pexels-photo-14642832.jpeg", "11508780/pexels-photo-11508780.jpeg", "32415692/pexels-photo-32415692.jpeg", "18774870/pexels-photo-18774870.jpeg", "31282369/pexels-photo-31282369.jpeg", "27765780/pexels-photo-27765780.jpeg", "7918920/pexels-photo-7918920.jpeg", "8453052/pexels-photo-8453052.jpeg", "11626073/pexels-photo-11626073.jpeg", "30112371/pexels-photo-30112371.jpeg", "5538715/pexels-photo-5538715.jpeg", "4263067/pexels-photo-4263067.jpeg", "11135525/pexels-photo-11135525.jpeg", "16037006/pexels-photo-16037006.jpeg", "35549798/pexels-photo-35549798.jpeg", "8442326/pexels-photo-8442326.jpeg", "8327590/pexels-photo-8327590.jpeg", "114741/pexels-photo-114741.jpeg", "10699352/pexels-photo-10699352.jpeg", "8460346/pexels-photo-8460346.jpeg", "6501854/pexels-photo-6501854.jpeg", "20860582/pexels-photo-20860582.jpeg", "8560049/pexels-photo-8560049.jpeg", "20597768/pexels-photo-20597768.jpeg", "35253989/pexels-photo-35253989.jpeg", "6248797/pexels-photo-6248797.jpeg", "8770586/pexels-photo-8770586.jpeg", "18459193/pexels-photo-18459193.jpeg", "13451897/pexels-photo-13451897.jpeg", "30468227/pexels-photo-30468227.jpeg", "17108182/pexels-photo-17108182.jpeg", "34365475/pexels-photo-34365475.jpeg", "14235412/pexels-photo-14235412.jpeg", "35770688/pexels-photo-35770688.jpeg", "36123358/pexels-photo-36123358.jpeg", "26904218/pexels-photo-26904218.jpeg", "5874519/pexels-photo-5874519.jpeg", "6749753/pexels-photo-6749753.jpeg", "18662954/pexels-photo-18662954.jpeg", "32101180/pexels-photo-32101180.jpeg", "32108803/pexels-photo-32108803.jpeg", "24286930/pexels-photo-24286930.jpeg", "15846543/pexels-photo-15846543.jpeg", "5123456/pexels-photo-5123456.jpeg"
         ];
 
         function populateProfessionsGlobally() {
@@ -658,23 +566,18 @@
             if(document.getElementById('signup-prof')) document.getElementById('signup-prof').innerHTML = '<option value="">اختر المهنة...</option>'+opts;
             if(document.getElementById('req-prof')) document.getElementById('req-prof').innerHTML = '<option value="">اختر المهنة...</option>'+opts;
             if(document.getElementById('job-title-select')) document.getElementById('job-title-select').innerHTML = '<option value="">اختر المسمى...</option>'+optsWithOther;
+            if(document.getElementById('filter-prof')) document.getElementById('filter-prof').innerHTML = '<option value="">كل الوظائف</option>'+opts;
         }
         populateProfessionsGlobally();
 
-        // 🟢 الحل الجذري لمنع تكرار الصور (تم ربط كل صورة بترتيب المهنة بدقة Index to Index)
         function getProfImage(profName) {
             const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
             if(profName === "خدمات أخرى") return defaultImg;
-            
-            // نجلب ترتيب المهنة في القائمة، وبناءً عليه نجلب الصورة التي توازيها بالضبط
             const index = professions.indexOf(profName);
-            
             if (index === -1 || index >= validImages.length) return defaultImg;
-            
             const rawPath = validImages[index];
             const match = rawPath.match(/pexels-photo-(\d+)\.jpeg/);
             const photoId = match ? match[1] : rawPath.split('/')[0];
-            
             if (!photoId) return defaultImg;
             return `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=200`;
         }
@@ -684,19 +587,17 @@
 
         let reqNotifs =[];
         let reviewNotifs =[];
+        window.chatNotifsGlobal =[];
 
         const CLOUD_NAME = "db9h7zm1h"; 
         const UPLOAD_PRESET = "souq_upload";
 
         window.uploadToCloudinary = async (file) => {
             const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
-            const fd = new FormData();
-            fd.append("file", file);
-            fd.append("upload_preset", UPLOAD_PRESET);
+            const fd = new FormData(); fd.append("file", file); fd.append("upload_preset", UPLOAD_PRESET);
             const res = await fetch(url, { method: "POST", body: fd });
             if (!res.ok) throw new Error("فشل رفع الصورة");
-            const data = await res.json();
-            return data.secure_url; 
+            const data = await res.json(); return data.secure_url; 
         };
 
         window.getCloudinaryUrl = (url, size = 'thumb') => {
@@ -712,69 +613,39 @@
 
         window.showToast = (msg, type='success') => {
             const box = document.getElementById('toast-box');
-            const el = document.createElement('div');
-            el.className = `toast-msg ${type}`;
-            el.innerText = msg;
+            const el = document.createElement('div'); el.className = `toast-msg ${type}`; el.innerText = msg;
             box.appendChild(el);
             requestAnimationFrame(() => el.classList.add('show'));
             setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
         };
 
-        window.hideLoader = () => {
-            const loader = document.getElementById('loader');
-            loader.classList.add('hidden');
-        };
-
-        window.showLoader = () => {
-            const loader = document.getElementById('loader');
-            loader.classList.remove('hidden');
-        };
+        window.hideLoader = () => document.getElementById('loader').classList.add('hidden');
+        window.showLoader = () => document.getElementById('loader').classList.remove('hidden');
 
         window.handleImageUpload = (input, previewId) => {
-            if (input.files[0]) {
-                tempSelectedFile = input.files[0];
-                document.getElementById(previewId).src = URL.createObjectURL(input.files[0]);
-            }
+            if (input.files[0]) { tempSelectedFile = input.files[0]; document.getElementById(previewId).src = URL.createObjectURL(input.files[0]); }
         };
 
-        window.openActivityTab = (tab) => {
-            window.switchActivityTab(tab);
-            window.navTo('activity');
-        };
+        window.openActivityTab = (tab) => { window.switchActivityTab(tab); window.navTo('activity'); };
 
         window.switchActivityTab = (tab) => {
             window.scrollTo(0,0);
             if (tab === 'my-activity') {
-                document.getElementById('view-my-activity').classList.remove('hidden');
-                document.getElementById('view-matching-reqs').classList.add('hidden');
-                document.getElementById('tab-act-mine').classList.add('bg-black', 'text-white');
-                document.getElementById('tab-act-mine').classList.remove('text-gray-500');
-                document.getElementById('tab-act-matching').classList.remove('bg-black', 'text-white');
-                document.getElementById('tab-act-matching').classList.add('text-gray-500');
+                document.getElementById('view-my-activity').classList.remove('hidden'); document.getElementById('view-matching-reqs').classList.add('hidden');
+                document.getElementById('tab-act-mine').classList.add('bg-black', 'text-white'); document.getElementById('tab-act-mine').classList.remove('text-gray-500');
+                document.getElementById('tab-act-matching').classList.remove('bg-black', 'text-white'); document.getElementById('tab-act-matching').classList.add('text-gray-500');
             } else {
-                document.getElementById('view-my-activity').classList.add('hidden');
-                document.getElementById('view-matching-reqs').classList.remove('hidden');
-                document.getElementById('tab-act-matching').classList.add('bg-black', 'text-white');
-                document.getElementById('tab-act-matching').classList.remove('text-gray-500');
-                document.getElementById('tab-act-mine').classList.remove('bg-black', 'text-white');
-                document.getElementById('tab-act-mine').classList.add('text-gray-500');
-                
+                document.getElementById('view-my-activity').classList.add('hidden'); document.getElementById('view-matching-reqs').classList.remove('hidden');
+                document.getElementById('tab-act-matching').classList.add('bg-black', 'text-white'); document.getElementById('tab-act-matching').classList.remove('text-gray-500');
+                document.getElementById('tab-act-mine').classList.remove('bg-black', 'text-white'); document.getElementById('tab-act-mine').classList.add('text-gray-500');
                 document.getElementById('act-notif-badge').classList.add('hidden');
             }
         };
 
         window.navTo = (pageId) => {
             window.scrollTo(0, 0);
-            
-            if(pageId === 'chat') {
-                localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString());
-                document.getElementById('chat-nav-dot').classList.add('hidden');
-            }
-
-            if (pageId === 'chat-room') {
-                document.getElementById('page-chat-room').classList.remove('hidden');
-                navStack.push('chat-room'); return;
-            }
+            if(pageId === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
+            if (pageId === 'chat-room') { document.getElementById('page-chat-room').classList.remove('hidden'); navStack.push('chat-room'); return; }
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
@@ -785,20 +656,14 @@
             if (pageId === 'home') { 
                 document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`; 
                 backBtn.classList.add('hidden'); 
-            }
-            else { 
+            } else { 
                 backBtn.classList.remove('hidden'); 
-                if (pageId === 'activity') {
-                    document.getElementById('page-title').innerText = 'النشاط';
-                } else {
-                    document.getElementById('page-title').innerText = 'رجوع'; 
-                }
+                document.getElementById('page-title').innerText = pageId === 'activity' ? 'النشاط' : 'رجوع'; 
             }
            
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
             const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
-            
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
         };
 
@@ -814,10 +679,9 @@
                 if (prevPage === 'home') {
                     document.getElementById('btn-back').classList.add('hidden');
                     document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`;
-                } else if (prevPage === 'activity') {
-                    document.getElementById('page-title').innerText = 'النشاط';
                 } else {
-                    document.getElementById('page-title').innerText = 'رجوع';
+                    document.getElementById('btn-back').classList.remove('hidden');
+                    document.getElementById('page-title').innerText = prevPage === 'activity' ? 'النشاط' : 'رجوع';
                 }
                 window.scrollTo(0, 0);
             }
@@ -825,6 +689,7 @@
 
         function initApp() {
             renderProfessionsGrid(professions);
+            populateCenters('filter');
             document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile.name}</span>`;
             
             if(userProfile.role === 'provider') {
@@ -839,12 +704,10 @@
         function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
             if (grid.children.length > 0) return; 
-            
             const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
-            
             const html = list.map(p => `
                 <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform">
-                    <img src="${getProfImage(p)}" onerror="this.onerror=null; this.src='${defaultImg}';" decoding="async" class="w-full h-full object-cover">
+                    <img src="${getProfImage(p)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
                     </div>
@@ -860,9 +723,7 @@
             villageSelect.innerHTML = '<option value="">القرية...</option>';
             if (selectedCenter && sharkiaData[selectedCenter]) {
                 sharkiaData[selectedCenter].forEach(village => {
-                    const opt = document.createElement('option');
-                    opt.value = village;
-                    opt.innerText = village;
+                    const opt = document.createElement('option'); opt.value = village; opt.innerText = village;
                     villageSelect.appendChild(opt);
                 });
             }
@@ -870,39 +731,36 @@
 
         function populateCenters(prefix = 'signup') {
             const centerSelect = document.getElementById(`${prefix}-center`);
+            if(!centerSelect) return;
             centerSelect.innerHTML = '<option value="">المركز...</option>';
             Object.keys(sharkiaData).forEach(center => {
-                const opt = document.createElement('option');
-                opt.value = center;
-                opt.innerText = center;
+                const opt = document.createElement('option'); opt.value = center; opt.innerText = center;
                 centerSelect.appendChild(opt);
             });
         }
 
-        let searchTimeout;
+        // حل مشكلة التقطيع في البحث باستخدام CSS Injection
         window.filterProfessions = () => {
-            clearTimeout(searchTimeout);
             const term = document.getElementById('prof-search').value.trim();
-            
-            searchTimeout = setTimeout(() => {
-                const cards = document.querySelectorAll('#professions-grid .provider-card');
-                cards.forEach(card => {
-                    const profName = card.getAttribute('data-prof');
-                    if (profName.includes(term)) {
-                        card.style.display = ''; 
-                    } else {
-                        card.style.display = 'none'; 
-                    }
-                });
-            }, 100); 
+            let styleEl = document.getElementById('dynamic-search-style');
+            if (!styleEl) {
+                styleEl = document.createElement('style');
+                styleEl.id = 'dynamic-search-style';
+                document.head.appendChild(styleEl);
+            }
+            if (!term) {
+                styleEl.innerHTML = '';
+            } else {
+                styleEl.innerHTML = `
+                    #professions-grid .provider-card { display: none !important; }
+                    #professions-grid .provider-card[data-prof*="${term}"] { display: flex !important; }
+                `;
+            }
         };
 
         window.switchAuthMode = (mode) => {
-            const btnLogin = document.getElementById('btn-mode-login');
-            const btnSignup = document.getElementById('btn-mode-signup');
-            const formLogin = document.getElementById('form-login');
-            const formSignup = document.getElementById('form-signup');
-
+            const btnLogin = document.getElementById('btn-mode-login'); const btnSignup = document.getElementById('btn-mode-signup');
+            const formLogin = document.getElementById('form-login'); const formSignup = document.getElementById('form-signup');
             if(mode === 'login'){
                 formLogin.classList.remove('hidden'); formSignup.classList.add('hidden');
                 btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all";
@@ -924,13 +782,8 @@
             const phoneVal = document.getElementById('login-phone').value;
             if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
             window.showLoader();
-            try { 
-                await signInWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('login-pass').value); 
-            }
-            catch (err) { 
-                window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); 
-                window.hideLoader(); 
-            }
+            try { await signInWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('login-pass').value); }
+            catch (err) { window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); window.hideLoader(); }
         };
 
         document.getElementById('form-signup').onsubmit = async (e) => {
@@ -941,40 +794,39 @@
             window.showLoader();
             try {
                 const role = document.querySelector('input[name="role"]:checked').value;
-                const prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
+                let prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
                 if(role === 'provider' && !prof) throw new Error('اختر المهنة');
+                if(prof === 'خدمات أخرى') {
+                    prof = document.getElementById('signup-custom-prof').value.trim();
+                    if(!prof) throw new Error('يرجى كتابة اسم الخدمة المخصصة');
+                }
                
                 const center = document.getElementById('signup-center').value;
                 const village = document.getElementById('signup-village').value;
                 if(!center || !village) throw new Error('يرجى اختيار الموقع');
+                
+                const addressDetail = document.getElementById('signup-address-detail').value.trim();
 
                 const gender = document.querySelector('input[name="gender"]:checked').value;
                 const userName = document.getElementById('signup-name').value;
                 
                 let finalPhotoURL = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=${gender==='male'?'0D8ABC':'E91E63'}&color=fff`;
-                if (tempSelectedFile) {
-                    finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
-                    tempSelectedFile = null; 
-                }
+                if (tempSelectedFile) { finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile); tempSelectedFile = null; }
 
-                // 🟢 يتم إنشاء الحساب، وبمجرد نجاحه سيتم تشغيل onAuthStateChanged
                 const cred = await createUserWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('signup-pass').value);
 
-                // 🟢 يتم حفظ الملف الشخصي مباشرة
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
-                    uid: cred.user.uid, name: userName, phone: `+20${phoneVal}`, city: center, area: village, role, profession: prof, 
-                    photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
+                    uid: cred.user.uid, name: userName, phone: `+20${phoneVal}`, city: center, area: village, addressDetail: addressDetail,
+                    role, profession: prof, photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
                     createdAt: new Date().toISOString()
                 });
                 
                 window.showToast('تم التسجيل بنجاح');
-                // نترك إخفاء اللودر لـ onAuthStateChanged لضمان تحميل البيانات أولاً
             } catch (err) { 
                 let errorMsg = err.message;
                 if (err.code === 'auth/email-already-in-use') errorMsg = 'رقم الهاتف مستخدم مسبقاً لحساب آخر';
                 if (err.code === 'auth/weak-password') errorMsg = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)';
                 window.showToast(errorMsg, 'error'); 
-                
                 if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) {
                     await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
                 }
@@ -982,12 +834,10 @@
             }
         };
 
-        // 🟢 الحل الجذري لمشكلة تعليق التحميل (نظام إعادة المحاولة)
         async function fetchProfileWithRetry(uid, retries = 3) {
             for (let i = 0; i < retries; i++) {
                 const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', uid));
                 if (snap.exists()) return snap.data();
-                // ننتظر 500 ملي ثانية قبل المحاولة مرة أخرى في حالة كان الحساب جديداً والبيانات لم تُسجل بعد
                 await new Promise(r => setTimeout(r, 500)); 
             }
             return null;
@@ -996,15 +846,10 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                if(userProfile && userProfile.uid === user.uid) { 
-                    window.hideLoader(); 
-                    return; 
-                }
+                if(userProfile && userProfile.uid === user.uid) { window.hideLoader(); return; }
                
                 try {
-                    // 🟢 استخدام دالة إعادة المحاولة بدلاً من القراءة المباشرة مرة واحدة فقط
                     const profileData = await fetchProfileWithRetry(user.uid);
-                    
                     if (profileData) {
                         userProfile = profileData;
                         if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
@@ -1028,34 +873,27 @@
                         document.getElementById('edit-center').value = userProfile.city || '';
                         window.updateVillages('edit'); 
                         setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
+                        document.getElementById('edit-address-detail').value = userProfile.addressDetail || '';
 
-                        initApp(); 
-                        startListeners(); 
-                        window.navTo('home');
+                        initApp(); startListeners(); window.navTo('home');
                     } else {
-                        signOut(auth); 
-                        window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
+                        signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
                     }
-                } catch (error) { 
-                    signOut(auth); 
-                    window.showToast('حدث خطأ أثناء الاتصال', 'error'); 
-                } finally {
-                    window.hideLoader(); // 🟢 إخفاء اللودر في كل الأحوال حتى لو حدث خطأ
-                }
+                } catch (error) { signOut(auth); window.showToast('حدث خطأ أثناء الاتصال', 'error'); } 
+                finally { window.hideLoader(); }
             } else {
                 document.getElementById('app-view').classList.add('hidden');
                 document.getElementById('app-header').classList.add('hidden');
                 document.getElementById('nav-bar').classList.add('hidden');
                 document.getElementById('auth-view').classList.remove('hidden');
-                window.hideLoader(); // 🟢 إخفاء اللودر لغير المسجلين
+                window.hideLoader();
             }
         });
 
-        // Add a safety timeout just in case it ever gets stuck
         setTimeout(() => { window.hideLoader(); }, 15000);
 
         function renderNotificationsList() {
-            let allNotifs =[...reqNotifs, ...reviewNotifs];
+            let allNotifs =[...reqNotifs, ...reviewNotifs, ...(window.chatNotifsGlobal || [])];
             allNotifs.sort((a,b) => b.time - a.time);
             
             let unreadCount = 0;
@@ -1090,34 +928,27 @@
 
         window.renderChatsUI = function() {
             const list = document.getElementById('chat-history-list');
-            
             if(myChatsCache.length === 0) { 
                 list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد محادثات</p>'; 
-                document.getElementById('chat-nav-dot').classList.add('hidden');
-                return; 
+                document.getElementById('chat-nav-dot').classList.add('hidden'); return; 
             }
 
             myChatsCache.sort((a,b) => new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0));
-
             let hasUnreadChatsForTab = false;
             const chatTabLastOpened = parseInt(localStorage.getItem(`chatTabLastOpened_${currentUser.uid}`) || '0');
 
             const html = myChatsCache.map(c => {
                 const otherId = c.users.find(u => u !== currentUser.uid);
                 const otherUser = allUsersCache.find(u => u.uid === otherId) || { name: 'مستخدم (جاري التحميل...)', photoURL: 'https://via.placeholder.com/40' };
-                
                 const time = c.lastUpdated ? new Date(c.lastUpdated).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}) : '';
-                
                 const chatSeenKey = `chatSeen_${currentUser.uid}_${c.id}`;
                 const lastSeenThisChat = parseInt(localStorage.getItem(chatSeenKey) || '0');
                 const isNew = (new Date(c.lastUpdated || 0).getTime() > lastSeenThisChat) && (c.lastSenderId !== currentUser.uid);
 
-                if ((new Date(c.lastUpdated || 0).getTime() > chatTabLastOpened) && (c.lastSenderId !== currentUser.uid)) {
-                    hasUnreadChatsForTab = true;
-                }
+                if ((new Date(c.lastUpdated || 0).getTime() > chatTabLastOpened) && (c.lastSenderId !== currentUser.uid)) hasUnreadChatsForTab = true;
 
                 return `
-                   <div onclick="window.openChat('${otherId}', '${otherUser.name}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
+                   <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
                        <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
                        <div class="flex-1 min-w-0">
                            <div class="flex justify-between items-center mb-1">
@@ -1132,21 +963,33 @@
             }).join('');
             
             list.innerHTML = html;
-            
             const chatTabActive = navStack[navStack.length-1] === 'chat';
-            if (hasUnreadChatsForTab && !chatTabActive) {
-                document.getElementById('chat-nav-dot').classList.remove('hidden');
-            } else {
-                document.getElementById('chat-nav-dot').classList.add('hidden');
-            }
+            if (hasUnreadChatsForTab && !chatTabActive) document.getElementById('chat-nav-dot').classList.remove('hidden');
+            else document.getElementById('chat-nav-dot').classList.add('hidden');
         };
 
         function startListeners() {
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
             onSnapshot(chatQuery, (snap) => {
                 myChatsCache =[];
-                snap.forEach(d => myChatsCache.push({id: d.id, ...d.data()}));
+                let chatNotifs =[];
+                snap.forEach(d => {
+                    const c = d.data();
+                    myChatsCache.push({id: d.id, ...c});
+                    
+                    const otherId = c.users.find(u => u !== currentUser.uid);
+                    const otherUser = allUsersCache.find(u => u.uid === otherId) || { name: 'مستخدم' };
+                    const chatSeenKey = `chatSeen_${currentUser.uid}_${d.id}`;
+                    const lastSeenThisChat = parseInt(localStorage.getItem(chatSeenKey) || '0');
+                    const msgTime = new Date(c.lastUpdated || 0).getTime();
+                    
+                    if (msgTime > lastSeenThisChat && c.lastSenderId !== currentUser.uid) {
+                        chatNotifs.push({ id: d.id, time: msgTime, text: `💬 رسالة جديدة غير مقروءة من: ${otherUser.name}` });
+                    }
+                });
+                window.chatNotifsGlobal = chatNotifs;
                 window.renderChatsUI(); 
+                renderNotificationsList();
             });
 
             onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
@@ -1155,24 +998,20 @@
                     const u = d.data();
                     if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
                 });
-                window.renderDirectory(); window.renderChatsUI(); 
+                window.filterDirectory(); window.renderChatsUI(); 
             });
 
             if(userProfile.role === 'provider') {
                 const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'));
                 onSnapshot(q, (snap) => {
-                    const container = document.getElementById('matching-reqs-list'); 
-                    container.innerHTML = '';
-                    reqNotifs =[]; 
-                    const html =[];
-                    let hasNewMatching = false;
+                    const container = document.getElementById('matching-reqs-list'); container.innerHTML = '';
+                    reqNotifs =[]; const html =[]; let hasNewMatching = false;
                    
                     snap.forEach(d => {
                         const req = d.data();
                         if(req.uid === currentUser.uid || req.profession !== userProfile.profession) return; 
 
                         reqNotifs.push({ id: d.id, time: new Date(req.createdAt).getTime(), text: `🔔 يوجد طلب جديد لمهنتك (${req.profession}) من ${req.requesterName}` });
-
                         const hasPhone = req.phone && req.phone.length > 5;
                         const notifKey = `notifSeen_${currentUser.uid}`;
                         const isNew = new Date(req.createdAt).getTime() > parseInt(localStorage.getItem(notifKey) || '0');
@@ -1183,7 +1022,6 @@
                         html.push(`
                             <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative transition-all animate-fade hover:-translate-y-0.5">
                                 ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
-                                
                                 <div class="flex items-start gap-2 mb-2">
                                     <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
                                     <div class="flex-1 min-w-0">
@@ -1197,15 +1035,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <div class="flex gap-2">
-                                    <button onclick="window.openChat('${req.uid}','${req.requesterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 shadow-sm flex justify-center items-center transition-transform active:scale-95">
-                                        محادثة
-                                    </button>
-                                    ${hasPhone ? `
-                                    <a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 shadow-sm flex items-center justify-center transition-transform active:scale-95">
-                                        WhatsApp
-                                    </a>` : ''}
+                                    <button onclick="window.openChat('${req.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 shadow-sm flex justify-center items-center transition-transform active:scale-95">محادثة</button>
+                                    ${hasPhone ? `<a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 shadow-sm flex items-center justify-center transition-transform active:scale-95">WhatsApp</a>` : ''}
                                 </div>
                             </div>
                         `);
@@ -1218,7 +1050,6 @@
                         const badge = document.getElementById('act-notif-badge');
                         if(badge && document.getElementById('view-matching-reqs').classList.contains('hidden')) badge.classList.remove('hidden');
                     }
-
                     renderNotificationsList();
                 });
             }
@@ -1228,11 +1059,7 @@
                 reviewNotifs =[];
                 snap.forEach(d => {
                     const rev = d.data();
-                    reviewNotifs.push({
-                        id: d.id,
-                        time: new Date(rev.createdAt).getTime(),
-                        text: `⭐ قام ${rev.fromName} بتقييمك بـ ${rev.stars} نجوم: "${rev.comment}"`
-                    });
+                    reviewNotifs.push({ id: d.id, time: new Date(rev.createdAt).getTime(), text: `⭐ قام ${rev.fromName} بتقييمك بـ ${rev.stars} نجوم: "${rev.comment}"` });
                 });
                 renderNotificationsList();
             });
@@ -1258,24 +1085,18 @@
                                         <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
                                     </div>
                                 </div>
-                                
                                 <div class="flex gap-1.5 mb-2 flex-wrap">
                                     <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
                                     ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
                                     ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الشيفت: ${j.shift}</span>` : ''}
                                     ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الساعات: ${j.hours}</span>` : ''}
                                 </div>
-                                
                                 <div class="mb-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
                                     <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
                                 </div>
-                                
                                 <div class="flex gap-2">
-                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}','${j.posterName}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm transition-transform active:scale-95">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
-                                    ${hasPhone && !isMyPost ? `
-                                    <a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm transition-transform active:scale-95">
-                                        WhatsApp
-                                    </a>` : ''}
+                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm transition-transform active:scale-95">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
+                                    ${hasPhone && !isMyPost ? `<a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm transition-transform active:scale-95">WhatsApp</a>` : ''}
                                 </div>
                             </div>
                         </div>`);
@@ -1288,7 +1109,6 @@
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
                 const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
                 if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl"><p class="text-[10px] text-gray-400 font-bold">لا يوجد نشاط مسجل</p></div>'; return; }
-                
                 docs.forEach((act) => {
                     const el = document.createElement('div');
                     const isJob = act.type === 'job';
@@ -1304,9 +1124,7 @@
                                 <span class="text-gray-500 font-bold">الوصف:</span> ${act.desc || 'بدون وصف'}
                             </div>
                         </div>
-                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-600 hover:text-white text-[9px] font-bold bg-red-100 hover:bg-red-600 border border-red-200 transition-colors p-1.5 rounded h-[45px] w-10 shadow-sm mt-1">
-                            حذف
-                        </button>
+                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-600 hover:text-white text-[9px] font-bold bg-red-100 hover:bg-red-600 border border-red-200 transition-colors p-1.5 rounded h-[45px] w-10 shadow-sm mt-1">حذف</button>
                     `;
                     list.appendChild(el);
                 });
@@ -1322,6 +1140,7 @@
             document.getElementById('modal-name').innerText = user.name;
             document.getElementById('modal-role').innerText = user.role === 'provider' ? user.profession : 'عميل';
             document.getElementById('modal-addr').innerText = `${user.area || ''} - ${user.city || ''}`;
+            document.getElementById('modal-addr-detail').innerText = user.addressDetail ? user.addressDetail + '،' : '';
             document.getElementById('modal-phone-disp').innerText = (user.settings?.hidePhone) ? 'مخفي 🔒' : user.phone;
             document.getElementById('modal-gender').innerText = user.gender === 'male' ? 'ذكر' : 'أنثى';
 
@@ -1333,7 +1152,7 @@
             const chatBtn = document.createElement('button');
             chatBtn.className = "flex-1 py-2 bg-black text-white rounded-lg font-bold text-xs shadow hover:bg-gray-800";
             chatBtn.innerText = "محادثة";
-            chatBtn.onclick = () => { document.getElementById('profile-modal').classList.add('hidden'); window.openChat(user.uid, user.name); };
+            chatBtn.onclick = () => { document.getElementById('profile-modal').classList.add('hidden'); window.openChat(user.uid); };
             actionsDiv.appendChild(chatBtn);
            
             loadReviews(user.uid);
@@ -1341,13 +1160,11 @@
         };
 
         async function loadReviews(targetId) {
-             const list = document.getElementById('modal-reviews-list');
-             const starsDisplay = document.getElementById('modal-stars-display');
+             const list = document.getElementById('modal-reviews-list'); const starsDisplay = document.getElementById('modal-stars-display');
              list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2">جاري التحميل...</p>';
              const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', targetId));
              const snap = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js").then(m => m.getDocs(q));
-             list.innerHTML = '';
-             let totalStars = 0;
+             list.innerHTML = ''; let totalStars = 0;
              if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2 font-bold">لا توجد تقييمات حتى الآن</p>'; starsDisplay.innerText = '0.0'; }
              else {
                  const reviews =[]; snap.forEach(d => reviews.push(d.data()));
@@ -1363,8 +1180,7 @@
         }
 
         window.submitReview = async () => {
-            const btn = document.getElementById('btn-submit-rate');
-            const text = document.getElementById('review-text').value;
+            const btn = document.getElementById('btn-submit-rate'); const text = document.getElementById('review-text').value;
             const stars = document.querySelector('input[name="stars"]:checked')?.value;
             if(!stars || !currentChatId) return window.showToast('أدخل التقييم أولاً', 'error');
             btn.innerText = '...'; btn.disabled = true;
@@ -1374,33 +1190,45 @@
                     fromId: currentUser.uid, fromName: userProfile.name, fromPhoto: userProfile.photoURL,
                     toId: otherUserId, stars, comment: text || '', createdAt: new Date().toISOString()
                 });
-                window.showToast('تم إرسال التقييم');
-                document.getElementById('rate-modal').classList.add('hidden');
-                document.getElementById('form-review').reset();
+                window.showToast('تم إرسال التقييم'); document.getElementById('rate-modal').classList.add('hidden'); document.getElementById('form-review').reset();
             } catch(e) { window.showToast('خطأ', 'error'); } finally { btn.innerText = 'إرسال'; btn.disabled = false; }
         };
 
         document.getElementById('form-message').onsubmit = async (e) => {
             e.preventDefault();
-            const input = document.getElementById('msg-input');
-            const text = input.value.trim();
+            const input = document.getElementById('msg-input'); const text = input.value.trim();
             if(!text || !currentChatId) return;
-            
             input.value = '';
             try {
                 const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
-                await addDoc(msgsRef, {
-                    text: text, senderId: currentUser.uid, createdAt: new Date().toISOString()
-                });
-                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
-                    lastMessage: text, lastUpdated: new Date().toISOString(), lastSenderId: currentUser.uid
-                });
+                await addDoc(msgsRef, { text: text, senderId: currentUser.uid, createdAt: new Date().toISOString() });
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), { lastMessage: text, lastUpdated: new Date().toISOString(), lastSenderId: currentUser.uid });
             } catch (err) { window.showToast('فشل إرسال الرسالة', 'error'); }
         };
 
-        window.openChat = (uid, name) => {
-            currentChatId =[currentUser.uid, uid].sort().join('_');
-            document.getElementById('chat-room-name').innerText = name;
+        window.openChat = (uid) => {
+            currentChatId = [currentUser.uid, uid].sort().join('_');
+            
+            let user = allUsersCache.find(u => u.uid === uid);
+            
+            const updateChatHeader = (u) => {
+                const name = u ? u.name : 'مستخدم';
+                const photoURL = u ? u.photoURL : 'https://via.placeholder.com/40';
+                const encodedUserStr = u ? encodeURIComponent(JSON.stringify(u)) : null;
+                
+                document.getElementById('chat-room-name').innerText = name;
+                document.getElementById('chat-room-avatar').src = window.getCloudinaryUrl(photoURL, 'thumb');
+                document.getElementById('chat-header-profile').onclick = () => {
+                    if(encodedUserStr) window.openProfileModal(encodedUserStr);
+                };
+            };
+
+            updateChatHeader(user);
+            if (!user) {
+                getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', uid)).then(snap => {
+                    if(snap.exists()) updateChatHeader(snap.data());
+                });
+            }
             
             const chatSeenKey = `chatSeen_${currentUser.uid}_${currentChatId}`;
             localStorage.setItem(chatSeenKey, Date.now().toString());
@@ -1408,9 +1236,7 @@
             window.navTo('chat-room');
             window.renderChatsUI(); 
            
-            setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
-                users:[currentUser.uid, uid],
-            }, { merge: true });
+            setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), { users:[currentUser.uid, uid] }, { merge: true });
 
             const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
             const q = query(msgsRef, orderBy('createdAt', 'asc'));
@@ -1419,30 +1245,57 @@
                 const box = document.getElementById('messages-container'); box.innerHTML = '';
                 const html =[];
                 snap.forEach(d => {
-                    const m = d.data();
-                    const isMe = m.senderId === currentUser.uid;
+                    const m = d.data(); const isMe = m.senderId === currentUser.uid;
                     html.push(`<div class="flex ${isMe?'justify-end':'justify-start'} animate-fade"><div class="max-w-[85%] p-2 rounded-lg text-xs shadow-[2px_2px_0px_#000] ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">${m.text}</div></div>`);
                 });
-                box.innerHTML = html.join('');
-                box.scrollTop = box.scrollHeight;
-                
-                if (navStack[navStack.length-1] === 'chat-room') {
-                    localStorage.setItem(chatSeenKey, Date.now().toString());
-                }
+                box.innerHTML = html.join(''); box.scrollTop = box.scrollHeight;
+                if (navStack[navStack.length-1] === 'chat-room') localStorage.setItem(chatSeenKey, Date.now().toString());
             });
         };
 
-        window.renderDirectory = () => {
-            const cont = document.getElementById('dir-list');
-            const list = allUsersCache.slice(0,50);
-            cont.innerHTML = list.map(u => createUserCard(u)).join('');
+        window.confirmDeleteChat = async () => {
+            if(!currentChatId) return;
+            window.showLoader();
+            try {
+                await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId));
+                document.getElementById('delete-chat-modal').classList.add('hidden');
+                window.goBack();
+                window.showToast('تم حذف المحادثة');
+            } catch(e) { window.showToast('خطأ في الحذف', 'error'); }
+            window.hideLoader();
+        };
+
+        window.applyFilter = () => {
+            document.getElementById('filter-modal').classList.add('hidden');
+            window.filterDirectory();
+        };
+
+        window.clearFilter = () => {
+            document.getElementById('filter-center').value = '';
+            document.getElementById('filter-village').innerHTML = '<option value="">القرية...</option>';
+            document.getElementById('filter-prof').value = '';
+            document.getElementById('filter-modal').classList.add('hidden');
+            window.filterDirectory();
         };
 
         window.filterDirectory = () => {
             const term = document.getElementById('dir-search').value.trim();
+            const center = document.getElementById('filter-center')?.value || '';
+            const village = document.getElementById('filter-village')?.value || '';
+            const prof = document.getElementById('filter-prof')?.value || '';
+            
             const cont = document.getElementById('dir-list');
-            const filtered = term ? allUsersCache.filter(u => u.name.includes(term)||u.profession?.includes(term)) : allUsersCache.slice(0,50);
-            cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
+            let filtered = allUsersCache;
+            
+            if(center) filtered = filtered.filter(u => u.city === center);
+            if(village) filtered = filtered.filter(u => u.area === village);
+            if(prof) filtered = filtered.filter(u => u.profession === prof);
+            
+            if(term) {
+                filtered = filtered.filter(u => u.name.includes(term) || (u.profession && u.profession.includes(term)));
+            }
+            
+            cont.innerHTML = filtered.slice(0,50).map(u => createUserCard(u)).join('');
         };
 
         window.openCategory = (profName) => {
@@ -1478,13 +1331,11 @@
             try {
                 window.showLoader();
                 let finalPhotoURL = userProfile.photoURL;
-                if (tempSelectedFile) {
-                    finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
-                    tempSelectedFile = null;
-                }
+                if (tempSelectedFile) { finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile); tempSelectedFile = null; }
                 await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
                     name: document.getElementById('edit-name').value, phone: `+20${document.getElementById('edit-phone').value}`,
-                    city: document.getElementById('edit-center').value, area: document.getElementById('edit-village').value, photoURL: finalPhotoURL
+                    city: document.getElementById('edit-center').value, area: document.getElementById('edit-village').value, 
+                    addressDetail: document.getElementById('edit-address-detail').value.trim(), photoURL: finalPhotoURL
                 });
                 window.location.reload();
             } catch (e) { window.showToast('حدث خطأ أثناء الحفظ', 'error'); window.hideLoader(); }
@@ -1494,19 +1345,15 @@
             try {
                 await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), { settings: {
                     notifEnabled: document.getElementById('toggle-notif').checked,
-                    hidePhone: document.getElementById('toggle-hide-phone').checked,
-                    hideProfile: document.getElementById('toggle-hide-profile').checked
+                    hidePhone: document.getElementById('toggle-hide-phone').checked, hideProfile: document.getElementById('toggle-hide-profile').checked
                 }});
                 window.showToast('تم الحفظ بنجاح'); window.goBack();
             } catch (e) { window.showToast('خطأ', 'error'); }
         };
 
         window.switchAddMode = (mode) => {
-            const btnReq = document.getElementById('btn-add-req');
-            const btnJob = document.getElementById('btn-add-job');
-            const formReq = document.getElementById('form-req');
-            const formJob = document.getElementById('form-job');
-
+            const btnReq = document.getElementById('btn-add-req'); const btnJob = document.getElementById('btn-add-job');
+            const formReq = document.getElementById('form-req'); const formJob = document.getElementById('form-job');
             if (mode === 'req') {
                 formReq.classList.remove('hidden'); formJob.classList.add('hidden');
                 btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all";
@@ -1538,19 +1385,25 @@
         document.getElementById('form-req').onsubmit = async (e) => {
             e.preventDefault();
             try {
+                let reqProf = document.getElementById('req-prof').value;
+                if(reqProf === 'خدمات أخرى') reqProf = document.getElementById('req-custom-prof').value.trim();
+                if(!reqProf) throw new Error('اكتب اسم الخدمة');
+
                 await addDoc(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), {
-                    type: 'service', profession: document.getElementById('req-prof').value, desc: document.getElementById('req-desc').value,
+                    type: 'service', profession: reqProf, desc: document.getElementById('req-desc').value,
                     phone: document.getElementById('req-phone').value, uid: currentUser.uid, requesterName: userProfile.name, requesterPhoto: userProfile.photoURL,
                     createdAt: new Date().toISOString()
                 });
                 window.showToast('تم النشر بنجاح'); e.target.reset(); window.goBack();
-            } catch(err) { window.showToast('خطأ', 'error'); }
+            } catch(err) { window.showToast(err.message || 'خطأ', 'error'); }
         };
        
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
         
         window.logout = async () => { 
             window.showLoader();
+            document.getElementById('form-login').reset();
+            document.getElementById('form-signup').reset();
             await signOut(auth); 
             window.location.reload(); 
         };
@@ -1559,9 +1412,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('تم تفعيل الكاش للصور بنجاح!'))
-                    .catch(err => console.log('فشل تفعيل الكاش:', err));
+                navigator.serviceWorker.register('sw.js').then(reg => console.log('تم تفعيل الكاش للصور بنجاح!')).catch(err => console.log('فشل تفعيل الكاش:', err));
             });
         }
     </script>
