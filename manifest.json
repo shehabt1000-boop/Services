@@ -1,22 +1,32 @@
 {
-  "name": " الشرقية ",
-  "short_name": "الشرقية",
-  "description": "دليل خدمات ووظائف محافظة الشرقية",
-  "start_url": "index.html",
+  "name": "دليل الشرقية الماسية",
+  "short_name": "دليل الشرقية",
+  "description": "دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "orientation": "portrait",
-  "icons": [
+  "dir": "rtl",
+  "lang": "ar",
+  "icons":[
     {
-      "src": "icon-192.png",
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
