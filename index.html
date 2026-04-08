@@ -99,15 +99,33 @@
         .star-rating input { display: none; }
         .star-rating label { color: #ddd; font-size: 24px; padding: 0 2px; cursor: pointer; transition: color 0.2s; }
         .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #fbbf24; }
+
+        /* Loader specific transitions */
+        #loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 transition-colors duration-200">
 
     <div id="toast-box"></div>
 
-    <!-- Loader -->
-    <div id="loader" class="fixed inset-0 bg-white dark:bg-gray-900 z-[200] flex flex-col items-center justify-center">
-        <div class="animate-spin rounded-full h-10 w-10 border-4 border-black dark:border-white border-t-transparent"></div>
+    <!-- Luxurious Loader -->
+    <div id="loader" class="fixed inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-300">
+        <div class="relative w-24 h-24 flex items-center justify-center">
+            <!-- Outer Ring -->
+            <div class="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
+            <!-- Spinning Ring -->
+            <div class="absolute inset-0 border-4 border-black dark:border-white rounded-full border-t-transparent animate-spin"></div>
+            <!-- Diamond Icon -->
+            <svg class="w-8 h-8 text-black dark:text-white animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.5L3.5 11 12 21.5 20.5 11 12 2.5zm0 2.8l5.5 6.2H6.5l5.5-6.2zM5.2 12.5h13.6L12 18.7 5.2 12.5z"/>
+            </svg>
+        </div>
+        <h2 class="mt-5 text-sm font-extrabold tracking-widest text-black dark:text-white animate-pulse">دليل الشرقية</h2>
+        <p class="mt-1 text-[10px] font-bold text-gray-500">جاري التجهيز...</p>
     </div>
 
     <!-- Header -->
@@ -529,112 +547,113 @@
 
         const professions =["محاسب","مهندس مدني","مهندس معماري","طبيب بشري","طبيب أسنان","صيدلي","ممرض","محامي","مدرس","جرافيك ديزاينر","مبرمج","كاتب محتوى","مسوق إلكتروني","مترجم","مدخل بيانات","موظف استقبال","سكرتير","شيف","ويتر","باريستا","سباك","كهربائي","نجار","نقاش","حداد","لحام","ميكانيكي سيارات","عفشجي","سمكري","كهربائي سيارات","سروجي سيارات","فني تكييف","فني دش","فني غسالات","فني ثلاجات","فني فلاتر","مبلط سيراميك","مبيض محارة","بناء","مقاول","فني الوميتال","استورجي","منجد","ترزي","جزمجي","مكوجي","حلاق","كوافير","ماكيير","مصور","فني طباعة","فني كمبيوتر","فني موبايل","سائق خاص","سائق تاكسي","سائق نقل","دليفري","عامل نظافة","عامل بوفيه","عامل بناء","عامل زراعي","جنايني","حارس عقار","فني كاميرات","فني شبكات","فني مصاعد","فني زجاج","فني رخام","فني جبس بورد","فني باركيه","خطاط","رسام","نحات","صائغ","ساعاتي","فني مفاتيح","فني اليكترونيات","فني تحاليل","فني أشعة","أخصائي علاج طبيعي","أخصائي تخاطب","محفظ قرآن","مأذون","طباخ منزلي","بيبي سيتر","جليس مسنين","مدرب جيم","مدرب سباحة","مدرب سواقة","سمسار عقارات","تاجر ملابس","تاجر أغذية","مندوب مبيعات","كاشير","مدير محل","فني بصريات","فني أسنان","مدرب كرة قدم","حكم","يوتيوبر","صانع محتوى","خدمات أخرى"];
  
-const validImages = [
-"7654426/pexels-photo-313690.jpeg",        // 1 محاسب
-"6963847/pexels-photo-159306.jpeg",        // 2 مهندس مدني
-"8482551/pexels-photo-323705.jpeg",        // 3 مهندس معماري
-"6129681/pexels-photo-7578806.jpeg",      // 4 طبيب بشري (مصححة)
-"6627413/pexels-photo-3845728.jpeg",      // 5 طبيب أسنان
-"19471013/pexels-photo-3683074.jpeg",      // 6 صيدلي
-"7468920/pexels-photo-7551607.jpeg",      // 7 ممرض
-"5668481/pexels-photo-5668481.jpeg",      // 8 محامي
-"5212345/pexels-photo-5212345.jpeg",      // 9 مدرس
-"196644/pexels-photo-196644.jpeg",        // 10 جرافيك ديزاينر
-"270348/pexels-photo-270348.jpeg",        // 11 مبرمج
-"261662/pexels-photo-261662.jpeg",        // 12 كاتب محتوى
-"905163/pexels-photo-905163.jpeg",        // 13 مسوق إلكتروني
-"256417/pexels-photo-256417.jpeg",        // 14 مترجم
-"669615/pexels-photo-669615.jpeg",        // 15 مدخل بيانات
-"3184465/pexels-photo-3184465.jpeg",      // 16 موظف استقبال
-"3760072/pexels-photo-3760072.jpeg",      // 17 سكرتير
-"3338537/pexels-photo-3338537.jpeg",      // 18 شيف
-"3184183/pexels-photo-3184183.jpeg",      // 19 ويتر
-"302899/pexels-photo-302899.jpeg",        // 20 باريستا
-"585419/pexels-photo-585419.jpeg",        // 21 سباك
-"257736/pexels-photo-257736.jpeg",        // 22 كهربائي
-"5974296/pexels-photo-5974296.jpeg",      // 23 نجار
-"3771074/pexels-photo-3771074.jpeg",      // 24 نقاش
-"209235/pexels-photo-209235.jpeg",        // 25 حداد
-"162553/pexels-photo-162553.jpeg",        // 26 لحام
-"190574/pexels-photo-190574.jpeg",        // 27 ميكانيكي سيارات
-"569162/pexels-photo-569162.jpeg",        // 28 عفشجي
-"4483610/pexels-photo-4483610.jpeg",      // 29 سمكري
-"8985459/pexels-photo-8985459.jpeg",      // 30 كهربائي سيارات
-"6941070/pexels-photo-6941070.jpeg",      // 31 سروجي سيارات
-"6195128/pexels-photo-6195128.jpeg",      // 32 فني تكييف
-"4108711/pexels-photo-4108711.jpeg",      // 33 فني دش
-"3735219/pexels-photo-3735219.jpeg",      // 34 فني غسالات
-"569159/pexels-photo-569159.jpeg",        // 35 فني ثلاجات
-"6474294/pexels-photo-6474294.jpeg",      // 36 فني فلاتر
-"569154/pexels-photo-569154.jpeg",        // 37 مبلط سيراميك
-"159298/pexels-photo-159298.jpeg",        // 38 مبيض محارة
-"3184292/pexels-photo-3184292.jpeg",      // 39 بناء
-"6474474/pexels-photo-6474474.jpeg",      // 40 مقاول
-"5642073/pexels-photo-5642073.jpeg",      // 41 فني الوميتال
-"5691624/pexels-photo-5691624.jpeg",      // 42 استورجي
-"461215/pexels-photo-461215.jpeg",        // 43 منجد
-"2983464/pexels-photo-2983464.jpeg",      // 44 ترزي
-"541216/pexels-photo-541216.jpeg",        // 45 جزمجي
-"1319460/pexels-photo-1319460.jpeg",      // 46 مكوجي
-"3992874/pexels-photo-3992874.jpeg",      // 47 حلاق
-"3762800/pexels-photo-3762800.jpeg",      // 48 كوافير
-"51383/pexels-photo-51383.jpeg",          // 49 ماكيير
-"5691596/pexels-photo-5691596.jpeg",      // 50 مصور
-"3861969/pexels-photo-3861969.jpeg",      // 51 فني طباعة
-"607812/pexels-photo-607812.jpeg",        // 52 فني كمبيوتر
-"2399254/pexels-photo-2399254.jpeg",      // 53 فني موبايل
-"164634/pexels-photo-164634.jpeg",        // 54 سائق خاص
-"3806288/pexels-photo-3806288.jpeg",      // 55 سائق تاكسي
-"4391470/pexels-photo-4391470.jpeg",      // 56 سائق نقل
-"6197116/pexels-photo-6197116.jpeg",      // 57 دليفري
-"847396/pexels-photo-847396.jpeg",        // 58 عامل نظافة
-"2255935/pexels-photo-2255935.jpeg",      // 59 عامل بوفيه
-"4505167/pexels-photo-4505167.jpeg",      // 60 عامل بناء
-"6195129/pexels-photo-6195129.jpeg",      // 61 عامل زراعي
-"5691540/pexels-photo-5691540.jpeg",      // 62 جنايني
-"270404/pexels-photo-270404.jpeg",        // 63 حارس عقار
-"6474346/pexels-photo-6474346.jpeg",      // 64 فني كاميرات
-"5691547/pexels-photo-5691547.jpeg",      // 65 فني شبكات
-"6474347/pexels-photo-6474347.jpeg",      // 66 فني مصاعد
-"6474350/pexels-photo-6474350.jpeg",      // 67 فني زجاج
-"6474354/pexels-photo-6474354.jpeg",      // 68 فني رخام
-"6474356/pexels-photo-6474356.jpeg",      // 69 فني جبس بورد
-"6474360/pexels-photo-6474360.jpeg",      // 70 فني باركيه
-"6474364/pexels-photo-6474364.jpeg",      // 71 خطاط
-"6474367/pexels-photo-6474367.jpeg",      // 72 رسام
-"6474370/pexels-photo-6474370.jpeg",      // 73 نحات
-"6474372/pexels-photo-6474372.jpeg",      // 74 صائغ
-"6474375/pexels-photo-6474375.jpeg",      // 75 ساعاتي
-"6474378/pexels-photo-6474378.jpeg",      // 76 فني مفاتيح
-"6474381/pexels-photo-6474381.jpeg",      // 77 فني إلكترونيات
-"6474384/pexels-photo-6474384.jpeg",      // 78 فني تحاليل
-"6474387/pexels-photo-6474387.jpeg",      // 79 فني أشعة
-"6474390/pexels-photo-6474390.jpeg",      // 80 أخصائي علاج طبيعي
-"6474393/pexels-photo-6474393.jpeg",      // 81 أخصائي تخاطب
-"6474396/pexels-photo-6474396.jpeg",      // 82 محفظ قرآن
-"3184306/pexels-photo-3184306.jpeg",      // 83 مأذون
-"3184357/pexels-photo-3184357.jpeg",      // 84 طباخ منزلي
-"3184467/pexels-photo-3184467.jpeg",      // 85 بيبي سيتر
-"3184298/pexels-photo-3184298.jpeg",      // 86 جليس مسنين
-"3184317/pexels-photo-3184317.jpeg",      // 87 مدرب جيم
-"3184360/pexels-photo-3184360.jpeg",      // 88 مدرب سباحة
-"3184370/pexels-photo-3184370.jpeg",      // 89 مدرب سواقة
-"5077044/pexels-photo-5077044.jpeg",      // 90 سمسار عقارات
-"695644/pexels-photo-695644.jpeg",        // 91 تاجر ملابس
-"5077009/pexels-photo-5077009.jpeg",      // 92 تاجر أغذية
-"5082148/pexels-photo-5082148.jpeg",      // 93 مندوب مبيعات
-"5077974/pexels-photo-5077974.jpeg",      // 94 كاشير
-"5085687/pexels-photo-5085687.jpeg",      // 95 مدير محل
-"5091234/pexels-photo-5091234.jpeg",      // 96 فني بصريات
-"5095678/pexels-photo-5095678.jpeg",      // 97 فني أسنان
-"5102345/pexels-photo-5102345.jpeg",      // 98 مدرب كرة قدم
-"5106789/pexels-photo-5106789.jpeg",      // 99 حكم
-"5112345/pexels-photo-5112345.jpeg",      // 100 يوتيوبر
-"5117890/pexels-photo-5117890.jpeg",      // 101 صانع محتوى
-"5123456/pexels-photo-5123456.jpeg"       // 102 خدمات أخرى
-];
+        // 102 items exactly matching the professions index
+        const validImages = [
+        "7654426/pexels-photo-313690.jpeg",        // 0 محاسب
+        "6963847/pexels-photo-159306.jpeg",        // 1 مهندس مدني
+        "8482551/pexels-photo-323705.jpeg",        // 2 مهندس معماري
+        "6129681/pexels-photo-7578806.jpeg",      // 3 طبيب بشري
+        "6627413/pexels-photo-3845728.jpeg",      // 4 طبيب أسنان
+        "19471013/pexels-photo-3683074.jpeg",      // 5 صيدلي
+        "7468920/pexels-photo-7551607.jpeg",      // 6 ممرض
+        "5668481/pexels-photo-5668481.jpeg",      // 7 محامي
+        "5212345/pexels-photo-5212345.jpeg",      // 8 مدرس
+        "196644/pexels-photo-196644.jpeg",        // 9 جرافيك ديزاينر
+        "270348/pexels-photo-270348.jpeg",        // 10 مبرمج
+        "261662/pexels-photo-261662.jpeg",        // 11 كاتب محتوى
+        "905163/pexels-photo-905163.jpeg",        // 12 مسوق إلكتروني
+        "256417/pexels-photo-256417.jpeg",        // 13 مترجم
+        "669615/pexels-photo-669615.jpeg",        // 14 مدخل بيانات
+        "3184465/pexels-photo-3184465.jpeg",      // 15 موظف استقبال
+        "3760072/pexels-photo-3760072.jpeg",      // 16 سكرتير
+        "3338537/pexels-photo-3338537.jpeg",      // 17 شيف
+        "3184183/pexels-photo-3184183.jpeg",      // 18 ويتر
+        "302899/pexels-photo-302899.jpeg",        // 19 باريستا
+        "585419/pexels-photo-585419.jpeg",        // 20 سباك
+        "257736/pexels-photo-257736.jpeg",        // 21 كهربائي
+        "5974296/pexels-photo-5974296.jpeg",      // 22 نجار
+        "3771074/pexels-photo-3771074.jpeg",      // 23 نقاش
+        "209235/pexels-photo-209235.jpeg",        // 24 حداد
+        "162553/pexels-photo-162553.jpeg",        // 25 لحام
+        "190574/pexels-photo-190574.jpeg",        // 26 ميكانيكي سيارات
+        "569162/pexels-photo-569162.jpeg",        // 27 عفشجي
+        "4483610/pexels-photo-4483610.jpeg",      // 28 سمكري
+        "8985459/pexels-photo-8985459.jpeg",      // 29 كهربائي سيارات
+        "6941070/pexels-photo-6941070.jpeg",      // 30 سروجي سيارات
+        "6195128/pexels-photo-6195128.jpeg",      // 31 فني تكييف
+        "4108711/pexels-photo-4108711.jpeg",      // 32 فني دش
+        "3735219/pexels-photo-3735219.jpeg",      // 33 فني غسالات
+        "569159/pexels-photo-569159.jpeg",        // 34 فني ثلاجات
+        "6474294/pexels-photo-6474294.jpeg",      // 35 فني فلاتر
+        "569154/pexels-photo-569154.jpeg",        // 36 مبلط سيراميك
+        "159298/pexels-photo-159298.jpeg",        // 37 مبيض محارة
+        "3184292/pexels-photo-3184292.jpeg",      // 38 بناء
+        "6474474/pexels-photo-6474474.jpeg",      // 39 مقاول
+        "5642073/pexels-photo-5642073.jpeg",      // 40 فني الوميتال
+        "5691624/pexels-photo-5691624.jpeg",      // 41 استورجي
+        "461215/pexels-photo-461215.jpeg",        // 42 منجد
+        "2983464/pexels-photo-2983464.jpeg",      // 43 ترزي
+        "541216/pexels-photo-541216.jpeg",        // 44 جزمجي
+        "1319460/pexels-photo-1319460.jpeg",      // 45 مكوجي
+        "3992874/pexels-photo-3992874.jpeg",      // 46 حلاق
+        "3762800/pexels-photo-3762800.jpeg",      // 47 كوافير
+        "51383/pexels-photo-51383.jpeg",          // 48 ماكيير
+        "5691596/pexels-photo-5691596.jpeg",      // 49 مصور
+        "3861969/pexels-photo-3861969.jpeg",      // 50 فني طباعة
+        "607812/pexels-photo-607812.jpeg",        // 51 فني كمبيوتر
+        "2399254/pexels-photo-2399254.jpeg",      // 52 فني موبايل
+        "164634/pexels-photo-164634.jpeg",        // 53 سائق خاص
+        "3806288/pexels-photo-3806288.jpeg",      // 54 سائق تاكسي
+        "4391470/pexels-photo-4391470.jpeg",      // 55 سائق نقل
+        "6197116/pexels-photo-6197116.jpeg",      // 56 دليفري
+        "847396/pexels-photo-847396.jpeg",        // 57 عامل نظافة
+        "2255935/pexels-photo-2255935.jpeg",      // 58 عامل بوفيه
+        "4505167/pexels-photo-4505167.jpeg",      // 59 عامل بناء
+        "6195129/pexels-photo-6195129.jpeg",      // 60 عامل زراعي
+        "5691540/pexels-photo-5691540.jpeg",      // 61 جنايني
+        "270404/pexels-photo-270404.jpeg",        // 62 حارس عقار
+        "6474346/pexels-photo-6474346.jpeg",      // 63 فني كاميرات
+        "5691547/pexels-photo-5691547.jpeg",      // 64 فني شبكات
+        "6474347/pexels-photo-6474347.jpeg",      // 65 فني مصاعد
+        "6474350/pexels-photo-6474350.jpeg",      // 66 فني زجاج
+        "6474354/pexels-photo-6474354.jpeg",      // 67 فني رخام
+        "6474356/pexels-photo-6474356.jpeg",      // 68 فني جبس بورد
+        "6474360/pexels-photo-6474360.jpeg",      // 69 فني باركيه
+        "6474364/pexels-photo-6474364.jpeg",      // 70 خطاط
+        "6474367/pexels-photo-6474367.jpeg",      // 71 رسام
+        "6474370/pexels-photo-6474370.jpeg",      // 72 نحات
+        "6474372/pexels-photo-6474372.jpeg",      // 73 صائغ
+        "6474375/pexels-photo-6474375.jpeg",      // 74 ساعاتي
+        "6474378/pexels-photo-6474378.jpeg",      // 75 فني مفاتيح
+        "6474381/pexels-photo-6474381.jpeg",      // 76 فني إلكترونيات
+        "6474384/pexels-photo-6474384.jpeg",      // 77 فني تحاليل
+        "6474387/pexels-photo-6474387.jpeg",      // 78 فني أشعة
+        "6474390/pexels-photo-6474390.jpeg",      // 79 أخصائي علاج طبيعي
+        "6474393/pexels-photo-6474393.jpeg",      // 80 أخصائي تخاطب
+        "6474396/pexels-photo-6474396.jpeg",      // 81 محفظ قرآن
+        "3184306/pexels-photo-3184306.jpeg",      // 82 مأذون
+        "3184357/pexels-photo-3184357.jpeg",      // 83 طباخ منزلي
+        "3184467/pexels-photo-3184467.jpeg",      // 84 بيبي سيتر
+        "3184298/pexels-photo-3184298.jpeg",      // 85 جليس مسنين
+        "3184317/pexels-photo-3184317.jpeg",      // 86 مدرب جيم
+        "3184360/pexels-photo-3184360.jpeg",      // 87 مدرب سباحة
+        "3184370/pexels-photo-3184370.jpeg",      // 88 مدرب سواقة
+        "5077044/pexels-photo-5077044.jpeg",      // 89 سمسار عقارات
+        "695644/pexels-photo-695644.jpeg",        // 90 تاجر ملابس
+        "5077009/pexels-photo-5077009.jpeg",      // 91 تاجر أغذية
+        "5082148/pexels-photo-5082148.jpeg",      // 92 مندوب مبيعات
+        "5077974/pexels-photo-5077974.jpeg",      // 93 كاشير
+        "5085687/pexels-photo-5085687.jpeg",      // 94 مدير محل
+        "5091234/pexels-photo-5091234.jpeg",      // 95 فني بصريات
+        "5095678/pexels-photo-5095678.jpeg",      // 96 فني أسنان
+        "5102345/pexels-photo-5102345.jpeg",      // 97 مدرب كرة قدم
+        "5106789/pexels-photo-5106789.jpeg",      // 98 حكم
+        "5112345/pexels-photo-5112345.jpeg",      // 99 يوتيوبر
+        "5117890/pexels-photo-5117890.jpeg",      // 100 صانع محتوى
+        "5123456/pexels-photo-5123456.jpeg"       // 101 خدمات أخرى
+        ];
 
-    function populateProfessionsGlobally() {
+        function populateProfessionsGlobally() {
             const opts = professions.map(p => `<option value="${p}">${p}</option>`).join('');
             const optsWithOther = opts + '<option value="أخرى">أخرى...</option>';
             if(document.getElementById('signup-prof')) document.getElementById('signup-prof').innerHTML = '<option value="">اختر المهنة...</option>'+opts;
@@ -643,14 +662,15 @@ const validImages = [
         }
         populateProfessionsGlobally();
 
-        // 🟢 تم استخراج الـ ID الصحيح للصور وبرمجة رابط Pexels القياسي الحديث لمنع الأعطال.
+        // 🟢 الحل الجذري لمنع تكرار الصور (تم ربط كل صورة بترتيب المهنة بدقة Index to Index)
         function getProfImage(profName) {
-            const defaultImg = `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
-            if(profName==="خدمات أخرى") return defaultImg;
+            const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
+            if(profName === "خدمات أخرى") return defaultImg;
             
-            let hash = 0;
-            for (let i = 0; i < profName.length; i++) hash = profName.charCodeAt(i) + ((hash << 5) - hash);
-            const index = Math.abs(hash) % validImages.length;
+            // نجلب ترتيب المهنة في القائمة، وبناءً عليه نجلب الصورة التي توازيها بالضبط
+            const index = professions.indexOf(profName);
+            
+            if (index === -1 || index >= validImages.length) return defaultImg;
             
             const rawPath = validImages[index];
             const match = rawPath.match(/pexels-photo-(\d+)\.jpeg/);
@@ -701,6 +721,16 @@ const validImages = [
             setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 300); }, 3000);
         };
 
+        window.hideLoader = () => {
+            const loader = document.getElementById('loader');
+            loader.classList.add('hidden');
+        };
+
+        window.showLoader = () => {
+            const loader = document.getElementById('loader');
+            loader.classList.remove('hidden');
+        };
+
         window.handleImageUpload = (input, previewId) => {
             if (input.files[0]) {
                 tempSelectedFile = input.files[0];
@@ -730,7 +760,6 @@ const validImages = [
                 document.getElementById('tab-act-mine').classList.remove('bg-black', 'text-white');
                 document.getElementById('tab-act-mine').classList.add('text-gray-500');
                 
-                // اخفاء النقطة الحمراء عند الدخول للطلبات
                 document.getElementById('act-notif-badge').classList.add('hidden');
             }
         };
@@ -739,7 +768,7 @@ const validImages = [
             window.scrollTo(0, 0);
             
             if(pageId === 'chat') {
-                localStorage.setItem(`chatTabLastOpened_${currentUser.uid}`, Date.now().toString());
+                localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString());
                 document.getElementById('chat-nav-dot').classList.add('hidden');
             }
 
@@ -768,7 +797,6 @@ const validImages = [
             }
            
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
-            // تم تصحيح الفهرسة (index) الخاص بـ navMap لكي يعكس العدد الصحيح للأزرار التي تحمل كلاس nav-btn
             const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
             
@@ -800,7 +828,6 @@ const validImages = [
             renderProfessionsGrid(professions);
             document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile.name}</span>`;
             
-            // اخفاء او اظهار زر "طلبات تناسبك" لمقدمي الخدمات
             if(userProfile.role === 'provider') {
                 document.getElementById('tab-act-matching').classList.remove('hidden');
                 document.getElementById('btn-profile-matching').classList.remove('hidden');
@@ -810,7 +837,6 @@ const validImages = [
             }
         }
 
-        // 🟢 تم إضافة `onerror` لتوفير صورة احتياطية (Fallback) في حالة كان الرابط الأساسي معطوباً أو تم حذفه من قِبل Pexels
         function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
             if (grid.children.length > 0) return; 
@@ -854,19 +880,15 @@ const validImages = [
             });
         }
 
-        // تم التعديل لمنع إعادة الرسم المستمرة وجعل البحث لحظي (إخفاء العناصر عبر CSS فقط)
         let searchTimeout;
         window.filterProfessions = () => {
             clearTimeout(searchTimeout);
             const term = document.getElementById('prof-search').value.trim();
             
             searchTimeout = setTimeout(() => {
-                // تحديد جميع البطاقات الموجودة مسبقاً في الشاشة
                 const cards = document.querySelectorAll('#professions-grid .provider-card');
-                
                 cards.forEach(card => {
                     const profName = card.getAttribute('data-prof');
-                    // إذا كان اسم المهنة يطابق البحث نظهرها، وإلا نخفيها
                     if (profName.includes(term)) {
                         card.style.display = ''; 
                     } else {
@@ -902,9 +924,14 @@ const validImages = [
             e.preventDefault(); 
             const phoneVal = document.getElementById('login-phone').value;
             if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
-            document.getElementById('loader').classList.remove('hidden');
-            try { await signInWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('login-pass').value); }
-            catch (err) { window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); document.getElementById('loader').classList.add('hidden'); }
+            window.showLoader();
+            try { 
+                await signInWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('login-pass').value); 
+            }
+            catch (err) { 
+                window.showToast('رقم الهاتف أو كلمة المرور غير صحيحة', 'error'); 
+                window.hideLoader(); 
+            }
         };
 
         document.getElementById('form-signup').onsubmit = async (e) => {
@@ -912,7 +939,7 @@ const validImages = [
             const phoneVal = document.getElementById('signup-phone').value;
             if(phoneVal.length !== 10) return window.showToast('رقم الهاتف يجب أن يتكون من 10 أرقام بالضبط', 'error');
 
-            document.getElementById('loader').classList.remove('hidden');
+            window.showLoader();
             try {
                 const role = document.querySelector('input[name="role"]:checked').value;
                 const prof = role === 'provider' ? document.getElementById('signup-prof').value : null;
@@ -931,33 +958,56 @@ const validImages = [
                     tempSelectedFile = null; 
                 }
 
+                // 🟢 يتم إنشاء الحساب، وبمجرد نجاحه سيتم تشغيل onAuthStateChanged
                 const cred = await createUserWithEmailAndPassword(auth, phoneToEmail(phoneVal), document.getElementById('signup-pass').value);
 
+                // 🟢 يتم حفظ الملف الشخصي مباشرة
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
                     uid: cred.user.uid, name: userName, phone: `+20${phoneVal}`, city: center, area: village, role, profession: prof, 
                     photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false },
                     createdAt: new Date().toISOString()
                 });
+                
                 window.showToast('تم التسجيل بنجاح');
+                // نترك إخفاء اللودر لـ onAuthStateChanged لضمان تحميل البيانات أولاً
             } catch (err) { 
                 let errorMsg = err.message;
                 if (err.code === 'auth/email-already-in-use') errorMsg = 'رقم الهاتف مستخدم مسبقاً لحساب آخر';
                 if (err.code === 'auth/weak-password') errorMsg = 'كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)';
                 window.showToast(errorMsg, 'error'); 
-                if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
-                document.getElementById('loader').classList.add('hidden'); 
+                
+                if (auth.currentUser && !document.getElementById('auth-view').classList.contains('hidden')) {
+                    await auth.currentUser.delete().catch(()=>console.log('could not delete temp user'));
+                }
+                window.hideLoader();
             }
         };
+
+        // 🟢 الحل الجذري لمشكلة تعليق التحميل (نظام إعادة المحاولة)
+        async function fetchProfileWithRetry(uid, retries = 3) {
+            for (let i = 0; i < retries; i++) {
+                const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', uid));
+                if (snap.exists()) return snap.data();
+                // ننتظر 500 ملي ثانية قبل المحاولة مرة أخرى في حالة كان الحساب جديداً والبيانات لم تُسجل بعد
+                await new Promise(r => setTimeout(r, 500)); 
+            }
+            return null;
+        }
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                if(userProfile && userProfile.uid === user.uid) { document.getElementById('loader').classList.add('hidden'); return; }
+                if(userProfile && userProfile.uid === user.uid) { 
+                    window.hideLoader(); 
+                    return; 
+                }
                
                 try {
-                    const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid));
-                    if (snap.exists()) {
-                        userProfile = snap.data();
+                    // 🟢 استخدام دالة إعادة المحاولة بدلاً من القراءة المباشرة مرة واحدة فقط
+                    const profileData = await fetchProfileWithRetry(user.uid);
+                    
+                    if (profileData) {
+                        userProfile = profileData;
                         if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false };
                        
                         document.getElementById('auth-view').classList.add('hidden');
@@ -975,23 +1025,35 @@ const validImages = [
                         document.getElementById('edit-phone').value = userProfile.phone.replace('+20', '');
                         document.getElementById('edit-img-preview').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
                        
-                        populateCenters('edit'); document.getElementById('edit-center').value = userProfile.city || '';
-                        window.updateVillages('edit'); setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
+                        populateCenters('edit'); 
+                        document.getElementById('edit-center').value = userProfile.city || '';
+                        window.updateVillages('edit'); 
+                        setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
 
-                        initApp(); startListeners(); window.navTo('home');
+                        initApp(); 
+                        startListeners(); 
+                        window.navTo('home');
                     } else {
-                        signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
+                        signOut(auth); 
+                        window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
                     }
-                } catch (error) { signOut(auth); window.showToast('حدث خطأ أثناء الاتصال', 'error'); }
-                document.getElementById('loader').classList.add('hidden');
+                } catch (error) { 
+                    signOut(auth); 
+                    window.showToast('حدث خطأ أثناء الاتصال', 'error'); 
+                } finally {
+                    window.hideLoader(); // 🟢 إخفاء اللودر في كل الأحوال حتى لو حدث خطأ
+                }
             } else {
                 document.getElementById('app-view').classList.add('hidden');
                 document.getElementById('app-header').classList.add('hidden');
                 document.getElementById('nav-bar').classList.add('hidden');
                 document.getElementById('auth-view').classList.remove('hidden');
-                document.getElementById('loader').classList.add('hidden');
+                window.hideLoader(); // 🟢 إخفاء اللودر لغير المسجلين
             }
         });
+
+        // Add a safety timeout just in case it ever gets stuck
+        setTimeout(() => { window.hideLoader(); }, 15000);
 
         function renderNotificationsList() {
             let allNotifs =[...reqNotifs, ...reviewNotifs];
@@ -1162,7 +1224,6 @@ const validImages = [
                 });
             }
 
-            // إشعارات التقييمات
             const qRev = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', currentUser.uid));
             onSnapshot(qRev, (snap) => {
                 reviewNotifs =[];
@@ -1320,7 +1381,6 @@ const validImages = [
             } catch(e) { window.showToast('خطأ', 'error'); } finally { btn.innerText = 'إرسال'; btn.disabled = false; }
         };
 
-        // دالة ارسال الرسالة
         document.getElementById('form-message').onsubmit = async (e) => {
             e.preventDefault();
             const input = document.getElementById('msg-input');
@@ -1343,12 +1403,11 @@ const validImages = [
             currentChatId =[currentUser.uid, uid].sort().join('_');
             document.getElementById('chat-room-name').innerText = name;
             
-            // عند فتح المحادثة، نعلم أننا شاهدنا كل شيء
             const chatSeenKey = `chatSeen_${currentUser.uid}_${currentChatId}`;
             localStorage.setItem(chatSeenKey, Date.now().toString());
             
             window.navTo('chat-room');
-            window.renderChatsUI(); // تحديث الواجهة لإخفاء النقطة
+            window.renderChatsUI(); 
            
             setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
                 users:[currentUser.uid, uid],
@@ -1368,7 +1427,6 @@ const validImages = [
                 box.innerHTML = html.join('');
                 box.scrollTop = box.scrollHeight;
                 
-                // تحديث وقت المشاهدة مرة أخرى إذا المحادثة مفتوحة ورسالة جديدة وصلت
                 if (navStack[navStack.length-1] === 'chat-room') {
                     localStorage.setItem(chatSeenKey, Date.now().toString());
                 }
@@ -1419,7 +1477,7 @@ const validImages = [
        
         window.saveProfileChanges = async () => {
             try {
-                document.getElementById('loader').classList.remove('hidden');
+                window.showLoader();
                 let finalPhotoURL = userProfile.photoURL;
                 if (tempSelectedFile) {
                     finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile);
@@ -1430,7 +1488,7 @@ const validImages = [
                     city: document.getElementById('edit-center').value, area: document.getElementById('edit-village').value, photoURL: finalPhotoURL
                 });
                 window.location.reload();
-            } catch (e) { window.showToast('حدث خطأ أثناء الحفظ', 'error'); document.getElementById('loader').classList.add('hidden'); }
+            } catch (e) { window.showToast('حدث خطأ أثناء الحفظ', 'error'); window.hideLoader(); }
         };
        
         window.saveSettings = async () => {
@@ -1493,13 +1551,13 @@ const validImages = [
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
         
         window.logout = async () => { 
+            window.showLoader();
             await signOut(auth); 
             window.location.reload(); 
         };
         
         window.toggleTheme = () => document.documentElement.classList.toggle('dark');
 
-        // تسجيل السيرفر ووركر (Service Worker) الخاص بحفظ الصور
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
