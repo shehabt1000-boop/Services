@@ -36,5 +36,10 @@
     "standalone",
     "minimal-ui",
     "browser"
+  ],
+  "categories": [
+    "business",
+    "productivity",
+    "social"
   ]
 }
