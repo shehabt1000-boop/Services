@@ -19,7 +19,7 @@
                 extend: {
                     fontFamily: { sans:['Cairo', 'sans-serif'] },
                     colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' },
-                    animation: { 'fade': 'fadeIn 0.15s ease-in-out', 'pop': 'popIn 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275)' },
+                    animation: { 'fade': 'fadeIn 0.1s ease-in-out', 'pop': 'popIn 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275)' },
                     keyframes: {
                         fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
                         popIn: { '0%': { transform: 'scale(0.95)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
@@ -43,7 +43,7 @@
         .glass-header { background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom: 2px solid #000; }
         .dark .glass-header { background: rgba(17, 24, 39, 0.98); border-bottom: 2px solid #4b5563; }
        
-        input, select, textarea { border: 2px solid #d1d5db; background-color: #ffffff; transition: all 0.15s; font-size: 13px; }
+        input, select, textarea { border: 2px solid #d1d5db; background-color: #ffffff; transition: all 0.1s; font-size: 13px; }
         input:focus, select:focus, textarea:focus { border-color: #000000; outline: none; }
         .dark input, .dark select, .dark textarea { background-color: #1f2937; border-color: #4b5563; color: white; }
         .dark input:focus { border-color: #fff; }
@@ -59,7 +59,7 @@
         .dark .full-screen-modal { background: #111827; }
 
         #toast-box { position: fixed; top: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 9999; pointer-events: none; }
-        .toast-msg { background: #000; color: white; padding: 8px 20px; border: 2px solid #fff; border-radius: 30px; font-size: 12px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: translateY(-20px); transition: all 0.2s; }
+        .toast-msg { background: #000; color: white; padding: 8px 20px; border: 2px solid #fff; border-radius: 30px; font-size: 12px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.3); opacity: 0; transform: translateY(-20px); transition: all 0.15s; }
         .toast-msg.show { opacity: 1; transform: translateY(0); }
 
         .badge { display: inline-flex; align-items: center; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; border: 1px solid #000; }
@@ -67,18 +67,18 @@
        
         .star-rating { direction: ltr; display: inline-flex; }
         .star-rating input { display: none; }
-        .star-rating label { color: #ddd; font-size: 24px; padding: 0 2px; cursor: pointer; transition: color 0.15s; }
+        .star-rating label { color: #ddd; font-size: 24px; padding: 0 2px; cursor: pointer; transition: color 0.1s; }
         .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #fbbf24; }
 
-        #loader.hidden { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        #loader.hidden { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 transition-colors duration-150">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 transition-colors duration-100">
 
     <div id="toast-box"></div>
 
     <!-- Chrome Loader -->
-    <div id="loader" class="fixed inset-0 bg-gradient-to-br from-gray-100 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-black backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-300">
+    <div id="loader" class="fixed inset-0 bg-gradient-to-br from-gray-100 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-black backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-150">
         <div class="relative w-24 h-24 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
             <div class="absolute inset-0 border-4 border-black dark:border-white rounded-full border-t-transparent animate-spin"></div>
@@ -91,7 +91,7 @@
     </div>
 
     <!-- Header -->
-    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto transition-all duration-150">
+    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto transition-all duration-100">
         <div class="flex items-center gap-2">
             <button id="btn-back" onclick="window.goBack()" class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
@@ -99,7 +99,7 @@
             <h1 id="page-title" class="text-[10px] font-bold sm:text-xs flex items-center">الرئيسية</h1>
         </div>
         <div class="flex items-center gap-3">
-            <button onclick="window.toggleNotifPanel()" class="relative p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-gray-500 transition-all duration-150">
+            <button onclick="window.toggleNotifPanel()" class="relative p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-gray-500 transition-all duration-100">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                 <span id="notif-dot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
             </button>
@@ -125,19 +125,19 @@
         </div>
 
         <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-lg flex mb-4 border-2 border-black dark:border-gray-500 h-12">
-            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-150">دخول</button>
-            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-150">جديد</button>
+            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-100">دخول</button>
+            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100">جديد</button>
         </div>
 
         <!-- Login Form -->
         <form id="form-login" class="space-y-3">
             <div class="space-y-3 bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
-                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-11 bg-white dark:bg-gray-800 transition-colors duration-150">
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-11 bg-white dark:bg-gray-800 transition-colors duration-100">
                     <input type="tel" id="login-phone" placeholder="مثال: 1012345678" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
                     <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                 </div>
                 <input type="password" id="login-pass" placeholder="كلمة المرور" class="w-full p-3 rounded-lg text-sm" required>
-                <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm hover:bg-gray-900 active:scale-95 transition-transform duration-150">تسجيل الدخول</button>
+                <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm hover:bg-gray-900 active:scale-95 transition-transform duration-100">تسجيل الدخول</button>
             </div>
         </form>
 
@@ -152,7 +152,7 @@
            
             <div class="space-y-2">
                 <input type="text" id="signup-name" placeholder="الاسم" class="w-full p-2 rounded-lg text-sm h-10" required>
-                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-150">
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
                     <input type="tel" id="signup-phone" placeholder="رقم الهاتف (10 أرقام)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
                     <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                 </div>
@@ -181,29 +181,23 @@
                 </div>
             </div>
 
-            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-lg font-bold text-sm mt-3 shadow hover:bg-green-700 active:scale-95 transition-all duration-150">إنشاء حساب</button>
+            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-lg font-bold text-sm mt-3 shadow hover:bg-green-700 active:scale-95 transition-all duration-100">إنشاء حساب</button>
         </form>
     </div>
 
     <!-- APP VIEW -->
-    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative transition-all duration-150">
+    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative transition-all duration-100">
        
         <!-- HOME -->
         <section id="page-home" class="page-section px-3 animate-fade">
             <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 space-y-2">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
-                    <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all duration-150">خدمات</button>
-                    <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all duration-150">وظائف</button>
+                    <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all duration-100">خدمات</button>
+                    <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all duration-100">وظائف</button>
                 </div>
-                <div id="prof-search-box" class="relative max-w-md mx-auto flex gap-2">
-                    <div class="relative flex-1">
-                        <input type="text" id="prof-search" onkeyup="window.filterProfessions()" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
-                        <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
-                    </div>
-                    <!-- زر الفلترة في الرئيسية -->
-                    <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                    </button>
+                <div id="prof-search-box" class="relative max-w-md mx-auto">
+                    <input type="text" id="prof-search" onkeyup="window.filterProfessions()" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
+                    <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
                 </div>
             </div>
            
@@ -219,7 +213,6 @@
         <!-- CATEGORY -->
         <section id="page-category-details" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
-                <!-- شريط البحث والفلترة داخل القسم -->
                 <div class="flex gap-2 mb-3 sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2">
                     <input type="text" id="cat-search" onkeyup="window.filterCategory()" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10 bg-white dark:bg-gray-800">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
@@ -248,8 +241,8 @@
             <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
                 <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
                 <div class="flex gap-2 mb-4">
-                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-150">طلب خدمة</button>
-                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-150">وظيفة</button>
+                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-100">طلب خدمة</button>
+                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100">وظيفة</button>
                 </div>
                
                 <form id="form-req" class="space-y-3">
@@ -258,7 +251,7 @@
                     
                     <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
                     
-                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-150">
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
                         <input type="tel" id="req-phone" placeholder="الواتساب (اختياري)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
                         <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                     </div>
@@ -286,7 +279,7 @@
                         </select>
                     </div>
 
-                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-150">
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
                         <input type="tel" id="job-phone" placeholder="رقم التواصل" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
                         <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                     </div>
@@ -316,16 +309,16 @@
                 </div>
                
                 <div class="flex flex-col gap-3 mt-4 w-full pb-20">
-                    <button onclick="window.openActivityTab('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform duration-150">
+                    <button onclick="window.openActivityTab('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform duration-100">
                         <span>📊 نشاطي</span>
                     </button>
                     
-                    <button id="btn-profile-matching" onclick="window.openActivityTab('matching')" class="hidden w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform duration-150">
+                    <button id="btn-profile-matching" onclick="window.openActivityTab('matching')" class="hidden w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform duration-100">
                         <span>🎯 طلبات تناسبك</span>
                         <span id="act-notif-badge" class="hidden bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold animate-pulse">!</span>
                     </button>
                     
-                    <button onclick="window.logout()" class="w-full py-3 text-red-500 bg-red-50 border-2 border-red-200 rounded-xl font-bold text-xs hover:bg-red-100 transition-colors duration-150">تسجيل الخروج</button>
+                    <button onclick="window.logout()" class="w-full py-3 text-red-500 bg-red-50 border-2 border-red-200 rounded-xl font-bold text-xs hover:bg-red-100 transition-colors duration-100">تسجيل الخروج</button>
                 </div>
             </div>
         </section>
@@ -334,8 +327,8 @@
         <section id="page-activity" class="page-section hidden px-3 animate-fade pt-4">
             <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
-                    <button onclick="window.switchActivityTab('my-activity')" id="tab-act-mine" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all duration-150">نشاطي</button>
-                    <button onclick="window.switchActivityTab('matching')" id="tab-act-matching" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all duration-150">طلبات تناسبك</button>
+                    <button onclick="window.switchActivityTab('my-activity')" id="tab-act-mine" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all duration-100">نشاطي</button>
+                    <button onclick="window.switchActivityTab('matching')" id="tab-act-matching" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all duration-100">طلبات تناسبك</button>
                 </div>
             </div>
             
@@ -359,7 +352,7 @@
                 <div class="space-y-3">
                     <input type="text" id="edit-name" class="w-full p-2 rounded-lg text-sm" placeholder="الاسم">
                     
-                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-150">
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
                         <input type="tel" id="edit-phone" placeholder="الهاتف" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
                         <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                     </div>
@@ -466,7 +459,7 @@
     </div>
 
     <!-- FILTER MODAL -->
-    <div id="filter-modal" class="modal-overlay hidden animate-pop">
+    <div id="filter-modal" class="modal-overlay hidden animate-pop z-[160]">
         <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl">
             <h3 class="text-center font-bold mb-3 text-sm">تصفية البحث</h3>
             <select id="filter-center" onchange="window.updateVillages('filter')" class="w-full p-2 mb-2 rounded-lg text-xs border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"></select>
@@ -497,14 +490,14 @@
         <div class="h-14 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
             <div class="flex items-center gap-1">
                 <button onclick="window.goBack()" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
-                <div id="chat-header-profile" class="flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-1 pr-0 rounded-lg transition-colors duration-150">
+                <div id="chat-header-profile" class="flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-1 pr-0 rounded-lg transition-colors duration-100">
                     <img id="chat-room-avatar" src="" class="w-8 h-8 rounded-full border border-black dark:border-gray-500 object-cover bg-gray-200">
                     <h3 id="chat-room-name" class="font-bold text-sm">...</h3>
                 </div>
             </div>
             <div class="flex items-center gap-1">
                 <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full font-bold text-[10px] border border-yellow-300">★ تقييم</button>
-                <button onclick="document.getElementById('delete-chat-modal').classList.remove('hidden')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500 transition-colors duration-150">
+                <button onclick="document.getElementById('delete-chat-modal').classList.remove('hidden')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500 transition-colors duration-100">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 </button>
             </div>
@@ -518,15 +511,15 @@
 
     <!-- NAV -->
     <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
-        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14 transition-colors duration-150"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
-        <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-150"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] font-bold">الدليل</span></button>
-        <div class="relative -top-5"><button onclick="window.navTo('add')" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform duration-150"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
-        <button onclick="window.navTo('chat')" class="nav-btn relative flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-150">
+        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14 transition-colors duration-100"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
+        <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-100"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] font-bold">الدليل</span></button>
+        <div class="relative -top-5"><button onclick="window.navTo('add')" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform duration-100"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
+        <button onclick="window.navTo('chat')" class="nav-btn relative flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-100">
             <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
             <span class="text-[9px] font-bold">محادثات</span>
             <span id="chat-nav-dot" class="hidden absolute top-1 right-2 w-2.5 h-2.5 bg-blue-500 rounded-full border border-white dark:border-gray-800 animate-pulse shadow-sm"></span>
         </button>
-        <button onclick="window.navTo('profile')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-150"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="text-[9px] font-bold">حسابي</span></button>
+        <button onclick="window.navTo('profile')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-100"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="text-[9px] font-bold">حسابي</span></button>
     </nav>
 
     <!-- LOGIC -->
@@ -597,6 +590,7 @@
 
         let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
         let tempSelectedFile = null;
+        let globalUnsubs = [];
 
         let reqNotifs =[];
         let reviewNotifs =[];
@@ -658,6 +652,15 @@
         window.navTo = (pageId) => {
             window.scrollTo(0, 0);
             if(pageId === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
+            
+            if (pageId === 'directory') {
+                document.getElementById('filter-prof').value = '';
+                document.getElementById('filter-center').value = '';
+                document.getElementById('filter-village').innerHTML = '<option value="">القرية...</option>';
+                document.getElementById('dir-search').value = '';
+                if (allUsersCache.length > 0) window.filterDirectory();
+            }
+
             if (pageId === 'chat-room') { document.getElementById('page-chat-room').classList.remove('hidden'); navStack.push('chat-room'); return; }
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
@@ -719,7 +722,7 @@
             if (grid.children.length > 0) return; 
             const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
             const html = list.map(p => `
-                <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform duration-150">
+                <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform duration-100">
                     <img src="${getProfImage(p)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
@@ -752,7 +755,6 @@
             });
         }
 
-        // CSS Injection للبحث السريع بدون تقطيع
         window.filterProfessions = () => {
             const term = document.getElementById('prof-search').value.trim();
             let styleEl = document.getElementById('dynamic-search-style');
@@ -773,13 +775,13 @@
             const formLogin = document.getElementById('form-login'); const formSignup = document.getElementById('form-signup');
             if(mode === 'login'){
                 formLogin.classList.remove('hidden'); formSignup.classList.add('hidden');
-                btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-150";
-                btnSignup.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-150";
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-100";
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100";
             } else {
                 formLogin.classList.add('hidden'); formSignup.classList.remove('hidden');
                 populateCenters();
-                btnSignup.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-150";
-                btnLogin.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-150";
+                btnSignup.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-100";
+                btnLogin.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100";
             }
         };
 
@@ -914,7 +916,7 @@
                 const isNew = n.time > lastSeenN;
                 if(isNew) unreadCount++;
                 return `
-                <div class="p-3 ${isNew ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600'} rounded-lg border mb-2 relative transition-colors duration-150">
+                <div class="p-3 ${isNew ? 'bg-blue-50 border-blue-200' : 'bg-gray-50 border-gray-200 dark:bg-gray-700 dark:border-gray-600'} rounded-lg border mb-2 relative transition-colors duration-100">
                     ${isNew ? '<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>' : ''}
                     <p class="text-[10px] font-bold ${isNew ? 'text-black dark:text-white' : 'text-gray-600 dark:text-gray-300'} pl-3">${n.text}</p>
                     <span class="block mt-1 text-[9px] text-gray-400 font-bold">${new Date(n.time).toLocaleString('ar-EG')}</span>
@@ -958,7 +960,7 @@
                 if ((new Date(c.lastUpdated || 0).getTime() > chatTabLastOpened) && (c.lastSenderId !== currentUser.uid)) hasUnreadChatsForTab = true;
 
                 return `
-                   <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all duration-150 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
+                   <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all duration-100 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
                        <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
                        <div class="flex-1 min-w-0">
                            <div class="flex justify-between items-center mb-1">
@@ -979,12 +981,14 @@
         };
 
         function startListeners() {
+            globalUnsubs.forEach(u => u());
+            globalUnsubs =[];
+
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
-            onSnapshot(chatQuery, async (snap) => {
+            const unsubChats = onSnapshot(chatQuery, async (snap) => {
                 myChatsCache = [];
                 let chatNotifs =[];
                 
-                // جلب بيانات المستخدمين المفقودين أولاً لتجنب ظهور "مستخدم"
                 const missingUserIds = new Set();
                 snap.forEach(d => {
                     const c = d.data();
@@ -1017,8 +1021,9 @@
                 window.renderChatsUI(); 
                 renderNotificationsList();
             });
+            globalUnsubs.push(unsubChats);
 
-            onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
+            const unsubProfiles = onSnapshot(collection(db, 'artifacts', APP_ID, 'public', 'data', 'profiles'), (snap) => {
                 allUsersCache =[];
                 snap.forEach(d => {
                     const u = d.data();
@@ -1031,10 +1036,11 @@
                 
                 window.renderChatsUI(); 
             });
+            globalUnsubs.push(unsubProfiles);
 
             if(userProfile.role === 'provider') {
                 const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','service'));
-                onSnapshot(q, (snap) => {
+                const unsubReqs = onSnapshot(q, (snap) => {
                     const container = document.getElementById('matching-reqs-list'); container.innerHTML = '';
                     reqNotifs =[]; const html =[]; let hasNewMatching = false;
                    
@@ -1051,7 +1057,7 @@
                         const reqPhoto = req.requesterPhoto || 'https://via.placeholder.com/40';
 
                         html.push(`
-                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative transition-all duration-150 animate-fade hover:-translate-y-0.5">
+                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative transition-all duration-100 animate-fade hover:-translate-y-0.5">
                                 ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
                                 <div class="flex items-start gap-2 mb-2">
                                     <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
@@ -1067,8 +1073,8 @@
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="window.openChat('${req.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 shadow-sm flex justify-center items-center transition-transform duration-150 active:scale-95">محادثة</button>
-                                    ${hasPhone ? `<a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 shadow-sm flex items-center justify-center transition-transform duration-150 active:scale-95">WhatsApp</a>` : ''}
+                                    <button onclick="window.openChat('${req.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 shadow-sm flex justify-center items-center transition-transform duration-100 active:scale-95">محادثة</button>
+                                    ${hasPhone ? `<a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 shadow-sm flex items-center justify-center transition-transform duration-100 active:scale-95">WhatsApp</a>` : ''}
                                 </div>
                             </div>
                         `);
@@ -1083,10 +1089,11 @@
                     }
                     renderNotificationsList();
                 });
+                globalUnsubs.push(unsubReqs);
             }
 
             const qRev = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', currentUser.uid));
-            onSnapshot(qRev, (snap) => {
+            const unsubRevs = onSnapshot(qRev, (snap) => {
                 reviewNotifs =[];
                 snap.forEach(d => {
                     const rev = d.data();
@@ -1094,8 +1101,9 @@
                 });
                 renderNotificationsList();
             });
+            globalUnsubs.push(unsubRevs);
 
-            onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
+            const unsubJobs = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
                 if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد وظائف حالياً</p>'; return; }
                 const html =[];
@@ -1104,7 +1112,7 @@
                     const hasPhone = j.contactPhone && j.contactPhone.length > 5;
                     const isMyPost = j.uid === currentUser.uid;
                     html.push(`
-                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative animate-fade transition-transform duration-150 hover:-translate-y-0.5">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative animate-fade transition-transform duration-100 hover:-translate-y-0.5">
                             <div class="p-2.5">
                                 <div class="flex items-start gap-2 mb-2">
                                     <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
@@ -1126,17 +1134,17 @@
                                     <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
                                 </div>
                                 <div class="flex gap-2">
-                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm transition-transform duration-150 active:scale-95">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
-                                    ${hasPhone && !isMyPost ? `<a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm transition-transform duration-150 active:scale-95">WhatsApp</a>` : ''}
+                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm transition-transform duration-100 active:scale-95">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
+                                    ${hasPhone && !isMyPost ? `<a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm transition-transform duration-100 active:scale-95">WhatsApp</a>` : ''}
                                 </div>
                             </div>
                         </div>`);
                 });
                 list.innerHTML = html.join('');
             });
+            globalUnsubs.push(unsubJobs);
 
-            const qActivity = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid));
-            onSnapshot(qActivity, (snap) => {
+            const unsubActivity = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid)), (snap) => {
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
                 const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
                 if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl"><p class="text-[10px] text-gray-400 font-bold">لا يوجد نشاط مسجل</p></div>'; return; }
@@ -1155,11 +1163,12 @@
                                 <span class="text-gray-500 font-bold">الوصف:</span> ${act.desc || 'بدون وصف'}
                             </div>
                         </div>
-                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-600 hover:text-white text-[9px] font-bold bg-red-100 hover:bg-red-600 border border-red-200 transition-colors duration-150 p-1.5 rounded h-[45px] w-10 shadow-sm mt-1">حذف</button>
+                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-600 hover:text-white text-[9px] font-bold bg-red-100 hover:bg-red-600 border border-red-200 transition-colors duration-100 p-1.5 rounded h-[45px] w-10 shadow-sm mt-1">حذف</button>
                     `;
                     list.appendChild(el);
                 });
             });
+            globalUnsubs.push(unsubActivity);
         }
 
         window.deleteRequest = async (id) => { if(confirm('حذف هذا النشاط؟')) await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'requests', id)); };
@@ -1178,10 +1187,10 @@
             const actionsDiv = document.getElementById('modal-actions'); actionsDiv.innerHTML = '';
             if (!user.settings?.hidePhone) {
                 const justPhone = user.phone.replace('+20', '');
-                actionsDiv.innerHTML = `<a href="https://wa.me/20${justPhone}" target="_blank" class="flex-1 py-2 bg-green-500 text-white rounded-lg font-bold text-xs text-center hover:bg-green-600 shadow flex items-center justify-center gap-1 transition-colors duration-150">WhatsApp</a>`;
+                actionsDiv.innerHTML = `<a href="https://wa.me/20${justPhone}" target="_blank" class="flex-1 py-2 bg-green-500 text-white rounded-lg font-bold text-xs text-center hover:bg-green-600 shadow flex items-center justify-center gap-1 transition-colors duration-100">WhatsApp</a>`;
             }
             const chatBtn = document.createElement('button');
-            chatBtn.className = "flex-1 py-2 bg-black text-white rounded-lg font-bold text-xs shadow hover:bg-gray-800 transition-colors duration-150";
+            chatBtn.className = "flex-1 py-2 bg-black text-white rounded-lg font-bold text-xs shadow hover:bg-gray-800 transition-colors duration-100";
             chatBtn.innerText = "محادثة";
             chatBtn.onclick = () => { document.getElementById('profile-modal').classList.add('hidden'); window.openChat(user.uid); };
             actionsDiv.appendChild(chatBtn);
@@ -1310,17 +1319,19 @@
         window.clearFilter = () => {
             document.getElementById('filter-center').value = '';
             document.getElementById('filter-village').innerHTML = '<option value="">القرية...</option>';
-            document.getElementById('filter-prof').value = '';
-            document.getElementById('filter-modal').classList.add('hidden');
             
             const currentPage = navStack[navStack.length-1];
             if (currentPage === 'category-details') {
+                const currentProf = document.getElementById('page-title').innerText;
+                document.getElementById('filter-prof').value = currentProf;
                 document.getElementById('cat-search').value = '';
                 window.filterCategory();
             } else {
+                document.getElementById('filter-prof').value = '';
                 document.getElementById('dir-search').value = '';
                 window.filterDirectory();
             }
+            document.getElementById('filter-modal').classList.add('hidden');
         };
 
         window.filterDirectory = () => {
@@ -1340,7 +1351,9 @@
                 filtered = filtered.filter(u => u.name.includes(term) || (u.profession && u.profession.includes(term)));
             }
             
-            cont.innerHTML = filtered.slice(0,50).map(u => createUserCard(u)).join('');
+            // منع التكرار تماماً
+            const uniqueUsers = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
+            cont.innerHTML = uniqueUsers.slice(0,50).map(u => createUserCard(u)).join('');
         };
 
         window.filterCategory = () => {
@@ -1360,15 +1373,19 @@
                 filtered = filtered.filter(u => u.name.includes(term) || (u.area && u.area.includes(term)) || (u.city && u.city.includes(term)));
             }
             
+            // منع التكرار تماماً
+            const uniqueUsers = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
+            
             const cont = document.getElementById('cat-list-container');
-            if(filtered.length === 0) { cont.innerHTML = `<div class="text-center py-10 col-span-full"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج</p></div>`; return; }
-            cont.innerHTML = filtered.map(u => createUserCard(u)).join('');
+            if(uniqueUsers.length === 0) { cont.innerHTML = `<div class="text-center py-10 col-span-full"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج</p></div>`; return; }
+            cont.innerHTML = uniqueUsers.map(u => createUserCard(u)).join('');
         };
 
         window.openCategory = (profName) => {
             window.navTo('category-details');
             document.getElementById('page-title').innerText = profName;
             document.getElementById('cat-search').value = '';
+            document.getElementById('filter-prof').value = profName;
             window.filterCategory();
         };
 
@@ -1379,7 +1396,7 @@
             const isClient = u.role === 'client';
             
             return `
-            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-150 mb-2 flex items-start gap-2.5">
+            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 flex items-start gap-2.5">
                 <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-start mb-1">
@@ -1421,12 +1438,12 @@
             const formReq = document.getElementById('form-req'); const formJob = document.getElementById('form-job');
             if (mode === 'req') {
                 formReq.classList.remove('hidden'); formJob.classList.add('hidden');
-                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-150";
-                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-150";
+                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-100";
+                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100";
             } else {
                 formReq.classList.add('hidden'); formJob.classList.remove('hidden');
-                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-150";
-                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-150";
+                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-100";
+                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100";
             }
         };
        
@@ -1470,11 +1487,13 @@
             document.getElementById('form-login').reset();
             document.getElementById('form-signup').reset();
             
-            userProfile = null; currentUser = null; allUsersCache = []; myChatsCache = [];
+            globalUnsubs.forEach(u => u());
+            globalUnsubs =[];
+            
+            userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
             reqNotifs = []; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack = ['home'];
             
             await signOut(auth); 
-            // لن يتم استخدام reload لتجنب وميض شاشة التحميل
         };
         
         window.toggleTheme = () => document.documentElement.classList.toggle('dark');
