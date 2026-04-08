@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V1 - الماسية</title>
+    <title>دليل الشرقية V2 - الماسية</title>
    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -643,12 +643,21 @@ const validImages = [
         }
         populateProfessionsGlobally();
 
+        // 🟢 تم استخراج الـ ID الصحيح للصور وبرمجة رابط Pexels القياسي الحديث لمنع الأعطال.
         function getProfImage(profName) {
-            if(profName==="خدمات أخرى") return `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
+            const defaultImg = `https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200`;
+            if(profName==="خدمات أخرى") return defaultImg;
+            
             let hash = 0;
             for (let i = 0; i < profName.length; i++) hash = profName.charCodeAt(i) + ((hash << 5) - hash);
             const index = Math.abs(hash) % validImages.length;
-            return `https://images.pexels.com/photos/${validImages[index]}?auto=compress&cs=tinysrgb&w=200`;
+            
+            const rawPath = validImages[index];
+            const match = rawPath.match(/pexels-photo-(\d+)\.jpeg/);
+            const photoId = match ? match[1] : rawPath.split('/')[0];
+            
+            if (!photoId) return defaultImg;
+            return `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=200`;
         }
 
         let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
@@ -801,16 +810,16 @@ const validImages = [
             }
         }
 
-        // تم التعديل لتحسين الأداء ومنع اللاج (إنشاء مرة واحدة، استخدام async decoding وخلفية رمادية)
+        // 🟢 تم إضافة `onerror` لتوفير صورة احتياطية (Fallback) في حالة كان الرابط الأساسي معطوباً أو تم حذفه من قِبل Pexels
         function renderProfessionsGrid(list) {
             const grid = document.getElementById('professions-grid');
-            
-            // إذا كانت البطاقات موجودة بالفعل في HTML، لا تقم بإنشائها من جديد (لمنع اللاج)
             if (grid.children.length > 0) return; 
+            
+            const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
             
             const html = list.map(p => `
                 <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform">
-                    <img src="${getProfImage(p)}" decoding="async" class="w-full h-full object-cover">
+                    <img src="${getProfImage(p)}" onerror="this.onerror=null; this.src='${defaultImg}';" decoding="async" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
                     </div>
@@ -1501,4 +1510,3 @@ const validImages = [
     </script>
 </body>
 </html>
-
