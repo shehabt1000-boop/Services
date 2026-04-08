@@ -2,9 +2,30 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>دليل الشرقية V2 - الماسية</title>
-   
+    <!-- Viewport optimized for PWA & Modern Phones (Notch support) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA Meta Tags & SEO -->
+    <title>دليل الشرقيةv1-الماسية</title>
+    <meta name="description" content="دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Apple PWA specific tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="دليل الشرقية">
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.pexels.com">
+    <link rel="preconnect" href="https://res.cloudinary.com">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
    
@@ -1351,7 +1372,6 @@
                 filtered = filtered.filter(u => u.name.includes(term) || (u.profession && u.profession.includes(term)));
             }
             
-            // منع التكرار تماماً
             const uniqueUsers = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
             cont.innerHTML = uniqueUsers.slice(0,50).map(u => createUserCard(u)).join('');
         };
@@ -1373,7 +1393,6 @@
                 filtered = filtered.filter(u => u.name.includes(term) || (u.area && u.area.includes(term)) || (u.city && u.city.includes(term)));
             }
             
-            // منع التكرار تماماً
             const uniqueUsers = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
             
             const cont = document.getElementById('cat-list-container');
@@ -1500,7 +1519,9 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(reg => console.log('تم تفعيل الكاش للصور بنجاح!')).catch(err => console.log('فشل تفعيل الكاش:', err));
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('تم تسجيل Service Worker بنجاح!', reg.scope))
+                    .catch(err => console.log('فشل تسجيل Service Worker:', err));
             });
         }
     </script>
