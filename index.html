@@ -753,6 +753,7 @@
             const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
             if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
+        history.pushState({pageId: pageId}, '', `#${pageId}`);
         };
 
         window.goBack = () => {
@@ -1636,6 +1637,14 @@
             
             await signOut(auth); 
         };
+
+window.addEventListener('popstate', () => {
+    if (navStack.length > 1) {
+        window.goBack();
+    } else {
+        history.pushState(null, '', window.location.href);
+    }
+});
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
