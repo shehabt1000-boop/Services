@@ -652,17 +652,16 @@
 
         window.uploadToCloudinary = async (file) => {
             try {
-                // إعدادات الضغط: أقصى مساحة 200 كيلوبايت وأقصى أبعاد 800 بكسل
+                // إعدادات أسرع للضغط (تخلص في أقل من ثانية)
                 const options = {
-                    maxSizeMB: 0.2, 
-                    maxWidthOrHeight: 800, 
-                    useWebWorker: true 
+                    maxSizeMB: 0.5, // 500 كيلوبايت كافية جداً وسريعة
+                    maxWidthOrHeight: 500, // تصغير الأبعاد لـ 500 بكسل (ممتاز للبروفايل)
+                    useWebWorker: true,
+                    initialQuality: 0.7 // البدء بجودة 70% لتسريع العملية
                 };
                 
-                // ضغط الصورة قبل الرفع
                 const compressedFile = await imageCompression(file, options);
                 
-                // رفع الصورة بعد الضغط
                 const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
                 const fd = new FormData(); 
                 fd.append("file", compressedFile); 
@@ -1512,18 +1511,51 @@
         }
        
         window.saveProfileChanges = async () => {
-            try {
-                window.showLoader();
-                let finalPhotoURL = userProfile.photoURL;
-                if (tempSelectedFile) { finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile); tempSelectedFile = null; }
-                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
-                    name: document.getElementById('edit-name').value, phone: `+20${document.getElementById('edit-phone').value}`,
-                    city: document.getElementById('edit-center').value, area: document.getElementById('edit-village').value, 
-                    addressDetail: document.getElementById('edit-address-detail').value.trim(), photoURL: finalPhotoURL
-                });
-                window.location.reload();
-            } catch (e) { window.showToast('حدث خطأ أثناء الحفظ', 'error'); window.hideLoader(); }
-        };
+    try {
+        window.showLoader();
+        let finalPhotoURL = userProfile.photoURL;
+        if (tempSelectedFile) { 
+            finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile); 
+            tempSelectedFile = null; 
+        }
+
+        // جلب البيانات الجديدة من الحقول
+        const newName = document.getElementById('edit-name').value;
+        const newPhone = `+20${document.getElementById('edit-phone').value}`;
+        const newCity = document.getElementById('edit-center').value;
+        const newArea = document.getElementById('edit-village').value;
+        const newAddressDetail = document.getElementById('edit-address-detail').value.trim();
+
+        // تحديث قاعدة البيانات
+        await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
+            name: newName, phone: newPhone,
+            city: newCity, area: newArea, 
+            addressDetail: newAddressDetail, photoURL: finalPhotoURL
+        });
+
+        // تحديث البيانات محلياً في المتصفح (بدون عمل ريفريش)
+        userProfile.name = newName;
+        userProfile.phone = newPhone;
+        userProfile.city = newCity;
+        userProfile.area = newArea;
+        userProfile.addressDetail = newAddressDetail;
+        userProfile.photoURL = finalPhotoURL;
+
+        // تحديث الصور والنصوص في الواجهة فوراً
+        document.getElementById('prof-name-view').innerText = newName;
+        document.getElementById('prof-address-view').innerText = `${newArea || ''} - ${newCity || ''}`;
+        document.getElementById('prof-img-view').src = window.getCloudinaryUrl(finalPhotoURL, 'medium');
+        document.getElementById('header-avatar').src = window.getCloudinaryUrl(finalPhotoURL, 'thumb');
+        
+        window.showToast('تم الحفظ بنجاح');
+        window.hideLoader();
+        window.goBack(); // الرجوع لصفحة البروفايل مباشرة بدون ريفريش
+
+    } catch (e) { 
+        window.showToast('حدث خطأ أثناء الحفظ', 'error'); 
+        window.hideLoader(); 
+    }
+};
        
         window.saveSettings = async () => {
             try {
