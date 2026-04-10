@@ -1624,44 +1624,33 @@
        
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
         
-        window.logout = async () => { 
+               window.logout = async () => { 
             window.showLoader();
             document.getElementById('form-login').reset();
             document.getElementById('form-signup').reset();
+            
             globalUnsubs.forEach(u => u());
             globalUnsubs =[];
+            
             userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
             reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack = ['home'];
+            
             await signOut(auth); 
         };
 
-        window.addEventListener('popstate', () => {
-            if (navStack.length > 1) {
-                window.goBack();
-            } else {
-                history.pushState(null, '', window.location.href);
-            }
-        });
+window.addEventListener('popstate', () => {
+    if (navStack.length > 1) {
+        window.goBack();
+    } else {
+        history.pushState(null, '', window.location.href);
+    }
+});
 
-        window.addEventListener('load', () => {
-            // 1. تفعيل الكاش (Service Worker)
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js').then(reg => console.log('تم تفعيل الكاش!')).catch(err => console.log('فشل الكاش:', err));
-            }
-
-            // 2. التحويل للروابط (الاختصارات)
-            const checkReady = setInterval(() => {
-                if (typeof userProfile !== 'undefined' && userProfile && !document.getElementById('app-view').classList.contains('hidden')) {
-                    clearInterval(checkReady);
-                    const hash = window.location.hash.replace('#', '');
-                    const validPages = ['home', 'directory', 'chat', 'profile', 'activity', 'add'];
-                    if (hash && validPages.includes(hash)) {
-                        window.navTo(hash);
-                    }
-                }
-            }, 500);
-            setTimeout(() => clearInterval(checkReady), 5000);
-        });
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => console.log('تم تفعيل الكاش للصور بنجاح!')).catch(err => console.log('فشل تفعيل الكاش:', err));
+            });
+        }
     </script>
 </body>
 </html>
