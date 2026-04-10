@@ -43,6 +43,8 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
    
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.1/dist/browser-image-compression.js"></script>
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
    
@@ -649,11 +651,33 @@
         const UPLOAD_PRESET = "souq_upload";
 
         window.uploadToCloudinary = async (file) => {
-            const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
-            const fd = new FormData(); fd.append("file", file); fd.append("upload_preset", UPLOAD_PRESET);
-            const res = await fetch(url, { method: "POST", body: fd });
-            if (!res.ok) throw new Error("فشل رفع الصورة");
-            const data = await res.json(); return data.secure_url; 
+            try {
+                // إعدادات الضغط: أقصى مساحة 200 كيلوبايت وأقصى أبعاد 800 بكسل
+                const options = {
+                    maxSizeMB: 0.2, 
+                    maxWidthOrHeight: 800, 
+                    useWebWorker: true 
+                };
+                
+                // ضغط الصورة قبل الرفع
+                const compressedFile = await imageCompression(file, options);
+                
+                // رفع الصورة بعد الضغط
+                const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+                const fd = new FormData(); 
+                fd.append("file", compressedFile); 
+                fd.append("upload_preset", UPLOAD_PRESET);
+                
+                const res = await fetch(url, { method: "POST", body: fd });
+                if (!res.ok) throw new Error("فشل رفع الصورة");
+                
+                const data = await res.json(); 
+                return data.secure_url; 
+                
+            } catch (error) {
+                console.error("خطأ في معالجة الصورة:", error);
+                throw new Error("فشل رفع الصورة");
+            }
         };
 
         window.getCloudinaryUrl = (url, size = 'thumb') => {
