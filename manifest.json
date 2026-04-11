@@ -2,7 +2,7 @@
   "name": "خدمات الشرقية",
   "short_name": "خدمات الشرقية",
   "description": "دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.",
-  "start_url": "https://shehabt1000-boop.github.io/Services/",
+  "start_url": "https://services-and-jobs.netlify.app/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#C0C0C0",
@@ -41,7 +41,7 @@
   ],
 
   "id": "sharqia-services-v1",
-  "scope": "https://shehabt1000-boop.github.io/Services/",
+  "scope": "https://services-and-jobs.netlify.app/",
   "display_override": [
     "window-controls-overlay",
     "standalone",
