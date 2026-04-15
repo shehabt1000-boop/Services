@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -40,6 +39,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
    
     <script>
+        // قراءة وضع الجهاز أولاً وتطبيقه فوراً
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
@@ -86,7 +86,6 @@
         .border-black-custom { border: 2px solid #000000 !important; box-shadow: 2px 2px 0px #000000 !important; }
         .dark .border-black-custom { border: 2px solid #6b7280 !important; box-shadow: 2px 2px 0px #6b7280 !important; }
        
-        /* إزالة content-visibility لمنع اللاج وإعادة الرسم عند التمرير */
         .provider-card { 
             border: 2px solid #000000; 
             box-shadow: 2px 2px 0px #000000; 
@@ -138,7 +137,7 @@
     </div>
 
     <!-- Header -->
-    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 md:h-16 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto transition-all duration-100">
+    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 md:h-16 glass-header z-50 px-4 flex items-center justify-between hidden xl:max-w-7xl xl:mx-auto lg:px-10 transition-all duration-100">
         <div class="flex items-center gap-2 md:gap-4">
             <button id="btn-back" onclick="window.goBack()" class="p-1.5 md:p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
@@ -233,10 +232,10 @@
     </div>
 
     <!-- APP VIEW -->
-    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 md:pt-20 min-h-screen relative transition-all duration-100">
+    <div id="app-view" class="hidden w-full xl:max-w-7xl xl:mx-auto pt-16 md:pt-20 min-h-screen relative transition-all duration-100">
        
         <!-- HOME -->
-        <section id="page-home" class="page-section px-3 md:px-6 animate-fade">
+        <section id="page-home" class="page-section px-3 md:px-6 lg:px-10 animate-fade">
             <div class="sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 md:mb-4 space-y-2 md:space-y-3">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md md:max-w-xl mx-auto h-10 md:h-12 items-center">
                     <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs md:text-sm font-bold bg-black text-white transition-all duration-100">خدمات</button>
@@ -251,37 +250,38 @@
             </div>
            
             <div id="view-services" class="pb-4">
-                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4"></div>
+                <!-- تم توسيع الشبكة للكمبيوتر والتابلت -->
+                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4"></div>
             </div>
            
-            <div id="view-jobs" class="hidden space-y-3 md:space-y-4 pb-4 max-w-2xl mx-auto">
-                <p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold">جاري تحميل الوظائف...</p>
+            <div id="view-jobs" class="hidden space-y-3 md:space-y-4 pb-4 max-w-2xl mx-auto lg:max-w-4xl lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
+                <p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold col-span-full">جاري تحميل الوظائف...</p>
             </div>
         </section>
 
         <!-- CATEGORY -->
-        <section id="page-category-details" class="page-section hidden px-3 md:px-6 animate-fade">
-            <div class="max-w-md md:max-w-2xl mx-auto">
-                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2">
+        <section id="page-category-details" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade">
+            <div class="w-full">
+                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 max-w-md md:max-w-2xl mx-auto">
                     <input type="text" id="cat-search" onkeyup="window.debouncedSearch('cat')" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black dark:border-gray-500 text-xs md:text-sm h-10 md:h-12 bg-white dark:bg-gray-800">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="cat-list-container" class="space-y-3 md:space-y-4 pb-20 grid md:grid-cols-2 gap-4"></div>
+                <div id="cat-list-container" class="space-y-3 md:space-y-0 pb-20 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4"></div>
             </div>
         </section>
 
         <!-- DIRECTORY -->
-        <section id="page-directory" class="page-section hidden px-3 md:px-6 animate-fade">
-            <div class="max-w-md md:max-w-2xl mx-auto">
-                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2">
+        <section id="page-directory" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade">
+            <div class="w-full">
+                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 max-w-md md:max-w-2xl mx-auto">
                     <input type="text" id="dir-search" onkeyup="window.debouncedSearch('dir')" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black text-xs md:text-sm h-10 md:h-12">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="dir-list" class="space-y-2 md:space-y-3 pb-20 grid md:grid-cols-2 md:gap-4"></div>
+                <div id="dir-list" class="space-y-2 md:space-y-0 pb-20 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4"></div>
             </div>
         </section>
 
@@ -373,7 +373,7 @@
         </section>
 
         <!-- ACTIVITY PAGE -->
-        <section id="page-activity" class="page-section hidden px-3 md:px-6 animate-fade pt-4">
+        <section id="page-activity" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade pt-4">
             <div class="sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 md:mb-4">
                 <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md md:max-w-2xl mx-auto h-10 md:h-12 items-center">
                     <button onclick="window.switchActivityTab('my-activity')" id="tab-act-mine" class="flex-1 h-full rounded text-xs md:text-sm font-bold bg-black text-white transition-all duration-100">نشاطي</button>
@@ -381,12 +381,12 @@
                 </div>
             </div>
             
-            <div id="view-my-activity" class="pb-20 max-w-md md:max-w-2xl mx-auto">
-                <div id="my-activity" class="space-y-3 md:space-y-4 grid md:grid-cols-2 md:gap-4"></div>
+            <div id="view-my-activity" class="pb-20 w-full">
+                <div id="my-activity" class="space-y-3 md:space-y-0 grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"></div>
             </div>
             
-            <div id="view-matching-reqs" class="hidden pb-20 max-w-md md:max-w-2xl mx-auto">
-                <div id="matching-reqs-list" class="space-y-3 md:space-y-4 grid md:grid-cols-2 md:gap-4"></div>
+            <div id="view-matching-reqs" class="hidden pb-20 w-full">
+                <div id="matching-reqs-list" class="space-y-3 md:space-y-0 grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"></div>
             </div>
         </section>
 
@@ -446,8 +446,8 @@
         </section>
 
         <!-- CHAT LIST -->
-        <section id="page-chat" class="page-section hidden px-3 md:px-6 animate-fade">
-            <div id="chat-history-list" class="space-y-2 md:space-y-3 pb-20 max-w-md md:max-w-2xl mx-auto"><p class="text-center text-gray-400 py-10">جاري تحميل المحادثات...</p></div>
+        <section id="page-chat" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade">
+            <div id="chat-history-list" class="space-y-2 md:space-y-0 pb-20 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto lg:grid lg:grid-cols-2 lg:gap-4"><p class="text-center text-gray-400 py-10 col-span-full">جاري تحميل المحادثات...</p></div>
         </section>
     </div>
 
@@ -537,8 +537,8 @@
         </div>
     </div>
 
-    <!-- CHAT ROOM -->
-    <div id="page-chat-room" class="full-screen-modal hidden md:max-w-4xl md:mx-auto md:inset-auto md:h-[600px] md:rounded-xl md:border-2 border-black md:top-20 overflow-hidden">
+    <!-- CHAT ROOM (تم إزالة قيود الشاشات الكبيرة ليصبح صفحة داخلية) -->
+    <div id="page-chat-room" class="full-screen-modal hidden overflow-hidden">
         <div class="h-14 md:h-16 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
             <div class="flex items-center gap-1 md:gap-2">
                 <button onclick="window.goBack()" class="p-1 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
@@ -554,15 +554,15 @@
                 </button>
             </div>
         </div>
-        <div id="messages-container" class="flex-1 overflow-y-auto p-3 md:p-4 space-y-2 md:space-y-3 bg-gray-50 dark:bg-gray-900 custom-scrollbar flex flex-col"></div>
-        <form id="form-message" class="p-2 md:p-3 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 md:gap-3 shrink-0">
+        <div id="messages-container" class="flex-1 overflow-y-auto p-3 md:p-4 space-y-2 md:space-y-3 bg-gray-50 dark:bg-gray-900 custom-scrollbar flex flex-col xl:max-w-4xl xl:mx-auto xl:w-full xl:border-x-2 xl:border-gray-200 dark:xl:border-gray-700"></div>
+        <form id="form-message" class="p-2 md:p-3 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 md:gap-3 shrink-0 xl:max-w-4xl xl:mx-auto xl:w-full xl:border-x-2 xl:border-gray-200 dark:xl:border-gray-700">
             <input type="text" id="msg-input" class="flex-1 p-2 md:p-3 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm md:text-base" placeholder="اكتب رسالة..." autocomplete="off">
             <button type="submit" id="btn-send-msg" class="p-2 md:p-3 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 md:w-6 md:h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
         </form>
     </div>
 
     <!-- NAV -->
-    <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 md:h-20 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
+    <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 md:h-20 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center xl:max-w-7xl xl:mx-auto z-40">
         <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14 md:w-20 transition-colors duration-100"><svg class="w-6 h-6 md:w-8 md:h-8 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] md:text-[11px] font-bold">الرئيسية</span></button>
         <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 md:w-20 hover:text-blue-500 transition-colors duration-100"><svg class="w-6 h-6 md:w-8 md:h-8 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] md:text-[11px] font-bold">الدليل</span></button>
         <div class="relative -top-5 md:-top-6"><button onclick="window.navTo('add')" class="w-12 h-12 md:w-16 md:h-16 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform duration-100"><svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
@@ -650,7 +650,6 @@
         
         let pendingRoute = window.location.hash.replace('#', '');
 
-        // متغيرات للتحميل التدريجي
         let dirRenderedCount = 0;
         let catRenderedCount = 0;
         let filteredDirItems = [];
@@ -721,7 +720,6 @@
             }
         };
 
-        // تحديث ألوان شريط التنقل السفلي بشكل صحيح وإزالة التنشيط من الأزرار الأخرى
         window.updateBottomNav = (pageId) => {
             const btns = document.querySelectorAll('.nav-btn');
             btns.forEach(b => {
@@ -751,7 +749,6 @@
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
             
-            // إخفاء الصفحات دون مسح الـ DOM (للإبقاء على الرسم كما هو)
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             
             if (pageId === 'home') navStack =['home']; 
@@ -771,13 +768,21 @@
             window.updateBottomNav(pageId);
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
             
-            if(!skipHistory) history.pushState({pageId: pageId}, '', `#${pageId}`);
+            if(!skipHistory) {
+                if (pageId === 'home') history.pushState({pageId: pageId}, '', window.location.pathname);
+                else history.pushState({pageId: pageId}, '', `#${pageId}`);
+            }
         };
 
         window.goBack = () => {
             if (navStack.length > 1) {
                 navStack.pop();
                 const prevPage = navStack[navStack.length-1];
+                
+                // تحديث الرابط ليتوافق مع الصفحة السابقة
+                if (prevPage === 'home') history.pushState({pageId: 'home'}, '', window.location.pathname);
+                else history.pushState({pageId: prevPage}, '', `#${prevPage}`);
+
                 document.getElementById('page-chat-room').classList.add('hidden');
                 if (prevPage !== 'chat-room') {
                     document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
@@ -847,7 +852,6 @@
             });
         }
 
-        // دالة تأخير البحث (Debounce) لمنع اللاج
         let searchTimeout;
         window.debouncedSearch = (type) => {
             clearTimeout(searchTimeout);
@@ -949,11 +953,14 @@
             }
         };
 
-        async function fetchProfileWithRetry(uid, retries = 3) {
+        // زيادة المحاولات والوقت لحل مشكلة مسح الكاش
+        async function fetchProfileWithRetry(uid, retries = 5) {
             for (let i = 0; i < retries; i++) {
-                const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', uid));
-                if (snap.exists()) return snap.data();
-                await new Promise(r => setTimeout(r, 500)); 
+                try {
+                    const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', uid));
+                    if (snap.exists()) return snap.data();
+                } catch(e) { console.error("Retry fetch error:", e); }
+                await new Promise(r => setTimeout(r, 1000)); 
             }
             return null;
         }
@@ -969,15 +976,15 @@
                         userProfile = profileData;
                         if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false, darkMode: false };
                        
-                        if (userProfile.settings.darkMode !== undefined) {
-                            if (userProfile.settings.darkMode) {
-                                document.documentElement.classList.add('dark');
-                                localStorage.setItem('theme', 'dark');
-                            } else {
-                                document.documentElement.classList.remove('dark');
-                                localStorage.setItem('theme', 'light');
-                            }
+                        // حل مشكلة تضارب الوضع الداكن (الجهاز هو الأساس)
+                        const localIsDark = document.documentElement.classList.contains('dark');
+                        if (userProfile.settings.darkMode !== localIsDark) {
+                            userProfile.settings.darkMode = localIsDark;
+                            updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', user.uid), {
+                                'settings.darkMode': localIsDark
+                            }).catch(e => console.log('Theme sync error', e));
                         }
+                        document.getElementById('theme-toggle').checked = localIsDark;
 
                         document.getElementById('auth-view').classList.add('hidden');
                         document.getElementById('app-view').classList.remove('hidden');
@@ -1003,7 +1010,6 @@
                         document.getElementById('toggle-notif').checked = userProfile.settings.notifEnabled !== false;
                         document.getElementById('toggle-hide-phone').checked = userProfile.settings.hidePhone === true;
                         document.getElementById('toggle-hide-profile').checked = userProfile.settings.hideProfile === true;
-                        document.getElementById('theme-toggle').checked = document.documentElement.classList.contains('dark');
                         
                         if (userProfile.role === 'provider') {
                             document.getElementById('setting-pause-reqs').classList.remove('hidden');
@@ -1014,7 +1020,6 @@
 
                         initApp(); startListeners(); 
                         
-                        // معالجة الروابط العميقة بعد تسجيل الدخول
                         if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
                             if (pendingRoute === 'home-jobs') { window.navTo('home', true); window.switchHomeTab('jobs'); }
                             else if (pendingRoute === 'home-services') { window.navTo('home', true); window.switchHomeTab('services'); }
@@ -1097,7 +1102,7 @@
         window.renderChatsUI = function() {
             const list = document.getElementById('chat-history-list');
             if(myChatsCache.length === 0) { 
-                list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد محادثات</p>'; 
+                list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold col-span-full">لا توجد محادثات</p>'; 
                 document.getElementById('chat-nav-dot').classList.add('hidden'); return; 
             }
 
@@ -1116,7 +1121,7 @@
                 if ((new Date(c.lastUpdated || 0).getTime() > chatTabLastOpened) && (c.lastSenderId !== currentUser.uid)) hasUnreadChatsForTab = true;
 
                 return `
-                   <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 md:p-3 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 md:mb-3 flex items-center gap-2.5 md:gap-4 relative transition-all duration-100 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
+                   <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 md:p-3 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 md:mb-0 flex items-center gap-2.5 md:gap-4 relative transition-all duration-100 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
                        <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
                        <div class="flex-1 min-w-0">
                            <div class="flex justify-between items-center mb-1">
@@ -1142,13 +1147,12 @@
 
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
             const unsubChats = onSnapshot(chatQuery, async (snap) => {
-                myChatsCache = [];
+                myChatsCache =[];
                 let chatNotifs =[];
                 
                 const missingUserIds = new Set();
                 snap.forEach(d => {
                     const c = d.data();
-                    // إخفاء المحادثة إذا تم حذفها من قبلي
                     if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; 
                     const otherId = c.users.find(u => u !== currentUser.uid);
                     if (!allUsersCache.find(u => u.uid === otherId)) missingUserIds.add(otherId);
@@ -1207,7 +1211,7 @@
                     let hasNewMatching = false;
                    
                     if (userProfile.settings?.pauseRequests) {
-                        container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-6 font-bold">أنت في وضع إيقاف تلقي الطلبات. يمكنك تفعيله من الإعدادات.</p>';
+                        container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-6 font-bold col-span-full">أنت في وضع إيقاف تلقي الطلبات. يمكنك تفعيله من الإعدادات.</p>';
                         renderNotificationsList();
                         return;
                     }
@@ -1225,7 +1229,7 @@
                         const reqPhoto = req.requesterPhoto || 'https://via.placeholder.com/40';
 
                         html.push(`
-                            <div class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative transition-all duration-100 animate-fade hover:-translate-y-0.5">
+                            <div class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 md:mb-0 relative transition-all duration-100 animate-fade hover:-translate-y-0.5">
                                 ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] md:text-[10px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
                                 <div class="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
                                     <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
@@ -1248,7 +1252,7 @@
                         `);
                     });
                    
-                    if(html.length === 0) container.innerHTML = '<p class="text-[10px] md:text-xs text-gray-400 text-center py-2 font-bold">لا توجد طلبات تناسبك حالياً</p>';
+                    if(html.length === 0) container.innerHTML = '<p class="text-[10px] md:text-xs text-gray-400 text-center py-2 font-bold col-span-full">لا توجد طلبات تناسبك حالياً</p>';
                     else container.innerHTML = html.join('');
 
                     if (hasNewMatching) {
@@ -1273,14 +1277,14 @@
 
             const unsubJobs = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
-                if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold">لا توجد وظائف حالياً</p>'; return; }
+                if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold col-span-full">لا توجد وظائف حالياً</p>'; return; }
                 const html =[];
                 snap.forEach(d => {
                     const j = d.data();
                     const hasPhone = j.contactPhone && j.contactPhone.length > 5;
                     const isMyPost = j.uid === currentUser.uid;
                     html.push(`
-                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 md:mb-4 overflow-hidden relative animate-fade transition-transform duration-100 hover:-translate-y-0.5">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 md:mb-0 overflow-hidden relative animate-fade transition-transform duration-100 hover:-translate-y-0.5">
                             <div class="p-2.5 md:p-4">
                                 <div class="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
                                     <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
@@ -1319,7 +1323,7 @@
                 docs.forEach((act) => {
                     const el = document.createElement('div');
                     const isJob = act.type === 'job';
-                    el.className = `bg-gray-50 dark:bg-gray-700 p-2 md:p-3 rounded-xl mb-2 flex items-start gap-2 border border-black dark:border-gray-500 shadow-[1px_1px_0px_#000] dark:shadow-[1px_1px_0px_#6b7280]`;
+                    el.className = `bg-gray-50 dark:bg-gray-700 p-2 md:p-3 rounded-xl mb-2 md:mb-0 flex items-start gap-2 border border-black dark:border-gray-500 shadow-[1px_1px_0px_#000] dark:shadow-[1px_1px_0px_#6b7280]`;
                     el.innerHTML = `
                         <div class="flex-1 min-w-0 pr-1">
                             <div class="flex justify-between items-start mb-1">
@@ -1423,7 +1427,6 @@
         };
 
         window.openChat = async (uid) => {
-            // تفريغ الحاوية فوراً لمنع التداخل البصري
             document.getElementById('messages-container').innerHTML = '';
             
             currentChatId =[currentUser.uid, uid].sort().join('_');
@@ -1478,7 +1481,6 @@
                     const isMe = m.senderId === currentUser.uid;
                     const timeStr = m.createdAt ? new Date(m.createdAt).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
                     
-                    // إزالة animate-fade لمنع التداخل البصري عند التبديل السريع
                     html.push(`
                         <div class="flex ${isMe?'justify-end':'justify-start'} w-full">
                             <div class="max-w-[85%] p-2 md:p-3 rounded-lg text-xs md:text-sm shadow-[2px_2px_0px_#000] flex flex-col ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">
@@ -1628,7 +1630,7 @@
             
             return `
             <div class="fast-render-card">
-                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 md:mb-3 flex items-start gap-2.5 md:gap-4">
+                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 md:mb-0 flex items-start gap-2.5 md:gap-4">
                     <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start mb-1">
@@ -1796,41 +1798,34 @@
             userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
             reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack =['home'];
             
+            // حل مشكلة بقاء الرابط عند تسجيل الخروج
+            window.location.hash = '';
+            history.replaceState(null, '', window.location.pathname);
+            
             await signOut(auth); 
         };
 
-        // مستمع لتغيير الرابط يدوياً من شريط المتصفح (Deep Linking)
-        window.addEventListener('hashchange', () => {
+        // حل مشكلة زر الرجوع وتحديث الأزرار السفلية
+        window.addEventListener('popstate', (e) => {
             const hash = window.location.hash.replace('#', '');
-            if (hash && document.getElementById(`page-${hash}`)) {
-               if (navStack[navStack.length-1] !== hash) {
-                   window.navTo(hash, true);
-               }
-            } else if (hash === 'home-jobs') {
+            
+            if (hash === 'home-jobs') {
                 window.navTo('home', true);
                 window.switchHomeTab('jobs');
             } else if (hash === 'home-services') {
                 window.navTo('home', true);
                 window.switchHomeTab('services');
-            }
-        });
-
-        window.addEventListener('popstate', (e) => {
-            if (e.state && e.state.pageId) {
-                const targetPage = e.state.pageId;
-                if (targetPage === 'home-jobs') {
-                    window.navTo('home', true);
-                    window.switchHomeTab('jobs');
-                } else if (targetPage === 'home-services') {
-                    window.navTo('home', true);
-                    window.switchHomeTab('services');
+            } else if (hash) {
+                const hashIndex = navStack.indexOf(hash);
+                if (hashIndex !== -1) {
+                    navStack = navStack.slice(0, hashIndex + 1);
                 } else {
-                    window.navTo(targetPage, true);
+                    navStack.push(hash);
                 }
-            } else if (navStack.length > 1) {
-                window.goBack();
+                window.navTo(hash, true);
             } else {
-                history.pushState(null, '', window.location.href);
+                navStack =['home'];
+                window.navTo('home', true);
             }
         });
 
