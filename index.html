@@ -90,11 +90,6 @@
         }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
 
-        .fast-render-card {
-            content-visibility: auto; 
-            contain-intrinsic-size: 100px; 
-        }
-
         .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
         .dark .full-screen-modal { background: #111827; }
@@ -247,6 +242,7 @@
                 <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4"></div>
             </div>
            
+            <!-- تم تعديل الـ Grid الخاص بالوظائف ليكون بطاقتين في التابلت -->
             <div id="view-jobs" class="hidden pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full">
                 <p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold col-span-full">جاري تحميل الوظائف...</p>
             </div>
@@ -724,6 +720,7 @@
             }
         };
 
+        // نظام التوجيه (Routing) الجديد والمحسن
         window.updateBottomNav = (pageId) => {
             const btns = document.querySelectorAll('.nav-btn');
             btns.forEach(b => {
@@ -746,6 +743,7 @@
 
             if (hash === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
 
+            // تفريغ الذاكرة من الصفحات الثقيلة إذا لم نكن فيها
             if (hash !== 'directory') { document.getElementById('dir-list').innerHTML = ''; dirRenderedCount = 0; }
             if (hash !== 'category-details') { document.getElementById('cat-list-container').innerHTML = ''; catRenderedCount = 0; }
 
@@ -776,23 +774,12 @@
         };
 
         window.navTo = (pageId) => {
-            const bottomNavPages = ['home', 'directory', 'chat', 'profile'];
-            const currentHash = window.location.hash.replace('#', '') || 'home';
-            
             if (pageId === 'chat-room') {
                 document.getElementById('page-chat-room').classList.remove('hidden');
                 history.pushState(null, '', '#chat-room');
                 return;
             }
-
-            if (currentHash === pageId) return;
-
-            if (bottomNavPages.includes(pageId) && bottomNavPages.includes(currentHash)) {
-                history.replaceState(null, '', pageId === 'home' ? window.location.pathname : `#${pageId}`);
-            } else {
-                history.pushState(null, '', pageId === 'home' ? window.location.pathname : `#${pageId}`);
-            }
-            
+            history.pushState(null, '', pageId === 'home' ? window.location.pathname : `#${pageId}`);
             window.handleRoute();
         };
 
@@ -958,19 +945,14 @@
         };
 
         async function fetchProfileWithRetry(uid, retries = 5) {
-            let lastError = null;
             for (let i = 0; i < retries; i++) {
                 try {
                     const snap = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', uid));
                     if (snap.exists()) return snap.data();
-                    return null; 
-                } catch(e) { 
-                    console.error("Retry fetch error:", e); 
-                    lastError = e;
-                }
+                } catch(e) { console.error("Retry fetch error:", e); }
                 await new Promise(r => setTimeout(r, 1000)); 
             }
-            throw lastError || new Error("Network error");
+            return null;
         }
 
         onAuthStateChanged(auth, async (user) => {
@@ -999,22 +981,19 @@
                         document.getElementById('nav-bar').classList.remove('hidden');
                         document.getElementById('header-avatar').src = window.getCloudinaryUrl(userProfile.photoURL, 'thumb');
 
-                        document.getElementById('prof-name-view').innerText = userProfile.name || 'مستخدم';
-                        document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? (userProfile.profession || 'مقدم خدمة') : 'عميل';
+                        document.getElementById('prof-name-view').innerText = userProfile.name;
+                        document.getElementById('prof-role-view').innerText = userProfile.role === 'provider' ? userProfile.profession : 'عميل';
                         document.getElementById('prof-address-view').innerText = `${userProfile.area || ''} - ${userProfile.city || ''}`;
                         document.getElementById('prof-img-view').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
 
-                        document.getElementById('edit-name').value = userProfile.name || '';
-                        document.getElementById('edit-phone').value = (userProfile.phone || '').replace('+20', '');
+                        document.getElementById('edit-name').value = userProfile.name;
+                        document.getElementById('edit-phone').value = userProfile.phone.replace('+20', '');
                         document.getElementById('edit-img-preview').src = window.getCloudinaryUrl(userProfile.photoURL, 'medium');
                        
                         populateCenters('edit'); 
                         document.getElementById('edit-center').value = userProfile.city || '';
                         window.updateVillages('edit'); 
-                        setTimeout(() => { 
-                            const ev = document.getElementById('edit-village');
-                            if(ev) ev.value = userProfile.area || ''; 
-                        }, 100);
+                        setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
                         document.getElementById('edit-address-detail').value = userProfile.addressDetail || '';
 
                         document.getElementById('toggle-notif').checked = userProfile.settings.notifEnabled !== false;
@@ -1034,12 +1013,8 @@
                     } else {
                         signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
                     }
-                } catch (error) { 
-                    console.error("Initialization Error:", error);
-                    window.showToast('حدث خطأ في الاتصال، يرجى تحديث الصفحة', 'error'); 
-                } finally { 
-                    window.hideLoader(); 
-                }
+                } catch (error) { signOut(auth); window.showToast('حدث خطأ أثناء الاتصال', 'error'); } 
+                finally { window.hideLoader(); }
             } else {
                 window.location.hash = '';
                 history.replaceState(null, '', window.location.pathname);
@@ -1147,7 +1122,7 @@
         };
 
         window.shareJob = (title, poster, phone, type, salary, shift, hours, date, desc) => {
-            const text = `*وظيفة متاحة: ${title}*\nصاحب العمل: ${poster}  |  رقم التواصل: ${phone}\nتاريخ النشر: ${date}\nالدوام: ${type}  |  الشيفت: ${shift || 'غير محدد'}\nالراتب: ${salary ? salary + ' ج.م' : 'غير محدد'}  |  ساعات العمل: ${hours || 'غير محدد'}\n\nالتفاصيل:\n${desc}\n\nتم النشر عبر دليل الشرقية`;
+            const text = `*وظيفة متاحة: ${title}*\nصاحب العمل: ${poster}\nرقم التواصل: ${phone}\nتاريخ النشر: ${date}\nالدوام: ${type}\nالراتب: ${salary || 'غير محدد'}\nالشيفت: ${shift || 'غير محدد'}\nساعات العمل: ${hours || 'غير محدد'}\n\nالتفاصيل:\n${desc}\n\nتم النشر عبر دليل الشرقية`;
             if (navigator.share) {
                 navigator.share({ title: title, text: text }).catch(console.error);
             } else {
@@ -1372,15 +1347,15 @@
             const user = JSON.parse(decodeURIComponent(userStr));
             currentModalUserId = user.uid;
             document.getElementById('modal-img').src = window.getCloudinaryUrl(user.photoURL, 'medium');
-            document.getElementById('modal-name').innerText = user.name || 'مستخدم';
-            document.getElementById('modal-role').innerText = user.role === 'provider' ? (user.profession || 'مقدم خدمة') : 'عميل';
+            document.getElementById('modal-name').innerText = user.name;
+            document.getElementById('modal-role').innerText = user.role === 'provider' ? user.profession : 'عميل';
             document.getElementById('modal-addr').innerText = `${user.area || ''} - ${user.city || ''}`;
             document.getElementById('modal-addr-detail').innerText = user.addressDetail ? user.addressDetail + '،' : '';
-            document.getElementById('modal-phone-disp').innerText = (user.settings?.hidePhone) ? 'مخفي 🔒' : (user.phone || '');
+            document.getElementById('modal-phone-disp').innerText = (user.settings?.hidePhone) ? 'مخفي 🔒' : user.phone;
             document.getElementById('modal-gender').innerText = user.gender === 'male' ? 'ذكر' : 'أنثى';
 
             const actionsDiv = document.getElementById('modal-actions'); actionsDiv.innerHTML = '';
-            if (!user.settings?.hidePhone && user.phone) {
+            if (!user.settings?.hidePhone) {
                 const justPhone = user.phone.replace('+20', '');
                 actionsDiv.innerHTML = `<a href="https://wa.me/20${justPhone}" target="_blank" class="flex-1 py-2 md:py-3 bg-green-500 text-white rounded-lg font-bold text-xs md:text-sm text-center hover:bg-green-600 shadow flex items-center justify-center gap-1">WhatsApp</a>`;
             }
@@ -1575,7 +1550,7 @@
             if(prof) filtered = filtered.filter(u => u.profession === prof);
             
             if(term) {
-                filtered = filtered.filter(u => (u.name && u.name.includes(term)) || (u.profession && u.profession.includes(term)));
+                filtered = filtered.filter(u => u.name.includes(term) || (u.profession && u.profession.includes(term)));
             }
             
             filteredDirItems = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
@@ -1606,7 +1581,7 @@
             if(center) filtered = filtered.filter(u => u.city === center);
             if(village) filtered = filtered.filter(u => u.area === village);
             if(term) {
-                filtered = filtered.filter(u => (u.name && u.name.includes(term)) || (u.area && u.area.includes(term)) || (u.city && u.city.includes(term)));
+                filtered = filtered.filter(u => u.name.includes(term) || (u.area && u.area.includes(term)) || (u.city && u.city.includes(term)));
             }
             
             filteredCatItems = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
@@ -1663,7 +1638,7 @@
                 <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
                 <div class="flex-1 min-w-0">
                     <div class="flex justify-between items-start mb-1">
-                        <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name || 'مستخدم'}</strong></span>
+                        <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
                         <span class="text-[9px] md:text-xs text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
                     </div>
                     ${!isClient ? `<div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
@@ -1799,7 +1774,7 @@
                 document.getElementById('tab-home-serv').classList.remove('text-gray-500'); 
                 document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); 
                 document.getElementById('tab-home-jobs').classList.add('text-gray-500'); 
-                if(!skipHistory) history.replaceState(null, '', window.location.pathname);
+                if(!skipHistory) history.pushState(null, '', window.location.pathname);
             } else { 
                 document.getElementById('view-services').classList.add('hidden'); 
                 document.getElementById('view-jobs').classList.remove('hidden'); 
@@ -1808,7 +1783,7 @@
                 document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); 
                 document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); 
                 document.getElementById('tab-home-serv').classList.add('text-gray-500'); 
-                if(!skipHistory) history.replaceState(null, '', '#home-jobs');
+                if(!skipHistory) history.pushState(null, '', '#home-jobs');
             } 
         };
         
