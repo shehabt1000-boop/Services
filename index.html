@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -12,6 +13,11 @@
     <meta property="og:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
     <meta property="og:url" content="https://services-and-jobs.netlify.app/">
     <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="دليل الشرقية الماسية">
+    <meta name="twitter:description" content="دليل خدمات ووظائف محافظة الشرقية">
+    <meta name="twitter:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
 
     <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
@@ -80,11 +86,10 @@
         .border-black-custom { border: 2px solid #000000 !important; box-shadow: 2px 2px 0px #000000 !important; }
         .dark .border-black-custom { border: 2px solid #6b7280 !important; box-shadow: 2px 2px 0px #6b7280 !important; }
        
+        /* إزالة content-visibility لمنع اللاج وإعادة الرسم عند التمرير */
         .provider-card { 
             border: 2px solid #000000; 
             box-shadow: 2px 2px 0px #000000; 
-            content-visibility: auto; 
-            contain-intrinsic-size: 112px; 
             will-change: transform; 
             transform: translateZ(0);
         }
@@ -116,7 +121,7 @@
         #loader.hidden { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 transition-colors duration-100">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 md:pb-28 transition-colors duration-100">
 
     <div id="toast-box"></div>
 
@@ -133,351 +138,351 @@
     </div>
 
     <!-- Header -->
-    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-3xl md:mx-auto transition-all duration-100">
-        <div class="flex items-center gap-2">
-            <button id="btn-back" onclick="window.goBack()" class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 md:h-16 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto transition-all duration-100">
+        <div class="flex items-center gap-2 md:gap-4">
+            <button id="btn-back" onclick="window.goBack()" class="p-1.5 md:p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </button>
-            <h1 id="page-title" class="text-[10px] font-bold sm:text-xs flex items-center">الرئيسية</h1>
+            <h1 id="page-title" class="text-[10px] md:text-sm font-bold flex items-center">الرئيسية</h1>
         </div>
-        <div class="flex items-center gap-3">
-            <button onclick="window.toggleNotifPanel()" class="relative p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-gray-500 transition-all duration-100">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                <span id="notif-dot" class="hidden absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
+        <div class="flex items-center gap-3 md:gap-5">
+            <button onclick="window.toggleNotifPanel()" class="relative p-1.5 md:p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 border-2 border-transparent hover:border-black dark:hover:border-gray-500 transition-all duration-100">
+                <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                <span id="notif-dot" class="hidden absolute top-1 right-1 md:top-1.5 md:right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full border border-white"></span>
             </button>
-            <img id="header-avatar" src="" class="w-8 h-8 rounded-full bg-gray-200 object-cover border-2 border-black dark:border-gray-400 cursor-pointer" onclick="window.navTo('profile')">
+            <img id="header-avatar" src="" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-200 object-cover border-2 border-black dark:border-gray-400 cursor-pointer" onclick="window.navTo('profile')">
         </div>
     </header>
 
     <!-- Notification Panel -->
-    <div id="notif-panel" class="fixed top-16 left-4 right-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_#000] z-40 hidden md:max-w-md md:mx-auto animate-pop origin-top-right p-4">
+    <div id="notif-panel" class="fixed top-16 md:top-20 left-4 right-4 bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-600 shadow-[4px_4px_0px_#000] z-40 hidden md:max-w-md md:mx-auto animate-pop origin-top-right p-4">
         <div class="flex justify-between items-center mb-2 border-b-2 border-gray-100 pb-2 dark:border-gray-700">
-            <h3 class="font-bold text-sm">الإشعارات</h3>
-            <button onclick="window.toggleNotifPanel()" class="text-gray-400 hover:text-red-500 font-bold">✕</button>
+            <h3 class="font-bold text-sm md:text-base">الإشعارات</h3>
+            <button onclick="window.toggleNotifPanel()" class="text-gray-400 hover:text-red-500 font-bold md:text-lg">✕</button>
         </div>
-        <div id="notif-list" class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-1">
-            <p class="text-center text-xs text-gray-400 py-4">لا توجد إشعارات حالياً</p>
+        <div id="notif-list" class="space-y-2 max-h-60 md:max-h-80 overflow-y-auto custom-scrollbar pr-1">
+            <p class="text-center text-xs md:text-sm text-gray-400 py-4">لا توجد إشعارات حالياً</p>
         </div>
     </div>
 
     <!-- AUTH VIEW -->
-    <div id="auth-view" class="hidden min-h-screen flex flex-col justify-center p-4 md:max-w-md md:mx-auto">
-        <div class="text-center mb-4">
-            <h1 class="text-2xl font-extrabold border-b-4 border-black inline-block pb-1 dark:border-white">خدمات الشرقية</h1>
+    <div id="auth-view" class="hidden min-h-screen flex flex-col justify-center p-4 md:max-w-lg md:mx-auto">
+        <div class="text-center mb-4 md:mb-6">
+            <h1 class="text-2xl md:text-3xl font-extrabold border-b-4 border-black inline-block pb-1 dark:border-white">خدمات الشرقية</h1>
         </div>
 
-        <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-lg flex mb-4 border-2 border-black dark:border-gray-500 h-12">
-            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-100">دخول</button>
-            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100">جديد</button>
+        <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-lg flex mb-4 border-2 border-black dark:border-gray-500 h-12 md:h-14">
+            <button onclick="window.switchAuthMode('login')" id="btn-mode-login" class="flex-1 rounded-md text-xs md:text-sm font-bold bg-black text-white shadow-sm transition-all duration-100">دخول</button>
+            <button onclick="window.switchAuthMode('signup')" id="btn-mode-signup" class="flex-1 rounded-md text-xs md:text-sm font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100">جديد</button>
         </div>
 
         <!-- Login Form -->
-        <form id="form-login" class="space-y-3">
-            <div class="space-y-3 bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
-                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-11 bg-white dark:bg-gray-800 transition-colors duration-100">
-                    <input type="tel" id="login-phone" placeholder="مثال: 1012345678" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
-                    <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+        <form id="form-login" class="space-y-3 md:space-y-4">
+            <div class="space-y-3 md:space-y-4 bg-white dark:bg-gray-800 p-6 md:p-8 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-11 md:h-12 bg-white dark:bg-gray-800 transition-colors duration-100">
+                    <input type="tel" id="login-phone" placeholder="مثال: 1012345678" class="w-full p-2 md:p-3 text-sm md:text-base border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                    <span class="bg-gray-100 dark:bg-gray-700 px-3 md:px-4 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                 </div>
-                <input type="password" id="login-pass" placeholder="كلمة المرور" class="w-full p-3 rounded-lg text-sm" required>
-                <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm hover:bg-gray-900 active:scale-95 transition-transform duration-100">تسجيل الدخول</button>
+                <input type="password" id="login-pass" placeholder="كلمة المرور" class="w-full p-3 md:p-4 rounded-lg text-sm md:text-base h-11 md:h-12" required>
+                <button type="submit" class="w-full py-3 md:py-4 bg-black text-white rounded-lg font-bold text-sm md:text-base hover:bg-gray-900 active:scale-95 transition-transform duration-100">تسجيل الدخول</button>
             </div>
         </form>
 
         <!-- Signup Form -->
-        <form id="form-signup" class="hidden bg-white dark:bg-gray-800 p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
-            <div class="flex justify-center mb-3">
-                <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-400 relative overflow-hidden cursor-pointer" onclick="document.getElementById('signup-file').click()">
+        <form id="form-signup" class="hidden bg-white dark:bg-gray-800 p-4 md:p-6 rounded-xl border-2 border-black dark:border-gray-500 shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_#6b7280]">
+            <div class="flex justify-center mb-3 md:mb-5">
+                <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-400 relative overflow-hidden cursor-pointer" onclick="document.getElementById('signup-file').click()">
                     <img id="signup-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" class="w-full h-full object-cover opacity-80 hover:opacity-100">
                 </div>
                 <input type="file" id="signup-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'signup-preview')">
             </div>
            
-            <div class="space-y-2">
-                <input type="text" id="signup-name" placeholder="الاسم" class="w-full p-2 rounded-lg text-sm h-10" required>
-                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
-                    <input type="tel" id="signup-phone" placeholder="رقم الهاتف (10 أرقام)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
-                    <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+            <div class="space-y-2 md:space-y-3">
+                <input type="text" id="signup-name" placeholder="الاسم" class="w-full p-2 md:p-3 rounded-lg text-sm md:text-base h-10 md:h-12" required>
+                <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 md:h-12 bg-white dark:bg-gray-800 transition-colors duration-100">
+                    <input type="tel" id="signup-phone" placeholder="رقم الهاتف (10 أرقام)" class="w-full p-2 md:p-3 text-sm md:text-base border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                    <span class="bg-gray-100 dark:bg-gray-700 px-3 md:px-4 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                 </div>
-                <input type="password" id="signup-pass" placeholder="كلمة المرور" class="w-full p-2 rounded-lg text-sm h-10" required>
+                <input type="password" id="signup-pass" placeholder="كلمة المرور" class="w-full p-2 md:p-3 rounded-lg text-sm md:text-base h-10 md:h-12" required>
                
-                <div class="grid grid-cols-2 gap-2">
-                    <select id="signup-center" onchange="window.updateVillages()" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
-                    <select id="signup-village" class="w-full p-1 rounded-lg text-xs h-10 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
+                <div class="grid grid-cols-2 gap-2 md:gap-3">
+                    <select id="signup-center" onchange="window.updateVillages()" class="w-full p-2 rounded-lg text-xs md:text-sm h-10 md:h-12 bg-white dark:bg-gray-700"><option value="">المركز</option></select>
+                    <select id="signup-village" class="w-full p-2 rounded-lg text-xs md:text-sm h-10 md:h-12 bg-white dark:bg-gray-700"><option value="">القرية</option></select>
                 </div>
-                <input type="text" id="signup-address-detail" placeholder="العنوان التفصيلي (الشارع، رقم العمارة... اختياري)" class="w-full p-2 rounded-lg text-xs h-10 bg-white dark:bg-gray-700">
+                <input type="text" id="signup-address-detail" placeholder="العنوان التفصيلي (الشارع، رقم العمارة... اختياري)" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm h-10 md:h-12 bg-white dark:bg-gray-700">
 
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 items-center">
-                        <label class="flex-1 text-center cursor-pointer text-[10px]"><input type="radio" name="gender" value="male" checked> ذكر</label>
-                        <label class="flex-1 text-center cursor-pointer text-[10px]"><input type="radio" name="gender" value="female"> أنثى</label>
+                <div class="grid grid-cols-2 gap-2 md:gap-3">
+                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 md:h-11 items-center">
+                        <label class="flex-1 text-center cursor-pointer text-[10px] md:text-xs"><input type="radio" name="gender" value="male" checked> ذكر</label>
+                        <label class="flex-1 text-center cursor-pointer text-[10px] md:text-xs"><input type="radio" name="gender" value="female"> أنثى</label>
                     </div>
-                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 items-center">
-                        <label class="flex-1 text-center cursor-pointer text-[10px] font-bold"><input type="radio" name="role" value="client" checked onchange="window.toggleProfVisibility(false)"> عميل</label>
-                        <label class="flex-1 text-center cursor-pointer text-[10px] font-bold"><input type="radio" name="role" value="provider" onchange="window.toggleProfVisibility(true)"> مقدم خدمة</label>
+                    <div class="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg border border-gray-300 h-9 md:h-11 items-center">
+                        <label class="flex-1 text-center cursor-pointer text-[10px] md:text-xs font-bold"><input type="radio" name="role" value="client" checked onchange="window.toggleProfVisibility(false)"> عميل</label>
+                        <label class="flex-1 text-center cursor-pointer text-[10px] md:text-xs font-bold"><input type="radio" name="role" value="provider" onchange="window.toggleProfVisibility(true)"> مقدم خدمة</label>
                     </div>
                 </div>
 
-                <div id="prof-container" class="hidden mt-2">
-                    <select id="signup-prof" onchange="if(this.value==='خدمات أخرى') document.getElementById('signup-custom-prof').classList.remove('hidden'); else document.getElementById('signup-custom-prof').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs h-10"><option value="">اختر المهنة...</option></select>
-                    <input type="text" id="signup-custom-prof" placeholder="اكتب اسم الخدمة..." class="hidden w-full p-2 rounded-lg text-xs h-10 mt-2 border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
+                <div id="prof-container" class="hidden mt-2 md:mt-3">
+                    <select id="signup-prof" onchange="if(this.value==='خدمات أخرى') document.getElementById('signup-custom-prof').classList.remove('hidden'); else document.getElementById('signup-custom-prof').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs md:text-sm h-10 md:h-12"><option value="">اختر المهنة...</option></select>
+                    <input type="text" id="signup-custom-prof" placeholder="اكتب اسم الخدمة..." class="hidden w-full p-2 md:p-3 rounded-lg text-xs md:text-sm h-10 md:h-12 mt-2 md:mt-3 border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
                 </div>
             </div>
 
-            <button type="submit" class="w-full py-2.5 bg-green-600 text-white rounded-lg font-bold text-sm mt-3 shadow hover:bg-green-700 active:scale-95 transition-all duration-100">إنشاء حساب</button>
+            <button type="submit" class="w-full py-2.5 md:py-3 bg-green-600 text-white rounded-lg font-bold text-sm md:text-base mt-3 md:mt-4 shadow hover:bg-green-700 active:scale-95 transition-all duration-100">إنشاء حساب</button>
         </form>
     </div>
 
     <!-- APP VIEW -->
-    <div id="app-view" class="hidden w-full md:max-w-3xl md:mx-auto pt-16 min-h-screen relative transition-all duration-100">
+    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 md:pt-20 min-h-screen relative transition-all duration-100">
        
         <!-- HOME -->
-        <section id="page-home" class="page-section px-3 animate-fade">
-            <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 space-y-2">
-                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
-                    <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all duration-100">خدمات</button>
-                    <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all duration-100">وظائف</button>
+        <section id="page-home" class="page-section px-3 md:px-6 animate-fade">
+            <div class="sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 md:mb-4 space-y-2 md:space-y-3">
+                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md md:max-w-xl mx-auto h-10 md:h-12 items-center">
+                    <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs md:text-sm font-bold bg-black text-white transition-all duration-100">خدمات</button>
+                    <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs md:text-sm font-bold text-gray-500 transition-all duration-100">وظائف</button>
                 </div>
-                <div id="prof-search-box" class="relative max-w-md mx-auto flex gap-2">
+                <div id="prof-search-box" class="relative max-w-md md:max-w-xl mx-auto flex gap-2">
                     <div class="relative flex-1">
-                        <input type="text" id="prof-search" onkeyup="window.debouncedSearch('prof')" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
-                        <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
+                        <input type="text" id="prof-search" onkeyup="window.debouncedSearch('prof')" placeholder="ابحث عن مهنة..." class="w-full p-2 md:p-3 pr-8 md:pr-10 rounded-lg border-2 border-black dark:border-gray-500 text-xs md:text-sm h-10 md:h-12">
+                        <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 md:top-3 text-gray-400 hover:text-black md:text-lg">✕</button>
                     </div>
                 </div>
             </div>
            
             <div id="view-services" class="pb-4">
-                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-4 gap-2"></div>
+                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4"></div>
             </div>
            
-            <div id="view-jobs" class="hidden space-y-3 pb-4 max-w-2xl mx-auto">
-                <p class="text-center text-gray-400 py-10 text-[10px] font-bold">جاري تحميل الوظائف...</p>
+            <div id="view-jobs" class="hidden space-y-3 md:space-y-4 pb-4 max-w-2xl mx-auto">
+                <p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold">جاري تحميل الوظائف...</p>
             </div>
         </section>
 
         <!-- CATEGORY -->
-        <section id="page-category-details" class="page-section hidden px-3 animate-fade">
-            <div class="max-w-md mx-auto">
-                <div class="flex gap-2 mb-3 sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2">
-                    <input type="text" id="cat-search" onkeyup="window.debouncedSearch('cat')" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10 bg-white dark:bg-gray-800">
-                    <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+        <section id="page-category-details" class="page-section hidden px-3 md:px-6 animate-fade">
+            <div class="max-w-md md:max-w-2xl mx-auto">
+                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2">
+                    <input type="text" id="cat-search" onkeyup="window.debouncedSearch('cat')" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black dark:border-gray-500 text-xs md:text-sm h-10 md:h-12 bg-white dark:bg-gray-800">
+                    <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="cat-list-container" class="space-y-3 pb-20 grid md:grid-cols-2 gap-4"></div>
+                <div id="cat-list-container" class="space-y-3 md:space-y-4 pb-20 grid md:grid-cols-2 gap-4"></div>
             </div>
         </section>
 
         <!-- DIRECTORY -->
-        <section id="page-directory" class="page-section hidden px-3 animate-fade">
-            <div class="max-w-md mx-auto">
-                <div class="flex gap-2 mb-3 sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2">
-                    <input type="text" id="dir-search" onkeyup="window.debouncedSearch('dir')" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 rounded-lg border-2 border-black text-xs h-10">
-                    <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+        <section id="page-directory" class="page-section hidden px-3 md:px-6 animate-fade">
+            <div class="max-w-md md:max-w-2xl mx-auto">
+                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2">
+                    <input type="text" id="dir-search" onkeyup="window.debouncedSearch('dir')" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black text-xs md:text-sm h-10 md:h-12">
+                    <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
+                        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="dir-list" class="space-y-2 pb-20"></div>
+                <div id="dir-list" class="space-y-2 md:space-y-3 pb-20 grid md:grid-cols-2 md:gap-4"></div>
             </div>
         </section>
 
         <!-- ADD -->
-        <section id="page-add" class="page-section hidden px-4 animate-fade">
-            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 max-w-lg mx-auto mt-4">
-                <h2 class="text-base font-bold mb-4 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
-                <div class="flex gap-2 mb-4">
-                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-100">طلب خدمة</button>
-                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100">وظيفة</button>
+        <section id="page-add" class="page-section hidden px-4 md:px-6 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-5 md:p-8 max-w-lg md:max-w-2xl mx-auto mt-4 md:mt-6">
+                <h2 class="text-base md:text-lg font-bold mb-4 md:mb-6 text-center border-b-2 border-gray-100 pb-2">إضافة جديد</h2>
+                <div class="flex gap-2 md:gap-4 mb-4 md:mb-6">
+                    <button onclick="window.switchAddMode('req')" id="btn-add-req" class="flex-1 py-2 md:py-3 rounded-lg text-xs md:text-sm font-bold border-2 border-black bg-black text-white transition-all duration-100">طلب خدمة</button>
+                    <button onclick="window.switchAddMode('job')" id="btn-add-job" class="flex-1 py-2 md:py-3 rounded-lg text-xs md:text-sm font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100">وظيفة</button>
                 </div>
                
-                <form id="form-req" class="space-y-3">
-                    <select id="req-prof" onchange="if(this.value==='خدمات أخرى') document.getElementById('req-custom-prof').classList.remove('hidden'); else document.getElementById('req-custom-prof').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
-                    <input type="text" id="req-custom-prof" placeholder="اكتب اسم الخدمة..." class="hidden w-full p-2 rounded-lg text-xs border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
+                <form id="form-req" class="space-y-3 md:space-y-4">
+                    <select id="req-prof" onchange="if(this.value==='خدمات أخرى') document.getElementById('req-custom-prof').classList.remove('hidden'); else document.getElementById('req-custom-prof').classList.add('hidden');" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm border-2 border-gray-300"></select>
+                    <input type="text" id="req-custom-prof" placeholder="اكتب اسم الخدمة..." class="hidden w-full p-2 md:p-3 rounded-lg text-xs md:text-sm border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
                     
-                    <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
+                    <textarea id="req-desc" rows="4" placeholder="وصف المشكلة..." class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm border-2 border-gray-300" required></textarea>
                     
-                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
-                        <input type="tel" id="req-phone" placeholder="الواتساب (اختياري)" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
-                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 md:h-12 bg-white dark:bg-gray-800 transition-colors duration-100">
+                        <input type="tel" id="req-phone" placeholder="الواتساب (اختياري)" class="w-full p-2 md:p-3 text-sm md:text-base border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 md:px-4 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                     </div>
-                    <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm shadow hover:bg-gray-900">نشر الطلب</button>
+                    <button type="submit" class="w-full py-3 md:py-4 bg-black text-white rounded-lg font-bold text-sm md:text-base shadow hover:bg-gray-900">نشر الطلب</button>
                 </form>
 
-                <form id="form-job" class="hidden space-y-3">
-                    <select id="job-title-select" onchange="if(this.value==='أخرى') document.getElementById('job-custom-title').classList.remove('hidden'); else document.getElementById('job-custom-title').classList.add('hidden');" class="w-full p-2 rounded-lg text-xs border-2 border-gray-300"></select>
-                    <input type="text" id="job-custom-title" placeholder="اكتب اسم الوظيفة..." class="hidden w-full p-2 rounded-lg border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
+                <form id="form-job" class="hidden space-y-3 md:space-y-4">
+                    <select id="job-title-select" onchange="if(this.value==='أخرى') document.getElementById('job-custom-title').classList.remove('hidden'); else document.getElementById('job-custom-title').classList.add('hidden');" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm border-2 border-gray-300"></select>
+                    <input type="text" id="job-custom-title" placeholder="اكتب اسم الوظيفة..." class="hidden w-full p-2 md:p-3 rounded-lg border-2 border-blue-300 bg-blue-50 dark:bg-gray-700 dark:border-gray-500">
                    
-                    <div class="grid grid-cols-2 gap-2">
-                         <input type="number" id="job-salary" placeholder="الراتب (ج.م)" class="w-full p-2 rounded-lg text-xs">
-                         <input type="text" id="job-hours" placeholder="ساعات العمل" class="w-full p-2 rounded-lg text-xs">
+                    <div class="grid grid-cols-2 gap-2 md:gap-4">
+                         <input type="number" id="job-salary" placeholder="الراتب (ج.م)" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm">
+                         <input type="text" id="job-hours" placeholder="ساعات العمل" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2">
-                        <select id="job-shift" class="w-full p-2 rounded-lg text-xs">
+                    <div class="grid grid-cols-2 gap-2 md:gap-4">
+                        <select id="job-shift" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm">
                             <option value="صباحي">شيفت صباحي</option>
                             <option value="مسائي">شيفت مسائي</option>
                             <option value="متغير">شيفت متغير</option>
                         </select>
-                        <select id="job-type" class="w-full p-2 rounded-lg text-xs">
+                        <select id="job-type" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm">
                             <option value="full">دوام كامل</option>
                             <option value="part">دوام جزئي</option>
                         </select>
                     </div>
 
-                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
-                        <input type="tel" id="job-phone" placeholder="رقم التواصل" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
-                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 md:h-12 bg-white dark:bg-gray-800 transition-colors duration-100">
+                        <input type="tel" id="job-phone" placeholder="رقم التواصل" class="w-full p-2 md:p-3 text-sm md:text-base border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 md:px-4 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                     </div>
 
-                    <textarea id="job-desc" rows="4" placeholder="تفاصيل الوظيفة..." class="w-full p-2 rounded-lg text-xs border-2 border-gray-300" required></textarea>
-                    <button type="submit" class="w-full py-3 bg-black text-white rounded-lg font-bold text-sm shadow hover:bg-gray-800">نشر الوظيفة</button>
+                    <textarea id="job-desc" rows="4" placeholder="تفاصيل الوظيفة..." class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm border-2 border-gray-300" required></textarea>
+                    <button type="submit" class="w-full py-3 md:py-4 bg-black text-white rounded-lg font-bold text-sm md:text-base shadow hover:bg-gray-800">نشر الوظيفة</button>
                 </form>
             </div>
         </section>
 
         <!-- PROFILE -->
-        <section id="page-profile" class="page-section hidden px-3 animate-fade">
-            <div class="max-w-md mx-auto">
-                <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 relative overflow-hidden mt-4">
+        <section id="page-profile" class="page-section hidden px-3 md:px-6 animate-fade">
+            <div class="max-w-md md:max-w-2xl mx-auto">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 md:p-6 relative overflow-hidden mt-4 md:mt-6">
                     <div class="flex flex-col items-center">
-                        <img id="prof-img-view" src="" class="w-20 h-20 rounded-full border-2 border-black dark:border-gray-500 bg-white object-cover">
-                        <h2 id="prof-name-view" class="text-lg font-extrabold mt-2 dark:text-white"></h2>
+                        <img id="prof-img-view" src="" class="w-20 h-20 md:w-28 md:h-28 rounded-full border-2 border-black dark:border-gray-500 bg-white object-cover">
+                        <h2 id="prof-name-view" class="text-lg md:text-xl font-extrabold mt-2 md:mt-4 dark:text-white"></h2>
                         <div class="flex items-center gap-2 mt-1">
-                            <span id="prof-role-view" class="badge bg-blue-100 text-blue-800 border-blue-800"></span>
-                            <span id="prof-address-view" class="text-xs text-gray-500 dark:text-gray-400 font-bold"></span>
+                            <span id="prof-role-view" class="badge bg-blue-100 text-blue-800 border-blue-800 md:text-xs md:px-2 md:py-1"></span>
+                            <span id="prof-address-view" class="text-xs md:text-sm text-gray-500 dark:text-gray-400 font-bold"></span>
                         </div>
-                        <div class="flex gap-2 mt-4 w-full px-4">
-                            <button onclick="window.navTo('edit-profile')" class="flex-1 py-2 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs hover:bg-gray-200">تعديل</button>
-                            <button onclick="window.navTo('settings')" class="flex-1 py-2 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs hover:bg-gray-200">إعدادات</button>
+                        <div class="flex gap-2 md:gap-4 mt-4 md:mt-6 w-full px-4 md:px-10">
+                            <button onclick="window.navTo('edit-profile')" class="flex-1 py-2 md:py-3 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs md:text-sm hover:bg-gray-200">تعديل</button>
+                            <button onclick="window.navTo('settings')" class="flex-1 py-2 md:py-3 bg-gray-100 dark:bg-gray-700 border-2 border-black dark:border-gray-500 rounded-lg font-bold text-xs md:text-sm hover:bg-gray-200">إعدادات</button>
                         </div>
                     </div>
                 </div>
                
-                <div class="flex flex-col gap-3 mt-4 w-full pb-20">
-                    <button onclick="window.openActivityTab('my-activity')" class="w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform duration-100">
+                <div class="flex flex-col gap-3 md:gap-4 mt-4 md:mt-6 w-full pb-20">
+                    <button onclick="window.openActivityTab('my-activity')" class="w-full py-3 md:py-4 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs md:text-sm flex justify-between items-center px-4 md:px-6 hover:-translate-y-0.5 transition-transform duration-100">
                         <span>📊 نشاطي</span>
                     </button>
                     
-                    <button id="btn-profile-matching" onclick="window.openActivityTab('matching')" class="hidden w-full py-3 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs flex justify-between items-center px-4 hover:-translate-y-0.5 transition-transform duration-100">
+                    <button id="btn-profile-matching" onclick="window.openActivityTab('matching')" class="hidden w-full py-3 md:py-4 bg-white dark:bg-gray-800 border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] rounded-xl font-bold text-xs md:text-sm flex justify-between items-center px-4 md:px-6 hover:-translate-y-0.5 transition-transform duration-100">
                         <span>🎯 طلبات تناسبك</span>
-                        <span id="act-notif-badge" class="hidden bg-red-500 text-white w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold animate-pulse">!</span>
+                        <span id="act-notif-badge" class="hidden bg-red-500 text-white w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center text-[9px] md:text-[10px] font-bold animate-pulse">!</span>
                     </button>
                     
-                    <button onclick="window.logout()" class="w-full py-3 text-red-500 bg-red-50 border-2 border-red-200 rounded-xl font-bold text-xs hover:bg-red-100 transition-colors duration-100">تسجيل الخروج</button>
+                    <button onclick="window.logout()" class="w-full py-3 md:py-4 text-red-500 bg-red-50 border-2 border-red-200 rounded-xl font-bold text-xs md:text-sm hover:bg-red-100 transition-colors duration-100">تسجيل الخروج</button>
                 </div>
             </div>
         </section>
 
         <!-- ACTIVITY PAGE -->
-        <section id="page-activity" class="page-section hidden px-3 animate-fade pt-4">
-            <div class="sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2">
-                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md mx-auto h-10 items-center">
-                    <button onclick="window.switchActivityTab('my-activity')" id="tab-act-mine" class="flex-1 h-full rounded text-xs font-bold bg-black text-white transition-all duration-100">نشاطي</button>
-                    <button onclick="window.switchActivityTab('matching')" id="tab-act-matching" class="flex-1 h-full rounded text-xs font-bold text-gray-500 transition-all duration-100">طلبات تناسبك</button>
+        <section id="page-activity" class="page-section hidden px-3 md:px-6 animate-fade pt-4">
+            <div class="sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 md:mb-4">
+                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md md:max-w-2xl mx-auto h-10 md:h-12 items-center">
+                    <button onclick="window.switchActivityTab('my-activity')" id="tab-act-mine" class="flex-1 h-full rounded text-xs md:text-sm font-bold bg-black text-white transition-all duration-100">نشاطي</button>
+                    <button onclick="window.switchActivityTab('matching')" id="tab-act-matching" class="flex-1 h-full rounded text-xs md:text-sm font-bold text-gray-500 transition-all duration-100">طلبات تناسبك</button>
                 </div>
             </div>
             
-            <div id="view-my-activity" class="pb-20 max-w-md mx-auto">
-                <div id="my-activity" class="space-y-3"></div>
+            <div id="view-my-activity" class="pb-20 max-w-md md:max-w-2xl mx-auto">
+                <div id="my-activity" class="space-y-3 md:space-y-4 grid md:grid-cols-2 md:gap-4"></div>
             </div>
             
-            <div id="view-matching-reqs" class="hidden pb-20 max-w-md mx-auto">
-                <div id="matching-reqs-list" class="space-y-3"></div>
+            <div id="view-matching-reqs" class="hidden pb-20 max-w-md md:max-w-2xl mx-auto">
+                <div id="matching-reqs-list" class="space-y-3 md:space-y-4 grid md:grid-cols-2 md:gap-4"></div>
             </div>
         </section>
 
         <!-- EDIT PROFILE -->
-        <section id="page-edit-profile" class="page-section hidden px-4 animate-fade">
-            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
-                <div class="flex flex-col items-center mb-4">
-                    <img id="edit-img-preview" src="" class="w-20 h-20 rounded-full object-cover border-2 border-black">
-                    <button onclick="document.getElementById('edit-file').click()" class="text-xs font-bold text-blue-600 underline mt-1">تغيير الصورة</button>
+        <section id="page-edit-profile" class="page-section hidden px-4 md:px-6 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 md:p-8 max-w-md md:max-w-xl mx-auto mt-4 md:mt-6">
+                <div class="flex flex-col items-center mb-4 md:mb-6">
+                    <img id="edit-img-preview" src="" class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover border-2 border-black">
+                    <button onclick="document.getElementById('edit-file').click()" class="text-xs md:text-sm font-bold text-blue-600 underline mt-1 md:mt-2">تغيير الصورة</button>
                     <input type="file" id="edit-file" class="hidden" accept="image/*" onchange="window.handleImageUpload(this, 'edit-img-preview', true)">
                 </div>
-                <div class="space-y-3">
-                    <input type="text" id="edit-name" class="w-full p-2 rounded-lg text-sm" placeholder="الاسم">
+                <div class="space-y-3 md:space-y-4">
+                    <input type="text" id="edit-name" class="w-full p-2 md:p-3 rounded-lg text-sm md:text-base" placeholder="الاسم">
                     
-                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 bg-white dark:bg-gray-800 transition-colors duration-100">
-                        <input type="tel" id="edit-phone" placeholder="الهاتف" class="w-full p-2 text-sm border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
-                        <span class="bg-gray-100 dark:bg-gray-700 px-3 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
+                    <div class="flex rounded-lg border-2 border-gray-300 dark:border-gray-600 overflow-hidden focus-within:border-black dark:focus-within:border-white h-10 md:h-12 bg-white dark:bg-gray-800 transition-colors duration-100">
+                        <input type="tel" id="edit-phone" placeholder="الهاتف" class="w-full p-2 md:p-3 text-sm md:text-base border-none outline-none bg-transparent text-left" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')" dir="ltr">
+                        <span class="bg-gray-100 dark:bg-gray-700 px-3 md:px-4 flex items-center font-bold text-gray-600 dark:text-gray-300 border-l-2 border-gray-300 dark:border-gray-600" dir="ltr">+20</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2">
-                         <select id="edit-center" onchange="window.updateVillages('edit')" class="w-full p-2 rounded-lg text-xs"></select>
-                         <select id="edit-village" class="w-full p-2 rounded-lg text-xs"></select>
+                    <div class="grid grid-cols-2 gap-2 md:gap-4">
+                         <select id="edit-center" onchange="window.updateVillages('edit')" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm"></select>
+                         <select id="edit-village" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm"></select>
                     </div>
                     
-                    <input type="text" id="edit-address-detail" class="w-full p-2 rounded-lg text-xs" placeholder="العنوان التفصيلي (اختياري)">
+                    <input type="text" id="edit-address-detail" class="w-full p-2 md:p-3 rounded-lg text-xs md:text-sm" placeholder="العنوان التفصيلي (اختياري)">
                 </div>
-                <div class="flex gap-2 mt-4">
-                    <button onclick="window.saveProfileChanges()" class="flex-1 py-2 bg-black text-white rounded-lg font-bold text-sm">حفظ</button>
-                    <button onclick="window.goBack()" class="flex-1 py-2 bg-gray-200 text-black rounded-lg font-bold text-sm">إلغاء</button>
+                <div class="flex gap-2 md:gap-4 mt-4 md:mt-6">
+                    <button onclick="window.saveProfileChanges()" class="flex-1 py-2 md:py-3 bg-black text-white rounded-lg font-bold text-sm md:text-base">حفظ</button>
+                    <button onclick="window.goBack()" class="flex-1 py-2 md:py-3 bg-gray-200 text-black rounded-lg font-bold text-sm md:text-base">إلغاء</button>
                 </div>
             </div>
         </section>
 
         <!-- SETTINGS -->
-        <section id="page-settings" class="page-section hidden px-4 animate-fade">
-            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 max-w-md mx-auto mt-4">
-                <h3 class="font-bold text-base mb-3 border-b-2 border-gray-100 pb-2">الإعدادات</h3>
-                <div class="space-y-2">
-                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
-                        <span class="font-bold text-xs">الإشعارات</span><input type="checkbox" id="toggle-notif" class="accent-black w-4 h-4" checked>
+        <section id="page-settings" class="page-section hidden px-4 md:px-6 animate-fade">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border-black-custom p-4 md:p-8 max-w-md md:max-w-xl mx-auto mt-4 md:mt-6">
+                <h3 class="font-bold text-base md:text-lg mb-3 md:mb-5 border-b-2 border-gray-100 pb-2">الإعدادات</h3>
+                <div class="space-y-2 md:space-y-3">
+                    <label class="flex justify-between items-center p-2 md:p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs md:text-sm">الإشعارات</span><input type="checkbox" id="toggle-notif" class="accent-black w-4 h-4 md:w-5 md:h-5" checked>
                     </label>
-                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
-                        <span class="font-bold text-xs">إخفاء رقمي</span><input type="checkbox" id="toggle-hide-phone" class="accent-red-500 w-4 h-4">
+                    <label class="flex justify-between items-center p-2 md:p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs md:text-sm">إخفاء رقمي</span><input type="checkbox" id="toggle-hide-phone" class="accent-red-500 w-4 h-4 md:w-5 md:h-5">
                     </label>
-                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
-                        <span class="font-bold text-xs">الملف الشخصي</span><input type="checkbox" id="toggle-hide-profile" class="accent-red-500 w-4 h-4">
+                    <label class="flex justify-between items-center p-2 md:p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs md:text-sm">الملف الشخصي</span><input type="checkbox" id="toggle-hide-profile" class="accent-red-500 w-4 h-4 md:w-5 md:h-5">
                     </label>
-                    <label id="setting-pause-reqs" class="hidden flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
-                        <span class="font-bold text-xs text-red-600 dark:text-red-400">إيقاف تلقي الطلبات</span><input type="checkbox" id="toggle-pause-reqs" class="accent-red-500 w-4 h-4">
+                    <label id="setting-pause-reqs" class="hidden flex justify-between items-center p-2 md:p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs md:text-sm text-red-600 dark:text-red-400">إيقاف تلقي الطلبات</span><input type="checkbox" id="toggle-pause-reqs" class="accent-red-500 w-4 h-4 md:w-5 md:h-5">
                     </label>
-                    <label class="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
-                        <span class="font-bold text-xs">الوضع الليلي</span><input type="checkbox" id="theme-toggle" class="accent-blue-600 w-4 h-4" onchange="window.toggleTheme()">
+                    <label class="flex justify-between items-center p-2 md:p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 cursor-pointer">
+                        <span class="font-bold text-xs md:text-sm">الوضع الليلي</span><input type="checkbox" id="theme-toggle" class="accent-blue-600 w-4 h-4 md:w-5 md:h-5" onchange="window.toggleTheme()">
                     </label>
                 </div>
-                <button onclick="window.saveSettings()" class="w-full py-2.5 bg-black text-white rounded-lg font-bold mt-4 text-sm">حفظ التغييرات</button>
+                <button onclick="window.saveSettings()" class="w-full py-2.5 md:py-3 bg-black text-white rounded-lg font-bold mt-4 md:mt-6 text-sm md:text-base">حفظ التغييرات</button>
             </div>
         </section>
 
         <!-- CHAT LIST -->
-        <section id="page-chat" class="page-section hidden px-3 animate-fade">
-            <div id="chat-history-list" class="space-y-2 pb-20 max-w-md mx-auto"><p class="text-center text-gray-400 py-10">جاري تحميل المحادثات...</p></div>
+        <section id="page-chat" class="page-section hidden px-3 md:px-6 animate-fade">
+            <div id="chat-history-list" class="space-y-2 md:space-y-3 pb-20 max-w-md md:max-w-2xl mx-auto"><p class="text-center text-gray-400 py-10">جاري تحميل المحادثات...</p></div>
         </section>
     </div>
 
     <!-- PROFILE POPUP -->
     <div id="profile-modal" class="modal-overlay hidden animate-pop overflow-y-auto">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-sm rounded-xl border-black-custom p-5 relative shadow-2xl my-10">
-            <button onclick="document.getElementById('profile-modal').classList.add('hidden')" class="absolute top-3 left-3 font-bold text-gray-400 hover:text-red-500 text-xl">✕</button>
+        <div class="bg-white dark:bg-gray-800 w-full max-w-sm md:max-w-md rounded-xl border-black-custom p-5 md:p-8 relative shadow-2xl my-10">
+            <button onclick="document.getElementById('profile-modal').classList.add('hidden')" class="absolute top-3 left-3 md:top-4 md:left-4 font-bold text-gray-400 hover:text-red-500 text-xl md:text-2xl">✕</button>
             <div class="flex flex-col items-center">
-                <img id="modal-img" src="" class="w-20 h-20 rounded-full border-2 border-black dark:border-gray-500 mb-2 object-cover">
-                <h2 id="modal-name" class="text-lg font-extrabold dark:text-white"></h2>
-                <p id="modal-role" class="text-xs text-blue-600 font-bold mb-3"></p>
+                <img id="modal-img" src="" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-black dark:border-gray-500 mb-2 object-cover">
+                <h2 id="modal-name" class="text-lg md:text-xl font-extrabold dark:text-white"></h2>
+                <p id="modal-role" class="text-xs md:text-sm text-blue-600 font-bold mb-3 md:mb-4"></p>
                
-                <div class="w-full bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 text-center mb-4">
-                    <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="w-full bg-gray-50 dark:bg-gray-700 p-3 md:p-4 rounded-lg border-2 border-gray-200 dark:border-gray-600 text-center mb-4 md:mb-5">
+                    <div class="grid grid-cols-2 gap-2 text-xs md:text-sm">
                         <div>
                             <span class="text-gray-400 block">العنوان</span>
-                            <span id="modal-addr-detail" class="font-bold block text-[10px] text-gray-600 dark:text-gray-300"></span>
+                            <span id="modal-addr-detail" class="font-bold block text-[10px] md:text-xs text-gray-600 dark:text-gray-300"></span>
                             <span id="modal-addr" class="font-bold"></span>
                         </div>
                         <div><span class="text-gray-400 block">الجنس</span><span id="modal-gender" class="font-bold"></span></div>
                     </div>
-                    <div class="mt-2 border-t border-gray-200 pt-2">
-                        <span class="text-gray-400 block">الهاتف</span><span id="modal-phone-disp" class="font-bold text-sm" dir="ltr"></span>
+                    <div class="mt-2 md:mt-3 border-t border-gray-200 pt-2 md:pt-3">
+                        <span class="text-gray-400 block">الهاتف</span><span id="modal-phone-disp" class="font-bold text-sm md:text-base" dir="ltr"></span>
                     </div>
                 </div>
 
-                <div class="flex gap-2 w-full mb-4" id="modal-actions"></div>
+                <div class="flex gap-2 md:gap-3 w-full mb-4 md:mb-5" id="modal-actions"></div>
 
-                <div class="w-full border-t-2 border-gray-100 pt-3 dark:border-gray-700">
-                    <h4 class="font-bold text-xs mb-2 flex items-center justify-between">
+                <div class="w-full border-t-2 border-gray-100 pt-3 md:pt-4 dark:border-gray-700">
+                    <h4 class="font-bold text-xs md:text-sm mb-2 flex items-center justify-between">
                         <span>التقييمات</span>
                         <span id="modal-stars-display" class="text-yellow-500 font-bold"></span>
                     </h4>
-                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 p-1">
-                        <div id="modal-reviews-list" class="space-y-2 max-h-[150px] overflow-y-auto custom-scrollbar pr-1"></div>
+                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 p-1 md:p-2">
+                        <div id="modal-reviews-list" class="space-y-2 max-h-[150px] md:max-h-[200px] overflow-y-auto custom-scrollbar pr-1"></div>
                     </div>
                 </div>
             </div>
@@ -486,20 +491,20 @@
 
     <!-- RATE MODAL -->
     <div id="rate-modal" class="modal-overlay hidden animate-pop">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl">
-            <h3 class="text-center font-bold mb-3 text-sm">تقييم التجربة</h3>
+        <div class="bg-white dark:bg-gray-800 w-full max-w-xs md:max-w-sm rounded-xl border-black-custom p-5 md:p-6 shadow-xl">
+            <h3 class="text-center font-bold mb-3 md:mb-4 text-sm md:text-base">تقييم التجربة</h3>
             <form id="form-review">
-                <div class="star-rating mb-3 flex flex-row-reverse justify-center gap-1">
+                <div class="star-rating mb-3 md:mb-4 flex flex-row-reverse justify-center gap-1">
                     <input type="radio" name="stars" id="s5" value="5"><label for="s5">★</label>
                     <input type="radio" name="stars" id="s4" value="4"><label for="s4">★</label>
                     <input type="radio" name="stars" id="s3" value="3"><label for="s3">★</label>
                     <input type="radio" name="stars" id="s2" value="2"><label for="s2">★</label>
                     <input type="radio" name="stars" id="s1" value="1"><label for="s1">★</label>
                 </div>
-                <textarea id="review-text" rows="2" placeholder="تعليقك..." class="w-full p-2 text-xs rounded-lg border-2 border-gray-200 mb-3"></textarea>
+                <textarea id="review-text" rows="2" placeholder="تعليقك..." class="w-full p-2 text-xs md:text-sm rounded-lg border-2 border-gray-200 mb-3 md:mb-4"></textarea>
                 <div class="flex gap-2">
-                    <button type="button" id="btn-submit-rate" onclick="window.submitReview()" class="flex-1 bg-black text-white py-2 rounded-lg font-bold text-xs">إرسال</button>
-                    <button type="button" onclick="document.getElementById('rate-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إلغاء</button>
+                    <button type="button" id="btn-submit-rate" onclick="window.submitReview()" class="flex-1 bg-black text-white py-2 md:py-3 rounded-lg font-bold text-xs md:text-sm">إرسال</button>
+                    <button type="button" onclick="document.getElementById('rate-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 md:py-3 rounded-lg font-bold text-xs md:text-sm border border-gray-300">إلغاء</button>
                 </div>
             </form>
         </div>
@@ -507,66 +512,66 @@
 
     <!-- FILTER MODAL -->
     <div id="filter-modal" class="modal-overlay hidden animate-pop z-[160]">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl">
-            <h3 class="text-center font-bold mb-3 text-sm">تصفية البحث</h3>
-            <select id="filter-center" onchange="window.updateVillages('filter')" class="w-full p-2 mb-2 rounded-lg text-xs border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"></select>
-            <select id="filter-village" class="w-full p-2 mb-2 rounded-lg text-xs border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"><option value="">القرية...</option></select>
-            <select id="filter-prof" class="w-full p-2 mb-4 rounded-lg text-xs border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"></select>
-            <div class="flex gap-2">
-                <button onclick="window.applyFilter()" class="flex-1 bg-black text-white py-2 rounded-lg font-bold text-xs">تطبيق</button>
-                <button onclick="window.clearFilter()" class="flex-1 bg-red-500 text-white py-2 rounded-lg font-bold text-xs">إلغاء</button>
-                <button onclick="document.getElementById('filter-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إغلاق</button>
+        <div class="bg-white dark:bg-gray-800 w-full max-w-xs md:max-w-md rounded-xl border-black-custom p-5 md:p-8 shadow-xl">
+            <h3 class="text-center font-bold mb-3 md:mb-5 text-sm md:text-base">تصفية البحث</h3>
+            <select id="filter-center" onchange="window.updateVillages('filter')" class="w-full p-2 md:p-3 mb-2 md:mb-3 rounded-lg text-xs md:text-sm border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"></select>
+            <select id="filter-village" class="w-full p-2 md:p-3 mb-2 md:mb-3 rounded-lg text-xs md:text-sm border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"><option value="">القرية...</option></select>
+            <select id="filter-prof" class="w-full p-2 md:p-3 mb-4 md:mb-5 rounded-lg text-xs md:text-sm border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700"></select>
+            <div class="flex gap-2 md:gap-3">
+                <button onclick="window.applyFilter()" class="flex-1 bg-black text-white py-2 md:py-3 rounded-lg font-bold text-xs md:text-sm">تطبيق</button>
+                <button onclick="window.clearFilter()" class="flex-1 bg-red-500 text-white py-2 md:py-3 rounded-lg font-bold text-xs md:text-sm">إلغاء</button>
+                <button onclick="document.getElementById('filter-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 md:py-3 rounded-lg font-bold text-xs md:text-sm border border-gray-300">إغلاق</button>
             </div>
         </div>
     </div>
 
     <!-- DELETE CHAT MODAL -->
     <div id="delete-chat-modal" class="modal-overlay hidden animate-pop z-[200]">
-        <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl text-center">
-            <h3 class="font-bold mb-2 text-sm text-red-600">حذف المحادثة</h3>
-            <p class="text-xs text-gray-500 mb-4">سيتم مسح هذه المحادثة من قائمتك نهائياً.</p>
+        <div class="bg-white dark:bg-gray-800 w-full max-w-xs md:max-w-sm rounded-xl border-black-custom p-5 md:p-6 shadow-xl text-center">
+            <h3 class="font-bold mb-2 md:mb-3 text-sm md:text-base text-red-600">حذف المحادثة</h3>
+            <p class="text-xs md:text-sm text-gray-500 mb-4 md:mb-5">سيتم مسح هذه المحادثة من قائمتك نهائياً.</p>
             <div class="flex gap-2">
-                <button onclick="window.confirmDeleteChat()" class="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold text-xs shadow-md">تأكيد الحذف</button>
-                <button onclick="document.getElementById('delete-chat-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إلغاء</button>
+                <button onclick="window.confirmDeleteChat()" class="flex-1 bg-red-600 text-white py-2 md:py-3 rounded-lg font-bold text-xs md:text-sm shadow-md">تأكيد الحذف</button>
+                <button onclick="document.getElementById('delete-chat-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 md:py-3 rounded-lg font-bold text-xs md:text-sm border border-gray-300">إلغاء</button>
             </div>
         </div>
     </div>
 
     <!-- CHAT ROOM -->
     <div id="page-chat-room" class="full-screen-modal hidden md:max-w-4xl md:mx-auto md:inset-auto md:h-[600px] md:rounded-xl md:border-2 border-black md:top-20 overflow-hidden">
-        <div class="h-14 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
-            <div class="flex items-center gap-1">
-                <button onclick="window.goBack()" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
+        <div class="h-14 md:h-16 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
+            <div class="flex items-center gap-1 md:gap-2">
+                <button onclick="window.goBack()" class="p-1 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
                 <div id="chat-header-profile" class="flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 p-1 pr-0 rounded-lg transition-colors duration-100">
-                    <img id="chat-room-avatar" src="" class="w-8 h-8 rounded-full border border-black dark:border-gray-500 object-cover bg-gray-200">
-                    <h3 id="chat-room-name" class="font-bold text-sm">...</h3>
+                    <img id="chat-room-avatar" src="" class="w-8 h-8 md:w-10 md:h-10 rounded-full border border-black dark:border-gray-500 object-cover bg-gray-200">
+                    <h3 id="chat-room-name" class="font-bold text-sm md:text-base">...</h3>
                 </div>
             </div>
-            <div class="flex items-center gap-1">
-                <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full font-bold text-[10px] border border-yellow-300">★ تقييم</button>
-                <button onclick="document.getElementById('delete-chat-modal').classList.remove('hidden')" class="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500 transition-colors duration-100">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <div class="flex items-center gap-1 md:gap-2">
+                <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-2 py-1 md:px-3 md:py-1.5 rounded-full font-bold text-[10px] md:text-xs border border-yellow-300">★ تقييم</button>
+                <button onclick="document.getElementById('delete-chat-modal').classList.remove('hidden')" class="p-1 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500 transition-colors duration-100">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 </button>
             </div>
         </div>
-        <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900 custom-scrollbar flex flex-col"></div>
-        <form id="form-message" class="p-2 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 shrink-0">
-            <input type="text" id="msg-input" class="flex-1 p-2 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm" placeholder="اكتب رسالة..." autocomplete="off">
-            <button type="submit" id="btn-send-msg" class="p-2 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
+        <div id="messages-container" class="flex-1 overflow-y-auto p-3 md:p-4 space-y-2 md:space-y-3 bg-gray-50 dark:bg-gray-900 custom-scrollbar flex flex-col"></div>
+        <form id="form-message" class="p-2 md:p-3 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 md:gap-3 shrink-0">
+            <input type="text" id="msg-input" class="flex-1 p-2 md:p-3 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm md:text-base" placeholder="اكتب رسالة..." autocomplete="off">
+            <button type="submit" id="btn-send-msg" class="p-2 md:p-3 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 md:w-6 md:h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
         </form>
     </div>
 
     <!-- NAV -->
-    <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
-        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14 transition-colors duration-100"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] font-bold">الرئيسية</span></button>
-        <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-100"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] font-bold">الدليل</span></button>
-        <div class="relative -top-5"><button onclick="window.navTo('add')" class="w-12 h-12 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform duration-100"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
-        <button onclick="window.navTo('chat')" class="nav-btn relative flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-100">
-            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-            <span class="text-[9px] font-bold">محادثات</span>
-            <span id="chat-nav-dot" class="hidden absolute top-1 right-2 w-2.5 h-2.5 bg-blue-500 rounded-full border border-white dark:border-gray-800 animate-pulse shadow-sm"></span>
+    <nav id="nav-bar" class="hidden fixed bottom-0 left-0 right-0 h-16 md:h-20 bg-white dark:bg-gray-800 border-t-2 border-black dark:border-gray-600 flex justify-around items-center md:max-w-4xl md:mx-auto z-40">
+        <button onclick="window.navTo('home')" class="nav-btn active flex flex-col items-center text-blue-600 w-14 md:w-20 transition-colors duration-100"><svg class="w-6 h-6 md:w-8 md:h-8 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg><span class="text-[9px] md:text-[11px] font-bold">الرئيسية</span></button>
+        <button onclick="window.navTo('directory')" class="nav-btn flex flex-col items-center text-gray-400 w-14 md:w-20 hover:text-blue-500 transition-colors duration-100"><svg class="w-6 h-6 md:w-8 md:h-8 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span class="text-[9px] md:text-[11px] font-bold">الدليل</span></button>
+        <div class="relative -top-5 md:-top-6"><button onclick="window.navTo('add')" class="w-12 h-12 md:w-16 md:h-16 bg-black rounded-full flex items-center justify-center border-4 border-white dark:border-gray-800 text-white shadow-lg active:scale-90 transition-transform duration-100"><svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button></div>
+        <button onclick="window.navTo('chat')" class="nav-btn relative flex flex-col items-center text-gray-400 w-14 md:w-20 hover:text-blue-500 transition-colors duration-100">
+            <svg class="w-6 h-6 md:w-8 md:h-8 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <span class="text-[9px] md:text-[11px] font-bold">محادثات</span>
+            <span id="chat-nav-dot" class="hidden absolute top-1 right-2 md:right-4 w-2.5 h-2.5 md:w-3 md:h-3 bg-blue-500 rounded-full border border-white dark:border-gray-800 animate-pulse shadow-sm"></span>
         </button>
-        <button onclick="window.navTo('profile')" class="nav-btn flex flex-col items-center text-gray-400 w-14 hover:text-blue-500 transition-colors duration-100"><svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="text-[9px] font-bold">حسابي</span></button>
+        <button onclick="window.navTo('profile')" class="nav-btn flex flex-col items-center text-gray-400 w-14 md:w-20 hover:text-blue-500 transition-colors duration-100"><svg class="w-6 h-6 md:w-8 md:h-8 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span class="text-[9px] md:text-[11px] font-bold">حسابي</span></button>
     </nav>
 
     <!-- LOGIC -->
@@ -716,6 +721,7 @@
             }
         };
 
+        // تحديث ألوان شريط التنقل السفلي بشكل صحيح وإزالة التنشيط من الأزرار الأخرى
         window.updateBottomNav = (pageId) => {
             const btns = document.querySelectorAll('.nav-btn');
             btns.forEach(b => {
@@ -745,7 +751,7 @@
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
             
-            // إخفاء الصفحات دون مسح الـ DOM
+            // إخفاء الصفحات دون مسح الـ DOM (للإبقاء على الرسم كما هو)
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             
             if (pageId === 'home') navStack =['home']; 
@@ -808,10 +814,10 @@
             if (grid.children.length > 0) return; 
             const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
             const html = list.map(p => `
-                <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform duration-100">
+                <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 md:h-32 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform duration-100">
                     <img src="${getProfImage(p)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
-                        <span class="font-bold text-white text-[10px] drop-shadow-md text-center">${p}</span>
+                        <span class="font-bold text-white text-[10px] md:text-xs drop-shadow-md text-center">${p}</span>
                     </div>
                 </div>
             `).join('');
@@ -841,6 +847,7 @@
             });
         }
 
+        // دالة تأخير البحث (Debounce) لمنع اللاج
         let searchTimeout;
         window.debouncedSearch = (type) => {
             clearTimeout(searchTimeout);
@@ -871,13 +878,13 @@
             const formLogin = document.getElementById('form-login'); const formSignup = document.getElementById('form-signup');
             if(mode === 'login'){
                 formLogin.classList.remove('hidden'); formSignup.classList.add('hidden');
-                btnLogin.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-100";
-                btnSignup.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100";
+                btnLogin.className = "flex-1 rounded-md text-xs md:text-sm font-bold bg-black text-white shadow-sm transition-all duration-100";
+                btnSignup.className = "flex-1 rounded-md text-xs md:text-sm font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100";
             } else {
                 formLogin.classList.add('hidden'); formSignup.classList.remove('hidden');
                 populateCenters();
-                btnSignup.className = "flex-1 rounded-md text-xs font-bold bg-black text-white shadow-sm transition-all duration-100";
-                btnLogin.className = "flex-1 rounded-md text-xs font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100";
+                btnSignup.className = "flex-1 rounded-md text-xs md:text-sm font-bold bg-black text-white shadow-sm transition-all duration-100";
+                btnLogin.className = "flex-1 rounded-md text-xs md:text-sm font-bold text-gray-500 bg-transparent hover:bg-gray-300 dark:hover:bg-gray-700 transition-all duration-100";
             }
         };
 
@@ -1109,16 +1116,16 @@
                 if ((new Date(c.lastUpdated || 0).getTime() > chatTabLastOpened) && (c.lastSenderId !== currentUser.uid)) hasUnreadChatsForTab = true;
 
                 return `
-                   <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 flex items-center gap-2.5 relative transition-all duration-100 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
-                       <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
+                   <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 md:p-3 rounded-xl cursor-pointer bg-white dark:bg-gray-800 mb-2.5 md:mb-3 flex items-center gap-2.5 md:gap-4 relative transition-all duration-100 hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
+                       <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
                        <div class="flex-1 min-w-0">
                            <div class="flex justify-between items-center mb-1">
-                               <h4 class="font-bold text-[11px] dark:text-white truncate">${otherUser.name}</h4>
-                               <span class="text-[9px] text-gray-500 font-bold bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">${time}</span>
+                               <h4 class="font-bold text-[11px] md:text-sm dark:text-white truncate">${otherUser.name}</h4>
+                               <span class="text-[9px] md:text-xs text-gray-500 font-bold bg-gray-100 dark:bg-gray-700 px-1 py-0.5 rounded">${time}</span>
                            </div>
-                           <p class="text-[10px] truncate ${isNew?'font-bold text-black dark:text-white':'text-gray-500'}">${c.lastMessage || '...'}</p>
+                           <p class="text-[10px] md:text-xs truncate ${isNew?'font-bold text-black dark:text-white':'text-gray-500'}">${c.lastMessage || '...'}</p>
                        </div>
-                       ${isNew ? '<div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-white dark:border-gray-800 animate-pulse shadow-sm"></div>' : ''}
+                       ${isNew ? '<div class="absolute -top-1 -right-1 w-2.5 h-2.5 md:w-3 md:h-3 bg-red-500 rounded-full border border-white dark:border-gray-800 animate-pulse shadow-sm"></div>' : ''}
                    </div>
                 `;
             }).join('');
@@ -1135,7 +1142,7 @@
 
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
             const unsubChats = onSnapshot(chatQuery, async (snap) => {
-                myChatsCache =[];
+                myChatsCache = [];
                 let chatNotifs =[];
                 
                 const missingUserIds = new Set();
@@ -1218,30 +1225,30 @@
                         const reqPhoto = req.requesterPhoto || 'https://via.placeholder.com/40';
 
                         html.push(`
-                            <div class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative transition-all duration-100 animate-fade hover:-translate-y-0.5">
-                                ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
-                                <div class="flex items-start gap-2 mb-2">
-                                    <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                            <div class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 relative transition-all duration-100 animate-fade hover:-translate-y-0.5">
+                                ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] md:text-[10px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm animate-pulse">جديد</div>' : ''}
+                                <div class="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
+                                    <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between items-start mb-1">
-                                            <span class="text-[10px]"><span class="text-gray-500 font-bold">طالب الخدمة:</span> <strong class="text-black dark:text-white">${req.requesterName}</strong></span>
-                                            <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(req.createdAt).toLocaleDateString('ar-EG')}</span>
+                                            <span class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">طالب الخدمة:</span> <strong class="text-black dark:text-white">${req.requesterName}</strong></span>
+                                            <span class="text-[9px] md:text-[10px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(req.createdAt).toLocaleDateString('ar-EG')}</span>
                                         </div>
-                                        <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة المطلوبة:</span> <strong class="text-black dark:text-white">${req.profession}</strong></div>
-                                        <div class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
+                                        <div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة المطلوبة:</span> <strong class="text-black dark:text-white">${req.profession}</strong></div>
+                                        <div class="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 md:p-2 text-[10px] md:text-xs">
                                             <span class="text-gray-500 font-bold">الوصف:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${req.desc}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex gap-2">
-                                    <button onclick="window.openChat('${req.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 shadow-sm flex justify-center items-center transition-transform duration-100 active:scale-95">محادثة</button>
-                                    ${hasPhone ? `<a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 shadow-sm flex items-center justify-center transition-transform duration-100 active:scale-95">WhatsApp</a>` : ''}
+                                    <button onclick="window.openChat('${req.uid}')" class="flex-1 bg-black text-white py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold hover:bg-gray-800 shadow-sm flex justify-center items-center transition-transform duration-100 active:scale-95">محادثة</button>
+                                    ${hasPhone ? `<a href="https://wa.me/20${req.phone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold text-center hover:bg-green-600 shadow-sm flex items-center justify-center transition-transform duration-100 active:scale-95">WhatsApp</a>` : ''}
                                 </div>
                             </div>
                         `);
                     });
                    
-                    if(html.length === 0) container.innerHTML = '<p class="text-[10px] text-gray-400 text-center py-2 font-bold">لا توجد طلبات تناسبك حالياً</p>';
+                    if(html.length === 0) container.innerHTML = '<p class="text-[10px] md:text-xs text-gray-400 text-center py-2 font-bold">لا توجد طلبات تناسبك حالياً</p>';
                     else container.innerHTML = html.join('');
 
                     if (hasNewMatching) {
@@ -1266,37 +1273,37 @@
 
             const unsubJobs = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('type','==','job')), (snap) => {
                 const list = document.getElementById('view-jobs');
-                if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] font-bold">لا توجد وظائف حالياً</p>'; return; }
+                if(snap.empty) { list.innerHTML = '<p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold">لا توجد وظائف حالياً</p>'; return; }
                 const html =[];
                 snap.forEach(d => {
                     const j = d.data();
                     const hasPhone = j.contactPhone && j.contactPhone.length > 5;
                     const isMyPost = j.uid === currentUser.uid;
                     html.push(`
-                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 overflow-hidden relative animate-fade transition-transform duration-100 hover:-translate-y-0.5">
-                            <div class="p-2.5">
-                                <div class="flex items-start gap-2 mb-2">
-                                    <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] mb-3 md:mb-4 overflow-hidden relative animate-fade transition-transform duration-100 hover:-translate-y-0.5">
+                            <div class="p-2.5 md:p-4">
+                                <div class="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
+                                    <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between items-start mb-1">
-                                            <span class="text-[10px]"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
-                                            <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
+                                            <span class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
+                                            <span class="text-[9px] md:text-[10px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
                                         </div>
-                                        <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
+                                        <div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
                                     </div>
                                 </div>
-                                <div class="flex gap-1.5 mb-2 flex-wrap">
-                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
-                                    ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
-                                    ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الشيفت: ${j.shift}</span>` : ''}
-                                    ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 rounded text-[9px] font-bold">الساعات: ${j.hours}</span>` : ''}
+                                <div class="flex gap-1.5 md:gap-2 mb-2 md:mb-3 flex-wrap">
+                                    <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 md:px-2 md:py-1 rounded text-[9px] md:text-[10px] font-bold">الدوام: ${j.jobType === 'part' ? 'جزئي' : 'كامل'}</span>
+                                    ${j.salary ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 md:px-2 md:py-1 rounded text-[9px] md:text-[10px] font-bold">الراتب: ${j.salary} ج.م</span>` : ''}
+                                    ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 md:px-2 md:py-1 rounded text-[9px] md:text-[10px] font-bold">الشيفت: ${j.shift}</span>` : ''}
+                                    ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 md:px-2 md:py-1 rounded text-[9px] md:text-[10px] font-bold">الساعات: ${j.hours}</span>` : ''}
                                 </div>
-                                <div class="mb-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 text-[10px]">
+                                <div class="mb-2 md:mb-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 md:p-2 text-[10px] md:text-xs">
                                     <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
                                 </div>
                                 <div class="flex gap-2">
-                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}')" class="flex-1 bg-black text-white py-1.5 rounded text-[10px] font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm transition-transform duration-100 active:scale-95">محادثة</button>` : '<span class="flex-1 text-center text-[10px] font-bold text-gray-500 py-1.5 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
-                                    ${hasPhone && !isMyPost ? `<a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 rounded text-[10px] font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm transition-transform duration-100 active:scale-95">WhatsApp</a>` : ''}
+                                    ${!isMyPost ? `<button onclick="window.openChat('${j.uid}')" class="flex-1 bg-black text-white py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm transition-transform duration-100 active:scale-95">محادثة</button>` : '<span class="flex-1 text-center text-[10px] md:text-sm font-bold text-gray-500 py-1.5 md:py-2 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
+                                    ${hasPhone && !isMyPost ? `<a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm transition-transform duration-100 active:scale-95">WhatsApp</a>` : ''}
                                 </div>
                             </div>
                         </div>`);
@@ -1308,24 +1315,24 @@
             const unsubActivity = onSnapshot(query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'requests'), where('uid','==',currentUser.uid)), (snap) => {
                 const list = document.getElementById('my-activity'); list.innerHTML = '';
                 const docs =[]; snap.forEach(d => docs.push({id:d.id, ...d.data()}));
-                if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl"><p class="text-[10px] text-gray-400 font-bold">لا يوجد نشاط مسجل</p></div>'; return; }
+                if(docs.length === 0) { list.innerHTML = '<div class="text-center py-4 rounded-xl col-span-full"><p class="text-[10px] md:text-xs text-gray-400 font-bold">لا يوجد نشاط مسجل</p></div>'; return; }
                 docs.forEach((act) => {
                     const el = document.createElement('div');
                     const isJob = act.type === 'job';
-                    el.className = `bg-gray-50 dark:bg-gray-700 p-2 rounded-xl mb-2 flex items-start gap-2 border border-black dark:border-gray-500 shadow-[1px_1px_0px_#000] dark:shadow-[1px_1px_0px_#6b7280]`;
+                    el.className = `bg-gray-50 dark:bg-gray-700 p-2 md:p-3 rounded-xl mb-2 flex items-start gap-2 border border-black dark:border-gray-500 shadow-[1px_1px_0px_#000] dark:shadow-[1px_1px_0px_#6b7280]`;
                     el.innerHTML = `
                         <div class="flex-1 min-w-0 pr-1">
                             <div class="flex justify-between items-start mb-1">
-                                <span class="text-[10px]"><span class="text-gray-500 font-bold">النوع:</span> <strong class="text-black dark:text-white">${isJob ? 'طلب توظيف' : 'طلب خدمة'}</strong></span>
-                                <span class="text-[9px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(act.createdAt).toLocaleDateString('ar-EG')}</span>
+                                <span class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">النوع:</span> <strong class="text-black dark:text-white">${isJob ? 'طلب توظيف' : 'طلب خدمة'}</strong></span>
+                                <span class="text-[9px] md:text-[10px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(act.createdAt).toLocaleDateString('ar-EG')}</span>
                             </div>
-                            <div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-black dark:text-white">${isJob ? act.title : act.profession}</strong></div>
-                            <div class="text-[9px] text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 p-1.5 rounded border border-gray-200 dark:border-gray-600 truncate">
+                            <div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-black dark:text-white">${isJob ? act.title : act.profession}</strong></div>
+                            <div class="text-[9px] md:text-[10px] text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 p-1.5 rounded border border-gray-200 dark:border-gray-600 truncate">
                                 <span class="text-gray-500 font-bold">الوصف:</span> ${act.desc || 'بدون وصف'}
                             </div>
                         </div>
-                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-500 bg-red-50 hover:bg-red-500 hover:text-white transition-colors duration-200 p-2 rounded-full w-10 h-10 shadow-sm mt-1 border border-red-200 hover:border-red-600">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-500 bg-red-50 hover:bg-red-500 hover:text-white transition-colors duration-200 p-2 md:p-2.5 rounded-full w-10 h-10 md:w-12 md:h-12 shadow-sm mt-1 border border-red-200 hover:border-red-600">
+                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                         </button>
                     `;
                     list.appendChild(el);
@@ -1350,10 +1357,10 @@
             const actionsDiv = document.getElementById('modal-actions'); actionsDiv.innerHTML = '';
             if (!user.settings?.hidePhone) {
                 const justPhone = user.phone.replace('+20', '');
-                actionsDiv.innerHTML = `<a href="https://wa.me/20${justPhone}" target="_blank" class="flex-1 py-2 bg-green-500 text-white rounded-lg font-bold text-xs text-center hover:bg-green-600 shadow flex items-center justify-center gap-1 transition-colors duration-100">WhatsApp</a>`;
+                actionsDiv.innerHTML = `<a href="https://wa.me/20${justPhone}" target="_blank" class="flex-1 py-2 md:py-3 bg-green-500 text-white rounded-lg font-bold text-xs md:text-sm text-center hover:bg-green-600 shadow flex items-center justify-center gap-1 transition-colors duration-100">WhatsApp</a>`;
             }
             const chatBtn = document.createElement('button');
-            chatBtn.className = "flex-1 py-2 bg-black text-white rounded-lg font-bold text-xs shadow hover:bg-gray-800 transition-colors duration-100";
+            chatBtn.className = "flex-1 py-2 md:py-3 bg-black text-white rounded-lg font-bold text-xs md:text-sm shadow hover:bg-gray-800 transition-colors duration-100";
             chatBtn.innerText = "محادثة";
             chatBtn.onclick = () => { document.getElementById('profile-modal').classList.add('hidden'); window.openChat(user.uid); };
             actionsDiv.appendChild(chatBtn);
@@ -1364,18 +1371,18 @@
 
         async function loadReviews(targetId) {
              const list = document.getElementById('modal-reviews-list'); const starsDisplay = document.getElementById('modal-stars-display');
-             list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2">جاري التحميل...</p>';
+             list.innerHTML = '<p class="text-[10px] md:text-xs text-gray-400 text-center p-2">جاري التحميل...</p>';
              const q = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'reviews'), where('toId', '==', targetId));
              const snap = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js").then(m => m.getDocs(q));
              list.innerHTML = ''; let totalStars = 0;
-             if(snap.empty) { list.innerHTML = '<p class="text-[10px] text-gray-400 text-center p-2 font-bold">لا توجد تقييمات حتى الآن</p>'; starsDisplay.innerText = '0.0'; }
+             if(snap.empty) { list.innerHTML = '<p class="text-[10px] md:text-xs text-gray-400 text-center p-2 font-bold">لا توجد تقييمات حتى الآن</p>'; starsDisplay.innerText = '0.0'; }
              else {
                  const reviews =[]; snap.forEach(d => reviews.push(d.data()));
                  reviews.forEach((r) => {
                      totalStars += parseInt(r.stars);
                      const el = document.createElement('div');
-                     el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 rounded mb-1 border border-gray-200 dark:border-gray-600`;
-                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${window.getCloudinaryUrl(r.fromPhoto, 'thumb')}" class="w-5 h-5 rounded-full border border-black"><span class="text-[10px] font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px]">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
+                     el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 md:p-3 rounded mb-1 border border-gray-200 dark:border-gray-600`;
+                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${window.getCloudinaryUrl(r.fromPhoto, 'thumb')}" class="w-5 h-5 md:w-6 md:h-6 rounded-full border border-black"><span class="text-[10px] md:text-xs font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px] md:text-xs">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] md:text-xs text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
                      list.appendChild(el);
                  });
                  starsDisplay.innerText = (totalStars / reviews.length).toFixed(1);
@@ -1416,7 +1423,10 @@
         };
 
         window.openChat = async (uid) => {
-            currentChatId = [currentUser.uid, uid].sort().join('_');
+            // تفريغ الحاوية فوراً لمنع التداخل البصري
+            document.getElementById('messages-container').innerHTML = '';
+            
+            currentChatId =[currentUser.uid, uid].sort().join('_');
             
             let user = allUsersCache.find(u => u.uid === uid);
             
@@ -1452,7 +1462,6 @@
             
             if (chatListener) chatListener();
             
-            // جلب وقت الحذف الخاص بي (إن وجد) لإخفاء الرسائل القديمة
             const chatDoc = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId));
             const chatData = chatDoc.exists() ? chatDoc.data() : {};
             const myDeletedAt = (chatData.deletedAt && chatData.deletedAt[currentUser.uid]) ? chatData.deletedAt[currentUser.uid] : 0;
@@ -1464,17 +1473,17 @@
                     const m = d.data(); 
                     const msgTime = new Date(m.createdAt).getTime();
                     
-                    // إخفاء الرسائل التي أُرسلت قبل قيامي بحذف المحادثة
                     if (msgTime <= myDeletedAt) return;
 
                     const isMe = m.senderId === currentUser.uid;
                     const timeStr = m.createdAt ? new Date(m.createdAt).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
                     
+                    // إزالة animate-fade لمنع التداخل البصري عند التبديل السريع
                     html.push(`
-                        <div class="flex ${isMe?'justify-end':'justify-start'} animate-fade w-full">
-                            <div class="max-w-[85%] p-2 rounded-lg text-xs shadow-[2px_2px_0px_#000] flex flex-col ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">
+                        <div class="flex ${isMe?'justify-end':'justify-start'} w-full">
+                            <div class="max-w-[85%] p-2 md:p-3 rounded-lg text-xs md:text-sm shadow-[2px_2px_0px_#000] flex flex-col ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">
                                 <span>${m.text}</span>
-                                <span class="text-[8px] mt-1 opacity-70 text-left" dir="ltr">${timeStr}</span>
+                                <span class="text-[8px] md:text-[10px] mt-1 opacity-70 text-left" dir="ltr">${timeStr}</span>
                             </div>
                         </div>
                     `);
@@ -1484,7 +1493,6 @@
             });
         };
 
-        // حذف المحادثة من طرف واحد مع حفظ وقت الحذف
         window.confirmDeleteChat = async () => {
             if(!currentChatId) return;
             window.showLoader();
@@ -1530,7 +1538,6 @@
             document.getElementById('filter-modal').classList.add('hidden');
         };
 
-        // تحميل تدريجي للدليل
         window.filterDirectory = () => {
             const term = document.getElementById('dir-search').value.trim();
             const center = document.getElementById('filter-center')?.value || '';
@@ -1561,7 +1568,6 @@
             dirRenderedCount += ITEMS_PER_PAGE;
         }
 
-        // تحميل تدريجي للأقسام
         window.filterCategory = () => {
             const term = document.getElementById('cat-search').value.trim();
             const center = document.getElementById('filter-center')?.value || '';
@@ -1585,7 +1591,7 @@
             cont.innerHTML = '';
             
             if(filteredCatItems.length === 0) { 
-                cont.innerHTML = `<div class="text-center py-10 col-span-full"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج</p></div>`; 
+                cont.innerHTML = `<div class="text-center py-10 col-span-full"><p class="text-gray-500 font-bold text-[10px] md:text-xs">لا توجد نتائج</p></div>`; 
                 return; 
             }
             renderMoreCategory();
@@ -1599,7 +1605,6 @@
             catRenderedCount += ITEMS_PER_PAGE;
         }
 
-        // مستمع النزول لأسفل لتشغيل التحميل التدريجي
         window.addEventListener('scroll', () => {
             if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
                 if(!document.getElementById('page-directory').classList.contains('hidden')) renderMoreDirectory();
@@ -1623,15 +1628,15 @@
             
             return `
             <div class="fast-render-card">
-                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 flex items-start gap-2.5">
-                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
+                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 md:mb-3 flex items-start gap-2.5 md:gap-4">
+                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start mb-1">
-                            <span class="text-[10px]"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
-                            <span class="text-[9px] text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+                            <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
+                            <span class="text-[9px] md:text-xs text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
                         </div>
-                        ${!isClient ? `<div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
-                        <div class="text-[10px]"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
+                        ${!isClient ? `<div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
+                        <div class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                     </div>
                 </div>
             </div>`;
@@ -1703,12 +1708,12 @@
             const formReq = document.getElementById('form-req'); const formJob = document.getElementById('form-job');
             if (mode === 'req') {
                 formReq.classList.remove('hidden'); formJob.classList.add('hidden');
-                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-100";
-                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100";
+                btnReq.className = "flex-1 py-2 md:py-3 rounded-lg text-xs md:text-sm font-bold border-2 border-black bg-black text-white transition-all duration-100";
+                btnJob.className = "flex-1 py-2 md:py-3 rounded-lg text-xs md:text-sm font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100";
             } else {
                 formReq.classList.add('hidden'); formJob.classList.remove('hidden');
-                btnJob.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-black bg-black text-white transition-all duration-100";
-                btnReq.className = "flex-1 py-2 rounded-lg text-xs font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100";
+                btnJob.className = "flex-1 py-2 md:py-3 rounded-lg text-xs md:text-sm font-bold border-2 border-black bg-black text-white transition-all duration-100";
+                btnReq.className = "flex-1 py-2 md:py-3 rounded-lg text-xs md:text-sm font-bold border-2 border-gray-300 bg-white text-gray-500 transition-all duration-100";
             }
         };
        
@@ -1782,7 +1787,6 @@
             document.getElementById('matching-reqs-list').innerHTML = '';
             document.getElementById('dir-list').innerHTML = '';
             document.getElementById('cat-list-container').innerHTML = '';
-            document.getElementById('professions-grid').innerHTML = ''; 
             document.getElementById('messages-container').innerHTML = '';
 
             document.getElementById('notif-dot').classList.add('hidden');
@@ -1794,6 +1798,22 @@
             
             await signOut(auth); 
         };
+
+        // مستمع لتغيير الرابط يدوياً من شريط المتصفح (Deep Linking)
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+            if (hash && document.getElementById(`page-${hash}`)) {
+               if (navStack[navStack.length-1] !== hash) {
+                   window.navTo(hash, true);
+               }
+            } else if (hash === 'home-jobs') {
+                window.navTo('home', true);
+                window.switchHomeTab('jobs');
+            } else if (hash === 'home-services') {
+                window.navTo('home', true);
+                window.switchHomeTab('services');
+            }
+        });
 
         window.addEventListener('popstate', (e) => {
             if (e.state && e.state.pageId) {
