@@ -39,7 +39,12 @@
             theme: {
                 extend: {
                     fontFamily: { sans:['Cairo', 'sans-serif'] },
-                    colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' }
+                    colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' },
+                    animation: { 'fade': 'fadeIn 0.1s ease-in-out', 'pop': 'popIn 0.1s ease-out' },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+                        popIn: { '0%': { transform: 'scale(0.95)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
+                    }
                 }
             }
         }
@@ -69,7 +74,7 @@
         .provider-card { border: 2px solid #000000; box-shadow: 2px 2px 0px #000000; }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
 
-        /* تسريع المعالجة عبر كارت الشاشة (GPU Acceleration) */
+        /* أداء عالي للقوائم الطويلة وتسريع كارت الشاشة */
         .fast-render-card { 
             content-visibility: auto; 
             contain-intrinsic-size: 120px; 
@@ -100,6 +105,7 @@
 
     <div id="toast-box"></div>
 
+    <!-- استعادة واجهة التحميل كما طلبت -->
     <div id="loader" class="fixed inset-0 bg-gradient-to-br from-gray-100 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-black backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-150">
         <div class="relative w-24 h-24 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
@@ -243,7 +249,7 @@
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="cat-list-container" class="pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
+                <div id="cat-list-container" class="pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
             </div>
         </section>
 
@@ -256,12 +262,9 @@
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="dir-list" class="pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
+                <div id="dir-list" class="pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
             </div>
         </section>
-
-        <!-- عنصر المراقبة للتمرير اللانهائي -->
-        <div id="scroll-sentinel" class="w-full h-20 pb-24"></div>
 
         <!-- ADD -->
         <section id="page-add" class="page-section hidden px-4 md:px-6">
@@ -619,7 +622,7 @@
             return `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=200`;
         }
 
-        let currentUser = null, userProfile = null, currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
+        let currentUser = null, userProfile = null, navStack =['home'], currentChatId = null, allUsersCache =[], myChatsCache =[], chatListener = null, currentModalUserId = null;
         let tempSelectedFile = null;
         let globalUnsubs =[];
 
@@ -631,10 +634,7 @@
         let catRenderedCount = 0;
         let filteredDirItems =[];
         let filteredCatItems =[];
-        const ITEMS_PER_PAGE = 15; // تحميل 15 بطاقة فقط لتخفيف الضغط
-
-        // متغير لحفظ الرابط المطلوب قبل تسجيل الدخول
-        let pendingRoute = window.location.hash.replace('#', '');
+        const ITEMS_PER_PAGE = 20;
 
         const CLOUD_NAME = "db9h7zm1h"; 
         const UPLOAD_PRESET = "souq_upload";
@@ -723,19 +723,21 @@
             }
         };
 
-        // نظام التوجيه بالروابط (Hash Router)
+        // إعداد نقطة الخروج (مصيدة الرجوع)
+        history.replaceState({ pageId: 'exit_trap' }, "", window.location.pathname);
+        history.pushState({ pageId: 'home' }, "", window.location.pathname);
+
         window.navTo = (pageId, skipHistory = false) => {
             window.scrollTo(0, 0);
 
             // تنظيف الحقول عند مغادرة صفحة الإضافة
-            const currentHash = window.location.hash.replace('#', '') || 'home';
-            if (currentHash === 'add' && pageId !== 'add') {
+            if (navStack[navStack.length - 1] === 'add' && pageId !== 'add') {
                 window.clearForms();
             }
 
             // تفريغ الذاكرة للصفحات الثقيلة عند الخروج منها لمنع اللاج
-            if (pageId !== 'directory') { document.getElementById('dir-list').innerHTML = ''; dirRenderedCount = 0; }
-            if (pageId !== 'category-details') { document.getElementById('cat-list-container').innerHTML = ''; catRenderedCount = 0; }
+            if (pageId !== 'directory') document.getElementById('dir-list').innerHTML = '';
+            if (pageId !== 'category-details') document.getElementById('cat-list-container').innerHTML = '';
 
             if(pageId === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
             
@@ -756,9 +758,11 @@
 
             if (!skipHistory) {
                 if (pageId === 'home') {
-                    window.location.hash = ''; // إزالة الهاش للرئيسية
+                    navStack = ['home'];
+                    history.pushState({ pageId: 'home' }, "", window.location.pathname);
                 } else {
-                    window.location.hash = pageId; // تغيير الرابط
+                    if (navStack[navStack.length - 1] !== pageId) navStack.push(pageId);
+                    history.pushState({ pageId: pageId }, "", window.location.pathname);
                 }
             }
            
@@ -779,24 +783,44 @@
             history.back(); 
         };
 
-        // الاستماع لتغير الروابط (الرجوع الذكي ومصيدة الخروج)
-        window.addEventListener('hashchange', async () => {
-            const hash = window.location.hash.replace('#', '');
-            
-            if (!hash) {
-                // إذا كان الرابط فارغاً (الرئيسية)
-                if (!document.getElementById('page-home').classList.contains('hidden')) {
-                    // إذا كنا بالفعل في الرئيسية وضغط رجوع، نخرج من الموقع
-                    await window.logout();
-                    return;
-                }
-                window.navTo('home', true);
-            } else {
-                window.navTo(hash, true);
-                // إعادة بناء القوائم إذا رجعنا إليها
-                if (hash === 'directory' && allUsersCache.length > 0) window.filterDirectory();
-                if (hash === 'category-details' && allUsersCache.length > 0) window.filterCategory();
+        window.addEventListener('popstate', async (e) => {
+            // إذا وصل لنقطة الخروج (قبل الرئيسية)
+            if (!e.state || e.state.pageId === 'exit_trap') {
+                await window.logout();
+                return; // نسمح للمتصفح بالخروج
             }
+
+            const pageId = e.state.pageId;
+            
+            const index = navStack.indexOf(pageId);
+            if (index !== -1) {
+                navStack = navStack.slice(0, index + 1);
+            } else {
+                navStack.push(pageId);
+            }
+
+            // تفريغ الذاكرة للصفحات الثقيلة عند الخروج منها
+            if (pageId !== 'directory') document.getElementById('dir-list').innerHTML = '';
+            if (pageId !== 'category-details') document.getElementById('cat-list-container').innerHTML = '';
+
+            document.getElementById('page-chat-room').classList.add('hidden');
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+            
+            const backBtn = document.getElementById('btn-back');
+            if (pageId === 'home') {
+                document.getElementById('btn-back').classList.add('hidden');
+                document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`;
+            } else {
+                document.getElementById('btn-back').classList.remove('hidden');
+                document.getElementById('page-title').innerText = pageId === 'activity' ? 'النشاط' : 'رجوع';
+            }
+            window.updateBottomNav(pageId);
+            window.scrollTo(0, 0);
+
+            // إعادة بناء القوائم إذا رجعنا إليها
+            if (pageId === 'directory' && allUsersCache.length > 0) window.filterDirectory();
+            if (pageId === 'category-details' && allUsersCache.length > 0) window.filterCategory();
         });
 
         function initApp() {
@@ -1016,15 +1040,7 @@
                         }
 
                         initApp(); startListeners(); 
-
-                        // توجيه المستخدم للرابط المطلوب بعد تسجيل الدخول
-                        if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
-                            window.navTo(pendingRoute);
-                            pendingRoute = null;
-                        } else {
-                            window.navTo('home');
-                        }
-
+                        window.navTo('home', true);
                     } else {
                         signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
                     }
@@ -1033,13 +1049,9 @@
             } else {
                 // تنظيف كامل عند مسح الكاش أو عدم وجود مستخدم
                 window.clearForms();
-                
-                // تنبيه المستخدم إذا كان يحاول الدخول لرابط محمي
-                if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
-                    window.showToast('يرجى تسجيل الدخول أولاً للوصول للصفحة المطلوبة', 'error');
-                }
-                
-                window.location.hash = ''; // مسح الرابط ظاهرياً
+                navStack = ['home'];
+                history.replaceState({ pageId: 'exit_trap' }, "", window.location.pathname);
+                history.pushState({ pageId: 'home' }, "", window.location.pathname);
 
                 document.getElementById('app-view').classList.add('hidden');
                 document.getElementById('app-header').classList.add('hidden');
@@ -1137,7 +1149,7 @@
             }).join('');
             
             list.innerHTML = html;
-            const chatTabActive = window.location.hash.replace('#', '') === 'chat';
+            const chatTabActive = navStack[navStack.length-1] === 'chat';
             if (hasUnreadChatsForTab && !chatTabActive) document.getElementById('chat-nav-dot').classList.remove('hidden');
             else document.getElementById('chat-nav-dot').classList.add('hidden');
         };
@@ -1194,7 +1206,7 @@
                     if(d.id !== currentUser.uid && !(u.settings?.hideProfile)) allUsersCache.push(u);
                 });
                 
-                const currentPage = window.location.hash.replace('#', '');
+                const currentPage = navStack[navStack.length-1];
                 if (currentPage === 'category-details') window.filterCategory();
                 else if (currentPage === 'directory') window.filterDirectory();
                 
@@ -1492,7 +1504,7 @@
                     `);
                 });
                 box.innerHTML = html.join(''); box.scrollTop = box.scrollHeight;
-                if (window.location.hash.replace('#', '') === 'chat-room') localStorage.setItem(chatSeenKey, Date.now().toString());
+                if (navStack[navStack.length-1] === 'chat-room') localStorage.setItem(chatSeenKey, Date.now().toString());
             });
         };
 
@@ -1514,11 +1526,11 @@
 
         window.applyFilter = () => {
             document.getElementById('filter-modal').classList.add('hidden');
-            const currentPage = window.location.hash.replace('#', '');
+            const currentPage = navStack[navStack.length-1];
             if (currentPage === 'category-details') {
                 window.filterCategory();
             } else {
-                if (currentPage === 'home' || !currentPage) window.navTo('directory');
+                if (currentPage === 'home') window.navTo('directory');
                 window.filterDirectory();
             }
         };
@@ -1527,7 +1539,7 @@
             document.getElementById('filter-center').value = '';
             document.getElementById('filter-village').innerHTML = '<option value="">القرية...</option>';
             
-            const currentPage = window.location.hash.replace('#', '');
+            const currentPage = navStack[navStack.length-1];
             if (currentPage === 'category-details') {
                 const currentProf = document.getElementById('page-title').innerText;
                 document.getElementById('filter-prof').value = currentProf;
@@ -1620,20 +1632,19 @@
             catRenderedCount += ITEMS_PER_PAGE;
         }
 
-        // نظام التمرير اللانهائي الذكي (بدون إجهاد المعالج)
-        const scrollObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                const currentPage = window.location.hash.replace('#', '');
-                if (currentPage === 'directory') renderMoreDirectory();
-                if (currentPage === 'category-details') renderMoreCategory();
+        let isScrolling = false;
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                window.requestAnimationFrame(() => {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+                        if(!document.getElementById('page-directory').classList.contains('hidden')) renderMoreDirectory();
+                        if(!document.getElementById('page-category-details').classList.contains('hidden')) renderMoreCategory();
+                    }
+                    isScrolling = false;
+                });
+                isScrolling = true;
             }
-        }, { rootMargin: '300px' }); // يبدأ التحميل قبل الوصول للنهاية بـ 300 بكسل
-
-        // تفعيل المراقب
-        window.addEventListener('DOMContentLoaded', () => {
-            const sentinel = document.getElementById('scroll-sentinel');
-            if (sentinel) scrollObserver.observe(sentinel);
-        });
+        }, { passive: true });
 
         window.openCategory = (profName) => {
             window.navTo('category-details');
@@ -1813,10 +1824,10 @@
             document.getElementById('chat-nav-dot').classList.add('hidden');
             document.getElementById('act-notif-badge').classList.add('hidden');
 
-            userProfile = null; currentUser = null; allUsersCache =[]; myChatsCache =[];
-            reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal =[]; navStack =['home'];
+            userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
+            reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack =['home'];
             
-            window.location.hash = '';
+            history.replaceState({ pageId: 'home' }, "", window.location.pathname);
             
             await signOut(auth); 
         };
