@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -86,7 +85,6 @@
         .border-black-custom { border: 2px solid #000000 !important; box-shadow: 2px 2px 0px #000000 !important; }
         .dark .border-black-custom { border: 2px solid #6b7280 !important; box-shadow: 2px 2px 0px #6b7280 !important; }
        
-        /* إزالة content-visibility لمنع اللاج وإعادة الرسم عند التمرير */
         .provider-card { 
             border: 2px solid #000000; 
             box-shadow: 2px 2px 0px #000000; 
@@ -138,7 +136,7 @@
     </div>
 
     <!-- Header -->
-    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 md:h-16 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto transition-all duration-100">
+    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 md:h-16 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-3xl md:mx-auto transition-all duration-100">
         <div class="flex items-center gap-2 md:gap-4">
             <button id="btn-back" onclick="window.goBack()" class="p-1.5 md:p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
@@ -233,16 +231,16 @@
     </div>
 
     <!-- APP VIEW -->
-    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 md:pt-20 min-h-screen relative transition-all duration-100">
+    <div id="app-view" class="hidden w-full md:max-w-3xl md:mx-auto pt-16 md:pt-20 min-h-screen relative transition-all duration-100">
        
         <!-- HOME -->
         <section id="page-home" class="page-section px-3 md:px-6 animate-fade">
             <div class="sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 md:mb-4 space-y-2 md:space-y-3">
-                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-md md:max-w-xl mx-auto h-10 md:h-12 items-center">
+                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] w-full mx-auto h-10 md:h-12 items-center">
                     <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs md:text-sm font-bold bg-black text-white transition-all duration-100">خدمات</button>
                     <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs md:text-sm font-bold text-gray-500 transition-all duration-100">وظائف</button>
                 </div>
-                <div id="prof-search-box" class="relative max-w-md md:max-w-xl mx-auto flex gap-2">
+                <div id="prof-search-box" class="relative w-full mx-auto flex gap-2">
                     <div class="relative flex-1">
                         <input type="text" id="prof-search" onkeyup="window.debouncedSearch('prof')" placeholder="ابحث عن مهنة..." class="w-full p-2 md:p-3 pr-8 md:pr-10 rounded-lg border-2 border-black dark:border-gray-500 text-xs md:text-sm h-10 md:h-12">
                         <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 md:top-3 text-gray-400 hover:text-black md:text-lg">✕</button>
@@ -261,27 +259,27 @@
 
         <!-- CATEGORY -->
         <section id="page-category-details" class="page-section hidden px-3 md:px-6 animate-fade">
-            <div class="max-w-md md:max-w-2xl mx-auto">
-                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2">
+            <div class="w-full mx-auto">
+                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 w-full">
                     <input type="text" id="cat-search" onkeyup="window.debouncedSearch('cat')" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black dark:border-gray-500 text-xs md:text-sm h-10 md:h-12 bg-white dark:bg-gray-800">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="cat-list-container" class="space-y-3 md:space-y-4 pb-20 grid md:grid-cols-2 gap-4"></div>
+                <div id="cat-list-container" class="space-y-3 md:space-y-0 pb-20 grid md:grid-cols-2 md:gap-4 w-full"></div>
             </div>
         </section>
 
         <!-- DIRECTORY -->
         <section id="page-directory" class="page-section hidden px-3 md:px-6 animate-fade">
-            <div class="max-w-md md:max-w-2xl mx-auto">
-                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2">
+            <div class="w-full mx-auto">
+                <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 w-full">
                     <input type="text" id="dir-search" onkeyup="window.debouncedSearch('dir')" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black text-xs md:text-sm h-10 md:h-12">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <div id="dir-list" class="space-y-2 md:space-y-3 pb-20 grid md:grid-cols-2 md:gap-4"></div>
+                <div id="dir-list" class="space-y-2 md:space-y-0 pb-20 grid md:grid-cols-2 md:gap-4 w-full"></div>
             </div>
         </section>
 
@@ -452,7 +450,7 @@
     </div>
 
     <!-- PROFILE POPUP -->
-    <div id="profile-modal" class="modal-overlay hidden animate-pop overflow-y-auto">
+    <div id="profile-modal" class="modal-overlay hidden animate-pop overflow-y-auto z-[150]">
         <div class="bg-white dark:bg-gray-800 w-full max-w-sm md:max-w-md rounded-xl border-black-custom p-5 md:p-8 relative shadow-2xl my-10">
             <button onclick="document.getElementById('profile-modal').classList.add('hidden')" class="absolute top-3 left-3 md:top-4 md:left-4 font-bold text-gray-400 hover:text-red-500 text-xl md:text-2xl">✕</button>
             <div class="flex flex-col items-center">
@@ -490,7 +488,7 @@
     </div>
 
     <!-- RATE MODAL -->
-    <div id="rate-modal" class="modal-overlay hidden animate-pop">
+    <div id="rate-modal" class="modal-overlay hidden animate-pop z-[160]">
         <div class="bg-white dark:bg-gray-800 w-full max-w-xs md:max-w-sm rounded-xl border-black-custom p-5 md:p-6 shadow-xl">
             <h3 class="text-center font-bold mb-3 md:mb-4 text-sm md:text-base">تقييم التجربة</h3>
             <form id="form-review">
@@ -537,8 +535,8 @@
         </div>
     </div>
 
-    <!-- CHAT ROOM -->
-    <div id="page-chat-room" class="full-screen-modal hidden md:max-w-4xl md:mx-auto md:inset-auto md:h-[600px] md:rounded-xl md:border-2 border-black md:top-20 overflow-hidden">
+    <!-- CHAT ROOM (Full Screen Always) -->
+    <div id="page-chat-room" class="full-screen-modal hidden overflow-hidden z-[100]">
         <div class="h-14 md:h-16 bg-white dark:bg-gray-800 flex items-center px-3 justify-between border-b-2 border-gray-200 dark:border-gray-700 shrink-0 z-10">
             <div class="flex items-center gap-1 md:gap-2">
                 <button onclick="window.goBack()" class="p-1 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"><svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg></button>
@@ -555,7 +553,7 @@
             </div>
         </div>
         <div id="messages-container" class="flex-1 overflow-y-auto p-3 md:p-4 space-y-2 md:space-y-3 bg-gray-50 dark:bg-gray-900 custom-scrollbar flex flex-col"></div>
-        <form id="form-message" class="p-2 md:p-3 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 md:gap-3 shrink-0">
+        <form id="form-message" class="p-2 md:p-3 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 md:gap-3 shrink-0 pb-6 md:pb-3">
             <input type="text" id="msg-input" class="flex-1 p-2 md:p-3 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm md:text-base" placeholder="اكتب رسالة..." autocomplete="off">
             <button type="submit" id="btn-send-msg" class="p-2 md:p-3 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 md:w-6 md:h-6 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
         </form>
@@ -650,10 +648,9 @@
         
         let pendingRoute = window.location.hash.replace('#', '');
 
-        // متغيرات للتحميل التدريجي
         let dirRenderedCount = 0;
         let catRenderedCount = 0;
-        let filteredDirItems = [];
+        let filteredDirItems =[];
         let filteredCatItems =[];
         const ITEMS_PER_PAGE = 20;
 
@@ -721,17 +718,22 @@
             }
         };
 
-        // تحديث ألوان شريط التنقل السفلي بشكل صحيح وإزالة التنشيط من الأزرار الأخرى
         window.updateBottomNav = (pageId) => {
             const btns = document.querySelectorAll('.nav-btn');
             btns.forEach(b => {
                 b.classList.remove('text-blue-600', 'active');
                 b.classList.add('text-gray-400');
             });
-            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3, 'add': -1}; 
-            if(navMap[pageId] !== undefined && navMap[pageId] !== -1 && btns[navMap[pageId]]) {
-                btns[navMap[pageId]].classList.add('text-blue-600', 'active');
-                btns[navMap[pageId]].classList.remove('text-gray-400');
+            
+            let activeIndex = -1;
+            if (['home', 'category-details'].includes(pageId)) activeIndex = 0;
+            else if (['directory'].includes(pageId)) activeIndex = 1;
+            else if (['chat', 'chat-room'].includes(pageId)) activeIndex = 2;
+            else if (['profile', 'activity', 'edit-profile', 'settings'].includes(pageId)) activeIndex = 3;
+            
+            if(activeIndex !== -1 && btns[activeIndex]) {
+                btns[activeIndex].classList.add('text-blue-600', 'active');
+                btns[activeIndex].classList.remove('text-gray-400');
             }
         };
 
@@ -751,7 +753,6 @@
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
             
-            // إخفاء الصفحات دون مسح الـ DOM (للإبقاء على الرسم كما هو)
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             
             if (pageId === 'home') navStack =['home']; 
@@ -847,7 +848,6 @@
             });
         }
 
-        // دالة تأخير البحث (Debounce) لمنع اللاج
         let searchTimeout;
         window.debouncedSearch = (type) => {
             clearTimeout(searchTimeout);
@@ -1014,7 +1014,6 @@
 
                         initApp(); startListeners(); 
                         
-                        // معالجة الروابط العميقة بعد تسجيل الدخول
                         if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
                             if (pendingRoute === 'home-jobs') { window.navTo('home', true); window.switchHomeTab('jobs'); }
                             else if (pendingRoute === 'home-services') { window.navTo('home', true); window.switchHomeTab('services'); }
@@ -1142,13 +1141,12 @@
 
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
             const unsubChats = onSnapshot(chatQuery, async (snap) => {
-                myChatsCache = [];
+                myChatsCache =[];
                 let chatNotifs =[];
                 
                 const missingUserIds = new Set();
                 snap.forEach(d => {
                     const c = d.data();
-                    // إخفاء المحادثة إذا تم حذفها من قبلي
                     if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; 
                     const otherId = c.users.find(u => u !== currentUser.uid);
                     if (!allUsersCache.find(u => u.uid === otherId)) missingUserIds.add(otherId);
@@ -1423,7 +1421,6 @@
         };
 
         window.openChat = async (uid) => {
-            // تفريغ الحاوية فوراً لمنع التداخل البصري
             document.getElementById('messages-container').innerHTML = '';
             
             currentChatId =[currentUser.uid, uid].sort().join('_');
@@ -1478,7 +1475,6 @@
                     const isMe = m.senderId === currentUser.uid;
                     const timeStr = m.createdAt ? new Date(m.createdAt).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
                     
-                    // إزالة animate-fade لمنع التداخل البصري عند التبديل السريع
                     html.push(`
                         <div class="flex ${isMe?'justify-end':'justify-start'} w-full">
                             <div class="max-w-[85%] p-2 md:p-3 rounded-lg text-xs md:text-sm shadow-[2px_2px_0px_#000] flex flex-col ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">
@@ -1627,15 +1623,15 @@
             const isClient = u.role === 'client';
             
             return `
-            <div class="fast-render-card">
-                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 md:mb-3 flex items-start gap-2.5 md:gap-4">
+            <div class="fast-render-card h-full">
+                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 md:mb-3 flex items-start gap-2.5 md:gap-4 h-full min-h-[110px] md:min-h-[130px]">
                     <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
-                    <div class="flex-1 min-w-0">
+                    <div class="flex-1 min-w-0 flex flex-col justify-center">
                         <div class="flex justify-between items-start mb-1">
                             <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
                             <span class="text-[9px] md:text-xs text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
                         </div>
-                        ${!isClient ? `<div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
+                        <div class="text-[10px] md:text-xs mb-1 min-h-[16px]"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${!isClient && u.profession ? u.profession : (isClient ? 'عميل' : 'غير محدد')}</strong></div>
                         <div class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                     </div>
                 </div>
@@ -1796,10 +1792,12 @@
             userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
             reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack =['home'];
             
+            window.location.hash = '';
+            history.replaceState(null, '', window.location.pathname);
+            
             await signOut(auth); 
         };
 
-        // مستمع لتغيير الرابط يدوياً من شريط المتصفح (Deep Linking)
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.replace('#', '');
             if (hash && document.getElementById(`page-${hash}`)) {
@@ -1830,7 +1828,7 @@
             } else if (navStack.length > 1) {
                 window.goBack();
             } else {
-                history.pushState(null, '', window.location.href);
+                window.navTo('home', true);
             }
         });
 
