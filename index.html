@@ -13,11 +13,6 @@
     <meta property="og:url" content="https://services-and-jobs.netlify.app/">
     <meta property="og:type" content="website">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="دليل الشرقية الماسية">
-    <meta name="twitter:description" content="دليل خدمات ووظائف محافظة الشرقية">
-    <meta name="twitter:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
-
     <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
     
@@ -89,6 +84,11 @@
             box-shadow: 2px 2px 0px #000000; 
         }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
+
+        .fast-render-card {
+            content-visibility: auto; 
+            contain-intrinsic-size: 100px; 
+        }
 
         .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
@@ -242,8 +242,7 @@
                 <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4"></div>
             </div>
            
-            <!-- تم تعديل الـ Grid الخاص بالوظائف ليكون بطاقتين في التابلت -->
-            <div id="view-jobs" class="hidden pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full">
+            <div id="view-jobs" class="hidden space-y-3 md:space-y-4 pb-4 max-w-2xl mx-auto lg:max-w-4xl lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
                 <p class="text-center text-gray-400 py-10 text-[10px] md:text-xs font-bold col-span-full">جاري تحميل الوظائف...</p>
             </div>
         </section>
@@ -297,6 +296,7 @@
                 </form>
 
                 <form id="form-job" class="hidden space-y-3 md:space-y-4">
+                    <!-- زر رفع لوجو الوظيفة -->
                     <div class="flex justify-center mb-2">
                         <div class="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-gray-100 dark:bg-gray-700 border-2 border-dashed border-gray-400 relative overflow-hidden cursor-pointer" onclick="document.getElementById('job-file').click()">
                             <img id="job-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%239ca3af'%3E%3Cpath d='M4 4h16v16H4z'/%3E%3C/svg%3E" class="w-full h-full object-cover opacity-80 hover:opacity-100">
@@ -645,6 +645,8 @@
         let reqNotifs =[];
         let reviewNotifs =[];
         window.chatNotifsGlobal =[];
+        
+        let pendingRoute = window.location.hash.replace('#', '');
 
         let dirRenderedCount = 0;
         let catRenderedCount = 0;
@@ -743,10 +745,6 @@
 
             if (hash === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
 
-            // تفريغ الذاكرة من الصفحات الثقيلة إذا لم نكن فيها
-            if (hash !== 'directory') { document.getElementById('dir-list').innerHTML = ''; dirRenderedCount = 0; }
-            if (hash !== 'category-details') { document.getElementById('cat-list-container').innerHTML = ''; catRenderedCount = 0; }
-
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
             document.getElementById('page-chat-room').classList.add('hidden');
             
@@ -768,9 +766,7 @@
             window.updateBottomNav(hash);
             window.scrollTo(0, 0);
             
-            if (hash === 'directory' && allUsersCache.length > 0) window.filterDirectory();
-            if (hash === 'category-details' && allUsersCache.length > 0) window.filterCategory();
-            if (hash === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
+            if(hash === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
         };
 
         window.navTo = (pageId) => {
@@ -811,7 +807,7 @@
             const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
             const html = list.map(p => `
                 <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 md:h-32 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105">
-                    <img src="${getProfImage(p)}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
+                    <img src="${getProfImage(p)}" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] md:text-xs drop-shadow-md text-center">${p}</span>
                     </div>
@@ -1008,8 +1004,13 @@
                         }
 
                         initApp(); startListeners(); 
-                        window.handleRoute();
                         
+                        if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
+                            window.location.hash = pendingRoute;
+                            pendingRoute = '';
+                        } else {
+                            window.handleRoute();
+                        }
                     } else {
                         signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
                     }
@@ -1024,7 +1025,13 @@
                 document.getElementById('nav-bar').classList.add('hidden');
                 document.getElementById('auth-view').classList.remove('hidden');
                 
-                window.switchAuthMode('login');
+                if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
+                    window.showToast('يرجى تسجيل الدخول أولاً للوصول للرابط المطلوب', 'error');
+                }
+                
+                if (pendingRoute === 'signup') window.switchAuthMode('signup');
+                else window.switchAuthMode('login');
+                
                 window.hideLoader();
             }
         });
@@ -1121,8 +1128,8 @@
             else document.getElementById('chat-nav-dot').classList.add('hidden');
         };
 
-        window.shareJob = (title, poster, phone, type, salary, shift, hours, date, desc) => {
-            const text = `*وظيفة متاحة: ${title}*\nصاحب العمل: ${poster}\nرقم التواصل: ${phone}\nتاريخ النشر: ${date}\nالدوام: ${type}\nالراتب: ${salary || 'غير محدد'}\nالشيفت: ${shift || 'غير محدد'}\nساعات العمل: ${hours || 'غير محدد'}\n\nالتفاصيل:\n${desc}\n\nتم النشر عبر دليل الشرقية`;
+        window.shareJob = (title, poster, phone, type, salary, desc) => {
+            const text = `*وظيفة متاحة: ${title}*\nصاحب العمل: ${poster}\nرقم التواصل: ${phone}\nالدوام: ${type}\nالراتب: ${salary || 'غير محدد'}\nالتفاصيل: ${desc}\n\nتم النشر عبر دليل الشرقية`;
             if (navigator.share) {
                 navigator.share({ title: title, text: text }).catch(console.error);
             } else {
@@ -1184,7 +1191,7 @@
                 
                 const hash = window.location.hash.replace('#', '');
                 if (hash === 'category-details') window.filterCategory();
-                else if (hash === 'directory') window.filterDirectory();
+                else window.filterDirectory();
                 
                 window.renderChatsUI(); 
             });
@@ -1273,17 +1280,16 @@
                     const hasPhone = j.contactPhone && j.contactPhone.length > 5;
                     const isMyPost = j.uid === currentUser.uid;
                     const jobLogoHtml = j.jobLogo ? `<img src="${window.getCloudinaryUrl(j.jobLogo, 'thumb')}" class="w-12 h-12 md:w-16 md:h-16 rounded-lg object-cover border border-gray-300 dark:border-gray-600 shrink-0 mr-2">` : '';
-                    const jobDate = new Date(j.createdAt).toLocaleDateString('ar-EG');
                     
                     html.push(`
-                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] overflow-hidden relative flex flex-col">
-                            <div class="p-2.5 md:p-4 flex-1 flex flex-col">
+                        <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] overflow-hidden relative">
+                            <div class="p-2.5 md:p-4">
                                 <div class="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
                                     <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between items-start mb-1">
                                             <span class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
-                                            <span class="text-[9px] md:text-[10px] text-gray-500 font-bold shrink-0">التاريخ: ${jobDate}</span>
+                                            <span class="text-[9px] md:text-[10px] text-gray-500 font-bold shrink-0">التاريخ: ${new Date(j.createdAt).toLocaleDateString('ar-EG')}</span>
                                         </div>
                                         <div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${j.title}</strong></div>
                                     </div>
@@ -1295,13 +1301,13 @@
                                     ${j.shift ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 md:px-2 md:py-1 rounded text-[9px] md:text-[10px] font-bold">الشيفت: ${j.shift}</span>` : ''}
                                     ${j.hours ? `<span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-300 dark:border-gray-600 px-1.5 py-0.5 md:px-2 md:py-1 rounded text-[9px] md:text-[10px] font-bold">الساعات: ${j.hours}</span>` : ''}
                                 </div>
-                                <div class="mb-2 md:mb-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 md:p-2 text-[10px] md:text-xs flex-1">
+                                <div class="mb-2 md:mb-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded p-1.5 md:p-2 text-[10px] md:text-xs">
                                     <span class="text-gray-500 font-bold">التفاصيل:</span> <span class="text-black dark:text-gray-200 leading-relaxed whitespace-pre-wrap">${j.desc}</span>
                                 </div>
-                                <div class="flex gap-2 mt-auto">
+                                <div class="flex gap-2">
                                     ${!isMyPost ? `<button onclick="window.openChat('${j.uid}')" class="flex-1 bg-black text-white py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold hover:bg-gray-800 flex items-center justify-center shadow-sm active:scale-95">محادثة</button>` : '<span class="flex-1 text-center text-[10px] md:text-sm font-bold text-gray-500 py-1.5 md:py-2 bg-gray-100 border border-gray-200 rounded">إعلانك الخاص</span>'}
                                     ${hasPhone && !isMyPost ? `<a href="https://wa.me/20${j.contactPhone}" target="_blank" class="flex-1 bg-green-500 text-white py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold text-center hover:bg-green-600 flex items-center justify-center shadow-sm active:scale-95">WhatsApp</a>` : ''}
-                                    <button onclick="window.shareJob('${j.title}', '${j.posterName}', '${j.contactPhone}', '${j.jobType === 'part' ? 'جزئي' : 'كامل'}', '${j.salary || ''}', '${j.shift || ''}', '${j.hours || ''}', '${jobDate}', '${j.desc.replace(/\n/g, ' ')}')" class="bg-blue-500 text-white px-3 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold text-center hover:bg-blue-600 flex items-center justify-center shadow-sm active:scale-95" title="مشاركة">
+                                    <button onclick="window.shareJob('${j.title}', '${j.posterName}', '${j.contactPhone}', '${j.jobType === 'part' ? 'جزئي' : 'كامل'}', '${j.salary}', '${j.desc.replace(/\n/g, ' ')}')" class="bg-blue-500 text-white px-3 py-1.5 md:py-2 rounded text-[10px] md:text-sm font-bold text-center hover:bg-blue-600 flex items-center justify-center shadow-sm active:scale-95" title="مشاركة">
                                         <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
                                     </button>
                                 </div>
@@ -1609,9 +1615,8 @@
             if (!isScrolling) {
                 window.requestAnimationFrame(() => {
                     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
-                        const hash = window.location.hash.replace('#', '');
-                        if(hash === 'directory') renderMoreDirectory();
-                        if(hash === 'category-details') renderMoreCategory();
+                        if(!document.getElementById('page-directory').classList.contains('hidden')) renderMoreDirectory();
+                        if(!document.getElementById('page-category-details').classList.contains('hidden')) renderMoreCategory();
                     }
                     isScrolling = false;
                 });
@@ -1634,15 +1639,17 @@
             const isClient = u.role === 'client';
             
             return `
-            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer flex items-start gap-2.5 md:gap-4">
-                <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
-                <div class="flex-1 min-w-0">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
-                        <span class="text-[9px] md:text-xs text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+            <div class="fast-render-card">
+                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer flex items-start gap-2.5 md:gap-4">
+                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
+                            <span class="text-[9px] md:text-xs text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+                        </div>
+                        ${!isClient ? `<div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
+                        <div class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                     </div>
-                    ${!isClient ? `<div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
-                    <div class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                 </div>
             </div>`;
         }
@@ -1766,6 +1773,7 @@
         };
        
         window.switchHomeTab = (tab, skipHistory = false) => { 
+            window.scrollTo(0,0); 
             if (tab === 'services') { 
                 document.getElementById('view-services').classList.remove('hidden'); 
                 document.getElementById('view-jobs').classList.add('hidden'); 
@@ -1787,6 +1795,35 @@
             } 
         };
         
+        window.logout = async () => { 
+            window.showLoader();
+            document.getElementById('form-login').reset();
+            document.getElementById('form-signup').reset();
+            
+            globalUnsubs.forEach(u => u());
+            globalUnsubs =[];
+            
+            document.getElementById('notif-list').innerHTML = '';
+            document.getElementById('chat-history-list').innerHTML = '';
+            document.getElementById('my-activity').innerHTML = '';
+            document.getElementById('matching-reqs-list').innerHTML = '';
+            document.getElementById('dir-list').innerHTML = '';
+            document.getElementById('cat-list-container').innerHTML = '';
+            document.getElementById('messages-container').innerHTML = '';
+
+            document.getElementById('notif-dot').classList.add('hidden');
+            document.getElementById('chat-nav-dot').classList.add('hidden');
+            document.getElementById('act-notif-badge').classList.add('hidden');
+
+            userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
+            reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack =['home'];
+            
+            window.location.hash = '';
+            history.replaceState(null, '', window.location.pathname);
+            
+            await signOut(auth); 
+        };
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => console.log('تم تفعيل الكاش للصور بنجاح!')).catch(err => console.log('فشل تفعيل الكاش:', err));
