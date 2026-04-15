@@ -39,7 +39,12 @@
             theme: {
                 extend: {
                     fontFamily: { sans:['Cairo', 'sans-serif'] },
-                    colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' }
+                    colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' },
+                    animation: { 'fade': 'fadeIn 0.1s ease-in-out', 'pop': 'popIn 0.1s ease-out' },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
+                        popIn: { '0%': { transform: 'scale(0.95)', opacity: 0 }, '100%': { transform: 'scale(1)', opacity: 1 } }
+                    }
                 }
             }
         }
@@ -69,8 +74,13 @@
         .provider-card { border: 2px solid #000000; box-shadow: 2px 2px 0px #000000; }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
 
-        /* أداء عالي للقوائم الطويلة */
-        .fast-render-card { content-visibility: auto; contain-intrinsic-size: 120px; }
+        /* أداء عالي للقوائم الطويلة وتسريع كارت الشاشة */
+        .fast-render-card { 
+            content-visibility: auto; 
+            contain-intrinsic-size: 120px; 
+            transform: translateZ(0); 
+            will-change: transform;
+        }
 
         .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
@@ -88,19 +98,23 @@
         .star-rating label { color: #ddd; font-size: 24px; padding: 0 2px; cursor: pointer; }
         .star-rating input:checked ~ label, .star-rating label:hover, .star-rating label:hover ~ label { color: #fbbf24; }
 
-        #loader.hidden { display: none; }
+        #loader.hidden { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen pb-24 md:pb-28">
 
     <div id="toast-box"></div>
 
-    <div id="loader" class="fixed inset-0 bg-gradient-to-br from-gray-100 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-black backdrop-blur-md z-[200] flex flex-col items-center justify-center">
+    <!-- استعادة واجهة التحميل كما طلبت -->
+    <div id="loader" class="fixed inset-0 bg-gradient-to-br from-gray-100 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-black backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-150">
         <div class="relative w-24 h-24 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
             <div class="absolute inset-0 border-4 border-black dark:border-white rounded-full border-t-transparent animate-spin"></div>
+            <svg class="w-8 h-8 text-black dark:text-white animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.5L3.5 11 12 21.5 20.5 11 12 2.5zm0 2.8l5.5 6.2H6.5l5.5-6.2zM5.2 12.5h13.6L12 18.7 5.2 12.5z"/>
+            </svg>
         </div>
-        <h2 class="mt-5 text-sm font-extrabold tracking-widest text-black dark:text-white">دليل الشرقية</h2>
+        <h2 class="mt-5 text-sm font-extrabold tracking-widest text-black dark:text-white animate-pulse">دليل الشرقية</h2>
         <p class="mt-1 text-[10px] font-bold text-gray-600 dark:text-gray-400">جاري التجهيز...</p>
     </div>
 
@@ -518,7 +532,7 @@
             <div class="flex items-center gap-1 md:gap-2">
                 <button onclick="document.getElementById('rate-modal').classList.remove('hidden')" class="bg-yellow-100 text-yellow-700 px-2 py-1 md:px-3 md:py-1.5 rounded-full font-bold text-[10px] md:text-xs border border-yellow-300">★ تقييم</button>
                 <button onclick="document.getElementById('delete-chat-modal').classList.remove('hidden')" class="p-1 md:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full text-gray-500">
-                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 </button>
             </div>
         </div>
@@ -709,8 +723,9 @@
             }
         };
 
-        // تهيئة حالة المتصفح الأولية
-        history.replaceState({ pageId: 'home' }, "", window.location.pathname);
+        // إعداد نقطة الخروج (مصيدة الرجوع)
+        history.replaceState({ pageId: 'exit_trap' }, "", window.location.pathname);
+        history.pushState({ pageId: 'home' }, "", window.location.pathname);
 
         window.navTo = (pageId, skipHistory = false) => {
             window.scrollTo(0, 0);
@@ -719,6 +734,10 @@
             if (navStack[navStack.length - 1] === 'add' && pageId !== 'add') {
                 window.clearForms();
             }
+
+            // تفريغ الذاكرة للصفحات الثقيلة عند الخروج منها لمنع اللاج
+            if (pageId !== 'directory') document.getElementById('dir-list').innerHTML = '';
+            if (pageId !== 'category-details') document.getElementById('cat-list-container').innerHTML = '';
 
             if(pageId === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
             
@@ -761,38 +780,47 @@
         };
 
         window.goBack = () => {
-            history.back(); // هذا سيقوم بتشغيل حدث popstate
+            history.back(); 
         };
 
-        window.addEventListener('popstate', (e) => {
-            if (e.state && e.state.pageId) {
-                const pageId = e.state.pageId;
-                
-                // تحديث الـ Stack
-                const index = navStack.indexOf(pageId);
-                if (index !== -1) {
-                    navStack = navStack.slice(0, index + 1);
-                } else {
-                    navStack.push(pageId);
-                }
-
-                document.getElementById('page-chat-room').classList.add('hidden');
-                document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-                document.getElementById(`page-${pageId}`).classList.remove('hidden');
-                
-                const backBtn = document.getElementById('btn-back');
-                if (pageId === 'home') {
-                    document.getElementById('btn-back').classList.add('hidden');
-                    document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`;
-                } else {
-                    document.getElementById('btn-back').classList.remove('hidden');
-                    document.getElementById('page-title').innerText = pageId === 'activity' ? 'النشاط' : 'رجوع';
-                }
-                window.updateBottomNav(pageId);
-                window.scrollTo(0, 0);
-            } else {
-                // إذا لم يكن هناك حالة (مثل الوصول للرئيسية ومحاولة الرجوع)، سيقوم المتصفح بالخروج من الموقع
+        window.addEventListener('popstate', async (e) => {
+            // إذا وصل لنقطة الخروج (قبل الرئيسية)
+            if (!e.state || e.state.pageId === 'exit_trap') {
+                await window.logout();
+                return; // نسمح للمتصفح بالخروج
             }
+
+            const pageId = e.state.pageId;
+            
+            const index = navStack.indexOf(pageId);
+            if (index !== -1) {
+                navStack = navStack.slice(0, index + 1);
+            } else {
+                navStack.push(pageId);
+            }
+
+            // تفريغ الذاكرة للصفحات الثقيلة عند الخروج منها
+            if (pageId !== 'directory') document.getElementById('dir-list').innerHTML = '';
+            if (pageId !== 'category-details') document.getElementById('cat-list-container').innerHTML = '';
+
+            document.getElementById('page-chat-room').classList.add('hidden');
+            document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+            
+            const backBtn = document.getElementById('btn-back');
+            if (pageId === 'home') {
+                document.getElementById('btn-back').classList.add('hidden');
+                document.getElementById('page-title').innerHTML = `مرحباً بك: <span class="bg-black text-white px-2 py-0.5 rounded-full mx-1 dark:bg-gray-600 text-[9px]">${userProfile ? userProfile.name : ''}</span>`;
+            } else {
+                document.getElementById('btn-back').classList.remove('hidden');
+                document.getElementById('page-title').innerText = pageId === 'activity' ? 'النشاط' : 'رجوع';
+            }
+            window.updateBottomNav(pageId);
+            window.scrollTo(0, 0);
+
+            // إعادة بناء القوائم إذا رجعنا إليها
+            if (pageId === 'directory' && allUsersCache.length > 0) window.filterDirectory();
+            if (pageId === 'category-details' && allUsersCache.length > 0) window.filterCategory();
         });
 
         function initApp() {
@@ -815,7 +843,7 @@
             const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
             const html = list.map(p => `
                 <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 md:h-32 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800">
-                    <img src="${getProfImage(p)}" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
+                    <img src="${getProfImage(p)}" loading="lazy" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
                     <div class="bg-black/60 absolute inset-0 flex flex-col justify-end p-2">
                         <span class="font-bold text-white text-[10px] md:text-xs drop-shadow-md text-center">${p}</span>
                     </div>
@@ -1022,7 +1050,8 @@
                 // تنظيف كامل عند مسح الكاش أو عدم وجود مستخدم
                 window.clearForms();
                 navStack = ['home'];
-                history.replaceState({ pageId: 'home' }, "", window.location.pathname);
+                history.replaceState({ pageId: 'exit_trap' }, "", window.location.pathname);
+                history.pushState({ pageId: 'home' }, "", window.location.pathname);
 
                 document.getElementById('app-view').classList.add('hidden');
                 document.getElementById('app-header').classList.add('hidden');
@@ -1106,7 +1135,7 @@
 
                 return `
                    <div onclick="window.openChat('${otherId}')" class="border-black-custom p-2.5 md:p-3 rounded-xl cursor-pointer bg-white dark:bg-gray-800 flex items-center gap-2.5 md:gap-4 relative hover:bg-gray-50 dark:hover:bg-gray-700 shadow-sm">
-                       <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" class="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
+                       <img src="${window.getCloudinaryUrl(otherUser.photoURL, 'thumb')}" loading="lazy" class="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border-2 border-black dark:border-gray-500 shrink-0">
                        <div class="flex-1 min-w-0">
                            <div class="flex justify-between items-center mb-1">
                                <h4 class="font-bold text-[11px] md:text-sm dark:text-white truncate">${otherUser.name}</h4>
@@ -1179,7 +1208,7 @@
                 
                 const currentPage = navStack[navStack.length-1];
                 if (currentPage === 'category-details') window.filterCategory();
-                else window.filterDirectory();
+                else if (currentPage === 'directory') window.filterDirectory();
                 
                 window.renderChatsUI(); 
             });
@@ -1216,7 +1245,7 @@
                             <div class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] relative">
                                 ${isNew ? '<div class="absolute -top-2 -right-2 bg-red-500 text-white text-[9px] md:text-[10px] px-2 py-0.5 font-bold rounded-full border border-white shadow-sm">جديد</div>' : ''}
                                 <div class="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
-                                    <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                                    <img src="${window.getCloudinaryUrl(reqPhoto, 'thumb')}" loading="lazy" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between items-start mb-1">
                                             <span class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">طالب الخدمة:</span> <strong class="text-black dark:text-white">${req.requesterName}</strong></span>
@@ -1271,7 +1300,7 @@
                         <div class="bg-white dark:bg-gray-800 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] overflow-hidden relative">
                             <div class="p-2.5 md:p-4">
                                 <div class="flex items-start gap-2 md:gap-3 mb-2 md:mb-3">
-                                    <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
+                                    <img src="${window.getCloudinaryUrl(j.posterPhoto||'https://via.placeholder.com/40', 'thumb')}" loading="lazy" class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover border border-black dark:border-gray-500 shrink-0 mt-1">
                                     <div class="flex-1 min-w-0">
                                         <div class="flex justify-between items-start mb-1">
                                             <span class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">الناشر:</span> <strong class="text-black dark:text-white">${j.posterName}</strong></span>
@@ -1370,7 +1399,7 @@
                      totalStars += parseInt(r.stars);
                      const el = document.createElement('div');
                      el.className = `bg-gray-50 dark:bg-gray-700/50 p-2 md:p-3 rounded mb-1 border border-gray-200 dark:border-gray-600`;
-                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${window.getCloudinaryUrl(r.fromPhoto, 'thumb')}" class="w-5 h-5 md:w-6 md:h-6 rounded-full border border-black"><span class="text-[10px] md:text-xs font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px] md:text-xs">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] md:text-xs text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
+                     el.innerHTML = `<div class="flex justify-between items-start"><div class="flex items-center gap-1"><img src="${window.getCloudinaryUrl(r.fromPhoto, 'thumb')}" loading="lazy" class="w-5 h-5 md:w-6 md:h-6 rounded-full border border-black"><span class="text-[10px] md:text-xs font-bold dark:text-white">${r.fromName}</span></div><span class="text-yellow-500 text-[10px] md:text-xs">${'★'.repeat(r.stars)}</span></div><p class="text-[10px] md:text-xs text-gray-600 dark:text-gray-300 mt-1">${r.comment}</p>`;
                      list.appendChild(el);
                  });
                  starsDisplay.innerText = (totalStars / reviews.length).toFixed(1);
@@ -1550,7 +1579,13 @@
             const cont = document.getElementById('dir-list');
             const nextBatch = filteredDirItems.slice(dirRenderedCount, dirRenderedCount + ITEMS_PER_PAGE);
             if(nextBatch.length === 0) return;
-            cont.insertAdjacentHTML('beforeend', nextBatch.map(u => createUserCard(u)).join(''));
+            
+            const fragment = document.createDocumentFragment();
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = nextBatch.map(u => createUserCard(u)).join('');
+            while (tempDiv.firstChild) { fragment.appendChild(tempDiv.firstChild); }
+            
+            cont.appendChild(fragment);
             dirRenderedCount += ITEMS_PER_PAGE;
         }
 
@@ -1587,7 +1622,13 @@
             const cont = document.getElementById('cat-list-container');
             const nextBatch = filteredCatItems.slice(catRenderedCount, catRenderedCount + ITEMS_PER_PAGE);
             if(nextBatch.length === 0) return;
-            cont.insertAdjacentHTML('beforeend', nextBatch.map(u => createUserCard(u)).join(''));
+            
+            const fragment = document.createDocumentFragment();
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = nextBatch.map(u => createUserCard(u)).join('');
+            while (tempDiv.firstChild) { fragment.appendChild(tempDiv.firstChild); }
+            
+            cont.appendChild(fragment);
             catRenderedCount += ITEMS_PER_PAGE;
         }
 
@@ -1622,7 +1663,7 @@
             return `
             <div class="fast-render-card">
                 <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer flex items-start gap-2.5 md:gap-4">
-                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
+                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" loading="lazy" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start mb-1">
                             <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
