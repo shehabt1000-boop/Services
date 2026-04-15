@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <title>وظائف وخدمات محافظة الشرقية-V1</title>
+    <title>دليل الشرقية الماسية</title>
     <meta name="description" content="دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.">
 
     <meta property="og:title" content="دليل الشرقية">
@@ -12,11 +12,6 @@
     <meta property="og:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
     <meta property="og:url" content="https://services-and-jobs.netlify.app/">
     <meta property="og:type" content="website">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="دليل الشرقية الماسية">
-    <meta name="twitter:description" content="دليل خدمات ووظائف محافظة الشرقية">
-    <meta name="twitter:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
 
     <meta name="theme-color" content="#000000">
     <link rel="manifest" href="manifest.json">
@@ -95,7 +90,6 @@
         }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
 
-        /* تسريع عرض البطاقات في الدليل لمنع اللاج */
         .fast-render-card {
             content-visibility: auto; 
             contain-intrinsic-size: 70px; 
@@ -139,7 +133,7 @@
     </div>
 
     <!-- Header -->
-    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-4xl md:mx-auto transition-all duration-100">
+    <header id="app-header" class="fixed top-0 left-0 right-0 h-14 glass-header z-50 px-4 flex items-center justify-between hidden md:max-w-3xl md:mx-auto transition-all duration-100">
         <div class="flex items-center gap-2">
             <button id="btn-back" onclick="window.goBack()" class="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 hidden border-2 border-black dark:border-gray-500">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
@@ -234,7 +228,7 @@
     </div>
 
     <!-- APP VIEW -->
-    <div id="app-view" class="hidden w-full md:max-w-4xl md:mx-auto pt-16 min-h-screen relative transition-all duration-100">
+    <div id="app-view" class="hidden w-full md:max-w-3xl md:mx-auto pt-16 min-h-screen relative transition-all duration-100">
        
         <!-- HOME -->
         <section id="page-home" class="page-section px-3 animate-fade">
@@ -252,7 +246,7 @@
             </div>
            
             <div id="view-services" class="pb-4">
-                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-5 gap-2"></div>
+                <div id="professions-grid" class="grid grid-cols-3 md:grid-cols-4 gap-2"></div>
             </div>
            
             <div id="view-jobs" class="hidden space-y-3 pb-4 max-w-2xl mx-auto">
@@ -530,7 +524,7 @@
     <div id="delete-chat-modal" class="modal-overlay hidden animate-pop z-[200]">
         <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl text-center">
             <h3 class="font-bold mb-2 text-sm text-red-600">حذف المحادثة</h3>
-            <p class="text-xs text-gray-500 mb-4">هل أنت متأكد من حذف هذه المحادثة من قائمتك؟</p>
+            <p class="text-xs text-gray-500 mb-4">سيتم مسح هذه المحادثة من قائمتك نهائياً.</p>
             <div class="flex gap-2">
                 <button onclick="window.confirmDeleteChat()" class="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold text-xs shadow-md">تأكيد الحذف</button>
                 <button onclick="document.getElementById('delete-chat-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إلغاء</button>
@@ -648,6 +642,15 @@
         let reqNotifs =[];
         let reviewNotifs =[];
         window.chatNotifsGlobal =[];
+        
+        let pendingRoute = window.location.hash.replace('#', '');
+
+        // متغيرات للتحميل التدريجي
+        let dirRenderedCount = 0;
+        let catRenderedCount = 0;
+        let filteredDirItems = [];
+        let filteredCatItems =[];
+        const ITEMS_PER_PAGE = 20;
 
         const CLOUD_NAME = "db9h7zm1h"; 
         const UPLOAD_PRESET = "souq_upload";
@@ -713,21 +716,20 @@
             }
         };
 
-        // تحديث ألوان شريط التنقل السفلي بشكل صحيح
         window.updateBottomNav = (pageId) => {
             const btns = document.querySelectorAll('.nav-btn');
             btns.forEach(b => {
                 b.classList.remove('text-blue-600', 'active');
                 b.classList.add('text-gray-400');
             });
-            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
-            if(navMap[pageId] !== undefined && btns[navMap[pageId]]) {
+            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3, 'add': -1}; 
+            if(navMap[pageId] !== undefined && navMap[pageId] !== -1 && btns[navMap[pageId]]) {
                 btns[navMap[pageId]].classList.add('text-blue-600', 'active');
                 btns[navMap[pageId]].classList.remove('text-gray-400');
             }
         };
 
-        window.navTo = (pageId) => {
+        window.navTo = (pageId, skipHistory = false) => {
             window.scrollTo(0, 0);
             if(pageId === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
             
@@ -742,8 +744,13 @@
             if (pageId === 'chat-room') { document.getElementById('page-chat-room').classList.remove('hidden'); navStack.push('chat-room'); return; }
             document.getElementById('page-chat-room').classList.add('hidden');
             if (chatListener) { chatListener(); chatListener = null; }
+            
+            // إخفاء الصفحات دون مسح الـ DOM
             document.querySelectorAll('.page-section').forEach(el => el.classList.add('hidden'));
-            if (pageId === 'home') navStack =['home']; else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
+            
+            if (pageId === 'home') navStack =['home']; 
+            else if (navStack[navStack.length-1] !== pageId) navStack.push(pageId);
+            
             document.getElementById(`page-${pageId}`).classList.remove('hidden');
            
             const backBtn = document.getElementById('btn-back');
@@ -757,7 +764,8 @@
            
             window.updateBottomNav(pageId);
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
-            history.pushState({pageId: pageId}, '', `#${pageId}`);
+            
+            if(!skipHistory) history.pushState({pageId: pageId}, '', `#${pageId}`);
         };
 
         window.goBack = () => {
@@ -833,7 +841,6 @@
             });
         }
 
-        // دالة تأخير البحث (Debounce) لمنع اللاج
         let searchTimeout;
         window.debouncedSearch = (type) => {
             clearTimeout(searchTimeout);
@@ -998,7 +1005,17 @@
                             document.getElementById('setting-pause-reqs').classList.add('hidden');
                         }
 
-                        initApp(); startListeners(); window.navTo('home');
+                        initApp(); startListeners(); 
+                        
+                        // معالجة الروابط العميقة بعد تسجيل الدخول
+                        if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
+                            if (pendingRoute === 'home-jobs') { window.navTo('home', true); window.switchHomeTab('jobs'); }
+                            else if (pendingRoute === 'home-services') { window.navTo('home', true); window.switchHomeTab('services'); }
+                            else { window.navTo(pendingRoute, true); }
+                            pendingRoute = '';
+                        } else {
+                            window.navTo('home', true);
+                        }
                     } else {
                         signOut(auth); window.showToast('بيانات الحساب غير مكتملة، يرجى التسجيل من جديد', 'error');
                     }
@@ -1009,6 +1026,14 @@
                 document.getElementById('app-header').classList.add('hidden');
                 document.getElementById('nav-bar').classList.add('hidden');
                 document.getElementById('auth-view').classList.remove('hidden');
+                
+                if (pendingRoute && pendingRoute !== 'login' && pendingRoute !== 'signup') {
+                    window.showToast('يرجى تسجيل الدخول أولاً للوصول للرابط المطلوب', 'error');
+                }
+                
+                if (pendingRoute === 'signup') window.switchAuthMode('signup');
+                else window.switchAuthMode('login');
+                
                 window.hideLoader();
             }
         });
@@ -1110,13 +1135,14 @@
 
             const chatQuery = query(collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats'), where('users', 'array-contains', currentUser.uid));
             const unsubChats = onSnapshot(chatQuery, async (snap) => {
-                myChatsCache = [];
+                myChatsCache =[];
                 let chatNotifs =[];
                 
                 const missingUserIds = new Set();
                 snap.forEach(d => {
                     const c = d.data();
-                    if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; // إخفاء المحادثة إذا تم حذفها من قبلي
+                    // إخفاء المحادثة إذا تم حذفها من قبلي
+                    if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; 
                     const otherId = c.users.find(u => u !== currentUser.uid);
                     if (!allUsersCache.find(u => u.uid === otherId)) missingUserIds.add(otherId);
                 });
@@ -1128,7 +1154,7 @@
 
                 snap.forEach(d => {
                     const c = d.data();
-                    if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; // عدم إضافة المحادثة المحذوفة للقائمة
+                    if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; 
                     myChatsCache.push({id: d.id, ...c});
                     
                     const otherId = c.users.find(u => u !== currentUser.uid);
@@ -1298,7 +1324,9 @@
                                 <span class="text-gray-500 font-bold">الوصف:</span> ${act.desc || 'بدون وصف'}
                             </div>
                         </div>
-                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-600 hover:text-white text-[9px] font-bold bg-red-100 hover:bg-red-600 border border-red-200 transition-colors duration-100 p-1.5 rounded h-[45px] w-10 shadow-sm mt-1">حذف</button>
+                        <button onclick="window.deleteRequest('${act.id}')" class="shrink-0 flex items-center justify-center text-red-500 bg-red-50 hover:bg-red-500 hover:text-white transition-colors duration-200 p-2 rounded-full w-10 h-10 shadow-sm mt-1 border border-red-200 hover:border-red-600">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                        </button>
                     `;
                     list.appendChild(el);
                 });
@@ -1378,17 +1406,16 @@
                 const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
                 await addDoc(msgsRef, { text: text, senderId: currentUser.uid, createdAt: new Date().toISOString() });
                 
-                // تحديث المحادثة وإعادة إظهارها للطرفين في حال كان أحدهما قام بحذفها
                 await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), { 
                     lastMessage: text, 
                     lastUpdated: new Date().toISOString(), 
                     lastSenderId: currentUser.uid,
-                    deletedBy:[] // إعادة تعيين الحذف لتظهر عند الطرفين
+                    deletedBy:[] 
                 });
             } catch (err) { window.showToast('فشل إرسال الرسالة', 'error'); }
         };
 
-        window.openChat = (uid) => {
+        window.openChat = async (uid) => {
             currentChatId = [currentUser.uid, uid].sort().join('_');
             
             let user = allUsersCache.find(u => u.uid === uid);
@@ -1422,14 +1449,24 @@
 
             const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
             const q = query(msgsRef, orderBy('createdAt', 'asc'));
+            
             if (chatListener) chatListener();
             
-            // تحديث عرض الرسائل لتكون مرتبة بشكل صحيح
+            // جلب وقت الحذف الخاص بي (إن وجد) لإخفاء الرسائل القديمة
+            const chatDoc = await getDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId));
+            const chatData = chatDoc.exists() ? chatDoc.data() : {};
+            const myDeletedAt = (chatData.deletedAt && chatData.deletedAt[currentUser.uid]) ? chatData.deletedAt[currentUser.uid] : 0;
+            
             chatListener = onSnapshot(q, (snap) => {
                 const box = document.getElementById('messages-container'); box.innerHTML = '';
                 const html =[];
                 snap.forEach(d => {
                     const m = d.data(); 
+                    const msgTime = new Date(m.createdAt).getTime();
+                    
+                    // إخفاء الرسائل التي أُرسلت قبل قيامي بحذف المحادثة
+                    if (msgTime <= myDeletedAt) return;
+
                     const isMe = m.senderId === currentUser.uid;
                     const timeStr = m.createdAt ? new Date(m.createdAt).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
                     
@@ -1437,7 +1474,7 @@
                         <div class="flex ${isMe?'justify-end':'justify-start'} animate-fade w-full">
                             <div class="max-w-[85%] p-2 rounded-lg text-xs shadow-[2px_2px_0px_#000] flex flex-col ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">
                                 <span>${m.text}</span>
-                                <span class="text-[8px] mt-1 ${isMe?'text-gray-400':'text-gray-500'} text-left" dir="ltr">${timeStr}</span>
+                                <span class="text-[8px] mt-1 opacity-70 text-left" dir="ltr">${timeStr}</span>
                             </div>
                         </div>
                     `);
@@ -1447,14 +1484,16 @@
             });
         };
 
-        // حذف المحادثة من طرف واحد
+        // حذف المحادثة من طرف واحد مع حفظ وقت الحذف
         window.confirmDeleteChat = async () => {
             if(!currentChatId) return;
             window.showLoader();
             try {
-                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
-                    deletedBy: arrayUnion(currentUser.uid)
-                });
+                await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
+                    deletedBy: arrayUnion(currentUser.uid),
+                    deletedAt: { [currentUser.uid]: new Date().getTime() }
+                }, { merge: true });
+                
                 document.getElementById('delete-chat-modal').classList.add('hidden');
                 window.goBack();
                 window.showToast('تم حذف المحادثة من قائمتك');
@@ -1491,13 +1530,13 @@
             document.getElementById('filter-modal').classList.add('hidden');
         };
 
+        // تحميل تدريجي للدليل
         window.filterDirectory = () => {
             const term = document.getElementById('dir-search').value.trim();
             const center = document.getElementById('filter-center')?.value || '';
             const village = document.getElementById('filter-village')?.value || '';
             const prof = document.getElementById('filter-prof')?.value || '';
             
-            const cont = document.getElementById('dir-list');
             let filtered = allUsersCache;
             
             if(center) filtered = filtered.filter(u => u.city === center);
@@ -1508,10 +1547,21 @@
                 filtered = filtered.filter(u => u.name.includes(term) || (u.profession && u.profession.includes(term)));
             }
             
-            const uniqueUsers = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
-            cont.innerHTML = uniqueUsers.slice(0,50).map(u => createUserCard(u)).join('');
+            filteredDirItems = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
+            dirRenderedCount = 0;
+            document.getElementById('dir-list').innerHTML = '';
+            renderMoreDirectory();
         };
 
+        function renderMoreDirectory() {
+            const cont = document.getElementById('dir-list');
+            const nextBatch = filteredDirItems.slice(dirRenderedCount, dirRenderedCount + ITEMS_PER_PAGE);
+            if(nextBatch.length === 0) return;
+            cont.insertAdjacentHTML('beforeend', nextBatch.map(u => createUserCard(u)).join(''));
+            dirRenderedCount += ITEMS_PER_PAGE;
+        }
+
+        // تحميل تدريجي للأقسام
         window.filterCategory = () => {
             const term = document.getElementById('cat-search').value.trim();
             const center = document.getElementById('filter-center')?.value || '';
@@ -1529,12 +1579,33 @@
                 filtered = filtered.filter(u => u.name.includes(term) || (u.area && u.area.includes(term)) || (u.city && u.city.includes(term)));
             }
             
-            const uniqueUsers = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
-            
+            filteredCatItems = Array.from(new Map(filtered.map(u =>[u.uid, u])).values());
+            catRenderedCount = 0;
             const cont = document.getElementById('cat-list-container');
-            if(uniqueUsers.length === 0) { cont.innerHTML = `<div class="text-center py-10 col-span-full"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج</p></div>`; return; }
-            cont.innerHTML = uniqueUsers.map(u => createUserCard(u)).join('');
+            cont.innerHTML = '';
+            
+            if(filteredCatItems.length === 0) { 
+                cont.innerHTML = `<div class="text-center py-10 col-span-full"><p class="text-gray-500 font-bold text-[10px]">لا توجد نتائج</p></div>`; 
+                return; 
+            }
+            renderMoreCategory();
         };
+
+        function renderMoreCategory() {
+            const cont = document.getElementById('cat-list-container');
+            const nextBatch = filteredCatItems.slice(catRenderedCount, catRenderedCount + ITEMS_PER_PAGE);
+            if(nextBatch.length === 0) return;
+            cont.insertAdjacentHTML('beforeend', nextBatch.map(u => createUserCard(u)).join(''));
+            catRenderedCount += ITEMS_PER_PAGE;
+        }
+
+        // مستمع النزول لأسفل لتشغيل التحميل التدريجي
+        window.addEventListener('scroll', () => {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+                if(!document.getElementById('page-directory').classList.contains('hidden')) renderMoreDirectory();
+                if(!document.getElementById('page-category-details').classList.contains('hidden')) renderMoreCategory();
+            }
+        });
 
         window.openCategory = (profName) => {
             window.navTo('category-details');
@@ -1553,7 +1624,7 @@
             return `
             <div class="fast-render-card">
                 <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 flex items-start gap-2.5">
-                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
+                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
                     <div class="flex-1 min-w-0">
                         <div class="flex justify-between items-start mb-1">
                             <span class="text-[10px]"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
@@ -1674,7 +1745,28 @@
             } catch(err) { window.showToast(err.message || 'خطأ', 'error'); }
         };
        
-        window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
+        window.switchHomeTab = (tab) => { 
+            window.scrollTo(0,0); 
+            if (tab === 'services') { 
+                document.getElementById('view-services').classList.remove('hidden'); 
+                document.getElementById('view-jobs').classList.add('hidden'); 
+                document.getElementById('prof-search-box').classList.remove('hidden'); 
+                document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); 
+                document.getElementById('tab-home-serv').classList.remove('text-gray-500'); 
+                document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); 
+                document.getElementById('tab-home-jobs').classList.add('text-gray-500'); 
+                history.replaceState({pageId: 'home-services'}, '', '#home-services');
+            } else { 
+                document.getElementById('view-services').classList.add('hidden'); 
+                document.getElementById('view-jobs').classList.remove('hidden'); 
+                document.getElementById('prof-search-box').classList.add('hidden'); 
+                document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); 
+                document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); 
+                document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); 
+                document.getElementById('tab-home-serv').classList.add('text-gray-500'); 
+                history.replaceState({pageId: 'home-jobs'}, '', '#home-jobs');
+            } 
+        };
         
         window.logout = async () => { 
             window.showLoader();
@@ -1703,8 +1795,19 @@
             await signOut(auth); 
         };
 
-        window.addEventListener('popstate', () => {
-            if (navStack.length > 1) {
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.pageId) {
+                const targetPage = e.state.pageId;
+                if (targetPage === 'home-jobs') {
+                    window.navTo('home', true);
+                    window.switchHomeTab('jobs');
+                } else if (targetPage === 'home-services') {
+                    window.navTo('home', true);
+                    window.switchHomeTab('services');
+                } else {
+                    window.navTo(targetPage, true);
+                }
+            } else if (navStack.length > 1) {
                 window.goBack();
             } else {
                 history.pushState(null, '', window.location.href);
