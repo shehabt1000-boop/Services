@@ -2,53 +2,42 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport optimized for PWA & Modern Phones (Notch support) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- PWA Meta Tags & SEO -->
     <title>وظائف وخدمات محافظة الشرقية-V1</title>
-<meta name="description" content="دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.">
+    <meta name="description" content="دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.">
 
-<!-- Open Graph (WhatsApp / Facebook) -->
-<meta property="og:title" content="دليل الشرقية">
-<meta property="og:description" content="دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.">
-<meta property="og:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
-<meta property="og:url" content="https://services-and-jobs.netlify.app/">
-<meta property="og:type" content="website">
+    <meta property="og:title" content="دليل الشرقية">
+    <meta property="og:description" content="دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.">
+    <meta property="og:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
+    <meta property="og:url" content="https://services-and-jobs.netlify.app/">
+    <meta property="og:type" content="website">
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="دليل الشرقية الماسية">
-<meta name="twitter:description" content="دليل خدمات ووظائف محافظة الشرقية">
-<meta name="twitter:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="دليل الشرقية الماسية">
+    <meta name="twitter:description" content="دليل خدمات ووظائف محافظة الشرقية">
+    <meta name="twitter:image" content="https://services-and-jobs.netlify.app/icons/icon-512x512.png">
 
-<meta name="theme-color" content="#000000">
-<link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="manifest.json">
     
-    <!-- Icons -->
     <link rel="icon" type="image/png" href="icons/icon-192x192.png">
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     
-    <!-- Apple PWA specific tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="دليل الشرقية">
 
-    <!-- Preconnect for Performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.pexels.com">
     <link rel="preconnect" href="https://res.cloudinary.com">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-   
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.1/dist/browser-image-compression.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.1/dist/browser-image-compression.js"></script>
 
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
    
-    <!-- Dark Mode Persistence Script (Runs immediately to prevent flash) -->
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -57,7 +46,6 @@
         }
     </script>
 
-    <!-- Config -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -97,7 +85,15 @@
         .border-black-custom { border: 2px solid #000000 !important; box-shadow: 2px 2px 0px #000000 !important; }
         .dark .border-black-custom { border: 2px solid #6b7280 !important; box-shadow: 2px 2px 0px #6b7280 !important; }
        
-        .provider-card { border: 2px solid #000000; box-shadow: 2px 2px 0px #000000; }
+        /* تحسينات الأداء لمنع اللاج عند التمرير في الصفحة الرئيسية */
+        .provider-card { 
+            border: 2px solid #000000; 
+            box-shadow: 2px 2px 0px #000000; 
+            content-visibility: auto; 
+            contain-intrinsic-size: 112px; 
+            will-change: transform; 
+            transform: translateZ(0);
+        }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
 
         .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
@@ -123,7 +119,6 @@
 
     <div id="toast-box"></div>
 
-    <!-- Chrome Loader -->
     <div id="loader" class="fixed inset-0 bg-gradient-to-br from-gray-100 via-gray-300 to-gray-400 dark:from-gray-800 dark:via-gray-900 dark:to-black backdrop-blur-md z-[200] flex flex-col items-center justify-center transition-opacity duration-150">
         <div class="relative w-24 h-24 flex items-center justify-center">
             <div class="absolute inset-0 border-4 border-gray-200 dark:border-gray-700 rounded-full"></div>
@@ -652,16 +647,8 @@
 
         window.uploadToCloudinary = async (file) => {
             try {
-                // إعدادات أسرع للضغط (تخلص في أقل من ثانية)
-                const options = {
-                    maxSizeMB: 0.5, // 500 كيلوبايت كافية جداً وسريعة
-                    maxWidthOrHeight: 500, // تصغير الأبعاد لـ 500 بكسل (ممتاز للبروفايل)
-                    useWebWorker: true,
-                    initialQuality: 0.7 // البدء بجودة 70% لتسريع العملية
-                };
-                
+                const options = { maxSizeMB: 0.5, maxWidthOrHeight: 500, useWebWorker: true, initialQuality: 0.7 };
                 const compressedFile = await imageCompression(file, options);
-                
                 const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
                 const fd = new FormData(); 
                 fd.append("file", compressedFile); 
@@ -669,10 +656,8 @@
                 
                 const res = await fetch(url, { method: "POST", body: fd });
                 if (!res.ok) throw new Error("فشل رفع الصورة");
-                
                 const data = await res.json(); 
                 return data.secure_url; 
-                
             } catch (error) {
                 console.error("خطأ في معالجة الصورة:", error);
                 throw new Error("فشل رفع الصورة");
@@ -721,6 +706,20 @@
             }
         };
 
+        // تحديث ألوان شريط التنقل السفلي
+        window.updateBottomNav = (pageId) => {
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('text-blue-600', 'active');
+                b.classList.add('text-gray-400');
+            });
+            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
+            if(navMap[pageId] !== undefined) {
+                const activeBtn = document.querySelectorAll('.nav-btn')[navMap[pageId]];
+                activeBtn.classList.add('text-blue-600', 'active');
+                activeBtn.classList.remove('text-gray-400');
+            }
+        };
+
         window.navTo = (pageId) => {
             window.scrollTo(0, 0);
             if(pageId === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
@@ -749,11 +748,9 @@
                 document.getElementById('page-title').innerText = pageId === 'activity' ? 'النشاط' : 'رجوع'; 
             }
            
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-blue-600', 'active'));
-            const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
-            if(navMap[pageId]!==undefined) document.querySelectorAll('.nav-btn')[navMap[pageId]].classList.add('text-blue-600');
+            window.updateBottomNav(pageId);
             if(pageId === 'chat' && typeof window.renderChatsUI === 'function') window.renderChatsUI();
-        history.pushState({pageId: pageId}, '', `#${pageId}`);
+            history.pushState({pageId: pageId}, '', `#${pageId}`);
         };
 
         window.goBack = () => {
@@ -772,6 +769,7 @@
                     document.getElementById('btn-back').classList.remove('hidden');
                     document.getElementById('page-title').innerText = prevPage === 'activity' ? 'النشاط' : 'رجوع';
                 }
+                window.updateBottomNav(prevPage);
                 window.scrollTo(0, 0);
             }
         };
@@ -902,7 +900,7 @@
 
                 await setDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', cred.user.uid), {
                     uid: cred.user.uid, name: userName, phone: `+20${phoneVal}`, city: center, area: village, addressDetail: addressDetail,
-                    role, profession: prof, photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false },
+                    role, profession: prof, photoURL: finalPhotoURL, gender, settings: { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false, darkMode: false },
                     createdAt: new Date().toISOString()
                 });
                 
@@ -937,8 +935,19 @@
                     const profileData = await fetchProfileWithRetry(user.uid);
                     if (profileData) {
                         userProfile = profileData;
-                        if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false };
+                        if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false, darkMode: false };
                        
+                        // مزامنة الوضع الداكن من الحساب
+                        if (userProfile.settings.darkMode !== undefined) {
+                            if (userProfile.settings.darkMode) {
+                                document.documentElement.classList.add('dark');
+                                localStorage.setItem('theme', 'dark');
+                            } else {
+                                document.documentElement.classList.remove('dark');
+                                localStorage.setItem('theme', 'light');
+                            }
+                        }
+
                         document.getElementById('auth-view').classList.add('hidden');
                         document.getElementById('app-view').classList.remove('hidden');
                         document.getElementById('app-header').classList.remove('hidden');
@@ -960,7 +969,6 @@
                         setTimeout(() => { document.getElementById('edit-village').value = userProfile.area || ''; }, 100);
                         document.getElementById('edit-address-detail').value = userProfile.addressDetail || '';
 
-                        // تحديث واجهة الإعدادات بناءً على البيانات المحفوظة
                         document.getElementById('toggle-notif').checked = userProfile.settings.notifEnabled !== false;
                         document.getElementById('toggle-hide-phone').checked = userProfile.settings.hidePhone === true;
                         document.getElementById('toggle-hide-profile').checked = userProfile.settings.hideProfile === true;
@@ -990,12 +998,17 @@
 
         setTimeout(() => { window.hideLoader(); }, 15000);
 
-        window.toggleTheme = () => {
-            document.documentElement.classList.toggle('dark');
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.setItem('theme', 'light');
+        // تحديث الوضع الداكن ومزامنته مع الحساب
+        window.toggleTheme = async () => {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            if (currentUser && userProfile) {
+                try {
+                    await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
+                        'settings.darkMode': isDark
+                    });
+                    userProfile.settings.darkMode = isDark;
+                } catch(e) { console.error("فشل حفظ إعداد الوضع الداكن", e); }
             }
         };
 
@@ -1512,51 +1525,47 @@
         }
        
         window.saveProfileChanges = async () => {
-    try {
-        window.showLoader();
-        let finalPhotoURL = userProfile.photoURL;
-        if (tempSelectedFile) { 
-            finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile); 
-            tempSelectedFile = null; 
-        }
+            try {
+                window.showLoader();
+                let finalPhotoURL = userProfile.photoURL;
+                if (tempSelectedFile) { 
+                    finalPhotoURL = await window.uploadToCloudinary(tempSelectedFile); 
+                    tempSelectedFile = null; 
+                }
 
-        // جلب البيانات الجديدة من الحقول
-        const newName = document.getElementById('edit-name').value;
-        const newPhone = `+20${document.getElementById('edit-phone').value}`;
-        const newCity = document.getElementById('edit-center').value;
-        const newArea = document.getElementById('edit-village').value;
-        const newAddressDetail = document.getElementById('edit-address-detail').value.trim();
+                const newName = document.getElementById('edit-name').value;
+                const newPhone = `+20${document.getElementById('edit-phone').value}`;
+                const newCity = document.getElementById('edit-center').value;
+                const newArea = document.getElementById('edit-village').value;
+                const newAddressDetail = document.getElementById('edit-address-detail').value.trim();
 
-        // تحديث قاعدة البيانات
-        await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
-            name: newName, phone: newPhone,
-            city: newCity, area: newArea, 
-            addressDetail: newAddressDetail, photoURL: finalPhotoURL
-        });
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), {
+                    name: newName, phone: newPhone,
+                    city: newCity, area: newArea, 
+                    addressDetail: newAddressDetail, photoURL: finalPhotoURL
+                });
 
-        // تحديث البيانات محلياً في المتصفح (بدون عمل ريفريش)
-        userProfile.name = newName;
-        userProfile.phone = newPhone;
-        userProfile.city = newCity;
-        userProfile.area = newArea;
-        userProfile.addressDetail = newAddressDetail;
-        userProfile.photoURL = finalPhotoURL;
+                userProfile.name = newName;
+                userProfile.phone = newPhone;
+                userProfile.city = newCity;
+                userProfile.area = newArea;
+                userProfile.addressDetail = newAddressDetail;
+                userProfile.photoURL = finalPhotoURL;
 
-        // تحديث الصور والنصوص في الواجهة فوراً
-        document.getElementById('prof-name-view').innerText = newName;
-        document.getElementById('prof-address-view').innerText = `${newArea || ''} - ${newCity || ''}`;
-        document.getElementById('prof-img-view').src = window.getCloudinaryUrl(finalPhotoURL, 'medium');
-        document.getElementById('header-avatar').src = window.getCloudinaryUrl(finalPhotoURL, 'thumb');
-        
-        window.showToast('تم الحفظ بنجاح');
-        window.hideLoader();
-        window.goBack(); // الرجوع لصفحة البروفايل مباشرة بدون ريفريش
+                document.getElementById('prof-name-view').innerText = newName;
+                document.getElementById('prof-address-view').innerText = `${newArea || ''} - ${newCity || ''}`;
+                document.getElementById('prof-img-view').src = window.getCloudinaryUrl(finalPhotoURL, 'medium');
+                document.getElementById('header-avatar').src = window.getCloudinaryUrl(finalPhotoURL, 'thumb');
+                
+                window.showToast('تم الحفظ بنجاح');
+                window.hideLoader();
+                window.goBack(); 
 
-    } catch (e) { 
-        window.showToast('حدث خطأ أثناء الحفظ', 'error'); 
-        window.hideLoader(); 
-    }
-};
+            } catch (e) { 
+                window.showToast('حدث خطأ أثناء الحفظ', 'error'); 
+                window.hideLoader(); 
+            }
+        };
        
         window.saveSettings = async () => {
             try {
@@ -1564,7 +1573,8 @@
                     notifEnabled: document.getElementById('toggle-notif').checked,
                     hidePhone: document.getElementById('toggle-hide-phone').checked,
                     hideProfile: document.getElementById('toggle-hide-profile').checked,
-                    pauseRequests: document.getElementById('toggle-pause-reqs').checked
+                    pauseRequests: document.getElementById('toggle-pause-reqs').checked,
+                    darkMode: document.getElementById('theme-toggle').checked
                 };
                 
                 await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'profiles', currentUser.uid), { settings: newSettings });
@@ -1624,7 +1634,8 @@
        
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
         
-               window.logout = async () => { 
+        // تنظيف شامل عند تسجيل الخروج لمنع تداخل البيانات بين الحسابات
+        window.logout = async () => { 
             window.showLoader();
             document.getElementById('form-login').reset();
             document.getElementById('form-signup').reset();
@@ -1632,19 +1643,34 @@
             globalUnsubs.forEach(u => u());
             globalUnsubs =[];
             
+            // تنظيف الحاويات بالكامل من الـ DOM
+            document.getElementById('notif-list').innerHTML = '';
+            document.getElementById('chat-history-list').innerHTML = '';
+            document.getElementById('my-activity').innerHTML = '';
+            document.getElementById('matching-reqs-list').innerHTML = '';
+            document.getElementById('dir-list').innerHTML = '';
+            document.getElementById('cat-list-container').innerHTML = '';
+            document.getElementById('professions-grid').innerHTML = ''; 
+            document.getElementById('messages-container').innerHTML = '';
+
+            // إخفاء لمبات الإشعارات
+            document.getElementById('notif-dot').classList.add('hidden');
+            document.getElementById('chat-nav-dot').classList.add('hidden');
+            document.getElementById('act-notif-badge').classList.add('hidden');
+
             userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
             reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack = ['home'];
             
             await signOut(auth); 
         };
 
-window.addEventListener('popstate', () => {
-    if (navStack.length > 1) {
-        window.goBack();
-    } else {
-        history.pushState(null, '', window.location.href);
-    }
-});
+        window.addEventListener('popstate', () => {
+            if (navStack.length > 1) {
+                window.goBack();
+            } else {
+                history.pushState(null, '', window.location.href);
+            }
+        });
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
