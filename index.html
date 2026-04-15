@@ -85,7 +85,6 @@
         .border-black-custom { border: 2px solid #000000 !important; box-shadow: 2px 2px 0px #000000 !important; }
         .dark .border-black-custom { border: 2px solid #6b7280 !important; box-shadow: 2px 2px 0px #6b7280 !important; }
        
-        /* تحسينات الأداء لمنع اللاج عند التمرير في الصفحة الرئيسية */
         .provider-card { 
             border: 2px solid #000000; 
             box-shadow: 2px 2px 0px #000000; 
@@ -95,6 +94,14 @@
             transform: translateZ(0);
         }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
+
+        /* تسريع عرض البطاقات في الدليل لمنع اللاج */
+        .fast-render-card {
+            content-visibility: auto; 
+            contain-intrinsic-size: 70px; 
+            will-change: transform; 
+            transform: translateZ(0);
+        }
 
         .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
@@ -238,7 +245,7 @@
                 </div>
                 <div id="prof-search-box" class="relative max-w-md mx-auto flex gap-2">
                     <div class="relative flex-1">
-                        <input type="text" id="prof-search" onkeyup="window.filterProfessions()" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
+                        <input type="text" id="prof-search" onkeyup="window.debouncedSearch('prof')" placeholder="ابحث عن مهنة..." class="w-full p-2 pr-8 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10">
                         <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 text-gray-400 hover:text-black">✕</button>
                     </div>
                 </div>
@@ -257,7 +264,7 @@
         <section id="page-category-details" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
                 <div class="flex gap-2 mb-3 sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2">
-                    <input type="text" id="cat-search" onkeyup="window.filterCategory()" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10 bg-white dark:bg-gray-800">
+                    <input type="text" id="cat-search" onkeyup="window.debouncedSearch('cat')" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 rounded-lg border-2 border-black dark:border-gray-500 text-xs h-10 bg-white dark:bg-gray-800">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
@@ -270,7 +277,7 @@
         <section id="page-directory" class="page-section hidden px-3 animate-fade">
             <div class="max-w-md mx-auto">
                 <div class="flex gap-2 mb-3 sticky top-14 z-30 bg-gray-100 dark:bg-gray-900 py-2">
-                    <input type="text" id="dir-search" onkeyup="window.filterDirectory()" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 rounded-lg border-2 border-black text-xs h-10">
+                    <input type="text" id="dir-search" onkeyup="window.debouncedSearch('dir')" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 rounded-lg border-2 border-black text-xs h-10">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
@@ -523,7 +530,7 @@
     <div id="delete-chat-modal" class="modal-overlay hidden animate-pop z-[200]">
         <div class="bg-white dark:bg-gray-800 w-full max-w-xs rounded-xl border-black-custom p-5 shadow-xl text-center">
             <h3 class="font-bold mb-2 text-sm text-red-600">حذف المحادثة</h3>
-            <p class="text-xs text-gray-500 mb-4">هل أنت متأكد من حذف هذه المحادثة نهائياً؟</p>
+            <p class="text-xs text-gray-500 mb-4">هل أنت متأكد من حذف هذه المحادثة من قائمتك؟</p>
             <div class="flex gap-2">
                 <button onclick="window.confirmDeleteChat()" class="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold text-xs shadow-md">تأكيد الحذف</button>
                 <button onclick="document.getElementById('delete-chat-modal').classList.add('hidden')" class="flex-1 bg-gray-100 text-gray-800 py-2 rounded-lg font-bold text-xs border border-gray-300">إلغاء</button>
@@ -548,7 +555,7 @@
                 </button>
             </div>
         </div>
-        <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900 custom-scrollbar"></div>
+        <div id="messages-container" class="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50 dark:bg-gray-900 custom-scrollbar flex flex-col"></div>
         <form id="form-message" class="p-2 bg-white dark:bg-gray-800 border-t-2 border-gray-200 dark:border-gray-700 flex gap-2 shrink-0">
             <input type="text" id="msg-input" class="flex-1 p-2 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-sm" placeholder="اكتب رسالة..." autocomplete="off">
             <button type="submit" id="btn-send-msg" class="p-2 bg-black text-white rounded-full shadow-md"><svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg></button>
@@ -572,7 +579,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, addDoc, where, updateDoc, orderBy, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, query, addDoc, where, updateDoc, orderBy, deleteDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD7XMCaPTY73bfs8On_woRiFC7dmw2pwP4",
@@ -706,17 +713,17 @@
             }
         };
 
-        // تحديث ألوان شريط التنقل السفلي
+        // تحديث ألوان شريط التنقل السفلي بشكل صحيح
         window.updateBottomNav = (pageId) => {
-            document.querySelectorAll('.nav-btn').forEach(b => {
+            const btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(b => {
                 b.classList.remove('text-blue-600', 'active');
                 b.classList.add('text-gray-400');
             });
             const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3}; 
-            if(navMap[pageId] !== undefined) {
-                const activeBtn = document.querySelectorAll('.nav-btn')[navMap[pageId]];
-                activeBtn.classList.add('text-blue-600', 'active');
-                activeBtn.classList.remove('text-gray-400');
+            if(navMap[pageId] !== undefined && btns[navMap[pageId]]) {
+                btns[navMap[pageId]].classList.add('text-blue-600', 'active');
+                btns[navMap[pageId]].classList.remove('text-gray-400');
             }
         };
 
@@ -825,6 +832,17 @@
                 centerSelect.appendChild(opt);
             });
         }
+
+        // دالة تأخير البحث (Debounce) لمنع اللاج
+        let searchTimeout;
+        window.debouncedSearch = (type) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if(type === 'prof') window.filterProfessions();
+                if(type === 'dir') window.filterDirectory();
+                if(type === 'cat') window.filterCategory();
+            }, 500);
+        };
 
         window.filterProfessions = () => {
             const term = document.getElementById('prof-search').value.trim();
@@ -937,7 +955,6 @@
                         userProfile = profileData;
                         if(!userProfile.settings) userProfile.settings = { notifEnabled: true, hidePhone: false, hideProfile: false, pauseRequests: false, darkMode: false };
                        
-                        // مزامنة الوضع الداكن من الحساب
                         if (userProfile.settings.darkMode !== undefined) {
                             if (userProfile.settings.darkMode) {
                                 document.documentElement.classList.add('dark');
@@ -998,7 +1015,6 @@
 
         setTimeout(() => { window.hideLoader(); }, 15000);
 
-        // تحديث الوضع الداكن ومزامنته مع الحساب
         window.toggleTheme = async () => {
             const isDark = document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
@@ -1100,6 +1116,7 @@
                 const missingUserIds = new Set();
                 snap.forEach(d => {
                     const c = d.data();
+                    if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; // إخفاء المحادثة إذا تم حذفها من قبلي
                     const otherId = c.users.find(u => u !== currentUser.uid);
                     if (!allUsersCache.find(u => u.uid === otherId)) missingUserIds.add(otherId);
                 });
@@ -1111,6 +1128,7 @@
 
                 snap.forEach(d => {
                     const c = d.data();
+                    if (c.deletedBy && c.deletedBy.includes(currentUser.uid)) return; // عدم إضافة المحادثة المحذوفة للقائمة
                     myChatsCache.push({id: d.id, ...c});
                     
                     const otherId = c.users.find(u => u !== currentUser.uid);
@@ -1359,7 +1377,14 @@
             try {
                 const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
                 await addDoc(msgsRef, { text: text, senderId: currentUser.uid, createdAt: new Date().toISOString() });
-                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), { lastMessage: text, lastUpdated: new Date().toISOString(), lastSenderId: currentUser.uid });
+                
+                // تحديث المحادثة وإعادة إظهارها للطرفين في حال كان أحدهما قام بحذفها
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), { 
+                    lastMessage: text, 
+                    lastUpdated: new Date().toISOString(), 
+                    lastSenderId: currentUser.uid,
+                    deletedBy:[] // إعادة تعيين الحذف لتظهر عند الطرفين
+                });
             } catch (err) { window.showToast('فشل إرسال الرسالة', 'error'); }
         };
 
@@ -1398,26 +1423,41 @@
             const msgsRef = collection(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId, 'messages');
             const q = query(msgsRef, orderBy('createdAt', 'asc'));
             if (chatListener) chatListener();
+            
+            // تحديث عرض الرسائل لتكون مرتبة بشكل صحيح
             chatListener = onSnapshot(q, (snap) => {
                 const box = document.getElementById('messages-container'); box.innerHTML = '';
                 const html =[];
                 snap.forEach(d => {
-                    const m = d.data(); const isMe = m.senderId === currentUser.uid;
-                    html.push(`<div class="flex ${isMe?'justify-end':'justify-start'} animate-fade"><div class="max-w-[85%] p-2 rounded-lg text-xs shadow-[2px_2px_0px_#000] ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">${m.text}</div></div>`);
+                    const m = d.data(); 
+                    const isMe = m.senderId === currentUser.uid;
+                    const timeStr = m.createdAt ? new Date(m.createdAt).toLocaleTimeString('ar-EG', {hour: '2-digit', minute:'2-digit'}) : '';
+                    
+                    html.push(`
+                        <div class="flex ${isMe?'justify-end':'justify-start'} animate-fade w-full">
+                            <div class="max-w-[85%] p-2 rounded-lg text-xs shadow-[2px_2px_0px_#000] flex flex-col ${isMe?'bg-black text-white':'bg-white dark:bg-gray-800 text-gray-800 dark:text-white border-2 border-black'}">
+                                <span>${m.text}</span>
+                                <span class="text-[8px] mt-1 ${isMe?'text-gray-400':'text-gray-500'} text-left" dir="ltr">${timeStr}</span>
+                            </div>
+                        </div>
+                    `);
                 });
                 box.innerHTML = html.join(''); box.scrollTop = box.scrollHeight;
                 if (navStack[navStack.length-1] === 'chat-room') localStorage.setItem(chatSeenKey, Date.now().toString());
             });
         };
 
+        // حذف المحادثة من طرف واحد
         window.confirmDeleteChat = async () => {
             if(!currentChatId) return;
             window.showLoader();
             try {
-                await deleteDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId));
+                await updateDoc(doc(db, 'artifacts', APP_ID, 'public', 'data', 'chats', currentChatId), {
+                    deletedBy: arrayUnion(currentUser.uid)
+                });
                 document.getElementById('delete-chat-modal').classList.add('hidden');
                 window.goBack();
-                window.showToast('تم حذف المحادثة');
+                window.showToast('تم حذف المحادثة من قائمتك');
             } catch(e) { window.showToast('خطأ في الحذف', 'error'); }
             window.hideLoader();
         };
@@ -1511,15 +1551,17 @@
             const isClient = u.role === 'client';
             
             return `
-            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 flex items-start gap-2.5">
-                <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
-                <div class="flex-1 min-w-0">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="text-[10px]"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
-                        <span class="text-[9px] text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+            <div class="fast-render-card">
+                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-100 mb-2 flex items-start gap-2.5">
+                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="text-[10px]"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
+                            <span class="text-[9px] text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+                        </div>
+                        ${!isClient ? `<div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
+                        <div class="text-[10px]"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                     </div>
-                    ${!isClient ? `<div class="text-[10px] mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
-                    <div class="text-[10px]"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                 </div>
             </div>`;
         }
@@ -1634,7 +1676,6 @@
        
         window.switchHomeTab = (tab) => { window.scrollTo(0,0); if (tab === 'services') { document.getElementById('view-services').classList.remove('hidden'); document.getElementById('view-jobs').classList.add('hidden'); document.getElementById('prof-search-box').classList.remove('hidden'); document.getElementById('tab-home-serv').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.remove('text-gray-500'); document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.add('text-gray-500'); } else { document.getElementById('view-services').classList.add('hidden'); document.getElementById('view-jobs').classList.remove('hidden'); document.getElementById('prof-search-box').classList.add('hidden'); document.getElementById('tab-home-jobs').classList.add('bg-black', 'text-white'); document.getElementById('tab-home-jobs').classList.remove('text-gray-500'); document.getElementById('tab-home-serv').classList.remove('bg-black', 'text-white'); document.getElementById('tab-home-serv').classList.add('text-gray-500'); } };
         
-        // تنظيف شامل عند تسجيل الخروج لمنع تداخل البيانات بين الحسابات
         window.logout = async () => { 
             window.showLoader();
             document.getElementById('form-login').reset();
@@ -1643,7 +1684,6 @@
             globalUnsubs.forEach(u => u());
             globalUnsubs =[];
             
-            // تنظيف الحاويات بالكامل من الـ DOM
             document.getElementById('notif-list').innerHTML = '';
             document.getElementById('chat-history-list').innerHTML = '';
             document.getElementById('my-activity').innerHTML = '';
@@ -1653,13 +1693,12 @@
             document.getElementById('professions-grid').innerHTML = ''; 
             document.getElementById('messages-container').innerHTML = '';
 
-            // إخفاء لمبات الإشعارات
             document.getElementById('notif-dot').classList.add('hidden');
             document.getElementById('chat-nav-dot').classList.add('hidden');
             document.getElementById('act-notif-badge').classList.add('hidden');
 
             userProfile = null; currentUser = null; allUsersCache = []; myChatsCache =[];
-            reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack = ['home'];
+            reqNotifs =[]; reviewNotifs =[]; window.chatNotifsGlobal = []; navStack =['home'];
             
             await signOut(auth); 
         };
