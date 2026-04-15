@@ -53,7 +53,6 @@
                 extend: {
                     fontFamily: { sans:['Cairo', 'sans-serif'] },
                     colors: { primary: '#000000', secondary: '#2563EB', darkBg: '#111827' },
-                    // تسريع الحركات لتصبح شبه معدومة وفورية
                     animation: { 'fade': 'fadeIn 0.01s ease-in-out', 'pop': 'popIn 0.01s ease-out' },
                     keyframes: {
                         fadeIn: { '0%': { opacity: 0 }, '100%': { opacity: 1 } },
@@ -86,12 +85,18 @@
         .border-black-custom { border: 2px solid #000000 !important; box-shadow: 2px 2px 0px #000000 !important; }
         .dark .border-black-custom { border: 2px solid #6b7280 !important; box-shadow: 2px 2px 0px #6b7280 !important; }
        
+        /* إزالة will-change لمنع إعادة الرسم واللاج */
         .provider-card { 
             border: 2px solid #000000; 
             box-shadow: 2px 2px 0px #000000; 
-            transform: translateZ(0);
         }
         .dark .provider-card { border-color: #9ca3af; box-shadow: 2px 2px 0px #9ca3af; }
+
+        /* استخدام content-visibility للقوائم الطويلة فقط لتوفير المعالج */
+        .fast-render-card {
+            content-visibility: auto; 
+            contain-intrinsic-size: 100px; 
+        }
 
         .full-screen-modal { position: fixed; inset: 0; z-index: 100; background: white; display: flex; flex-direction: column; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 150; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px); }
@@ -229,11 +234,11 @@
         <!-- HOME -->
         <section id="page-home" class="page-section px-3 md:px-6 lg:px-10 animate-fade">
             <div class="sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 mb-2 md:mb-4 space-y-2 md:space-y-3">
-                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] max-w-full md:max-w-2xl lg:max-w-4xl mx-auto h-10 md:h-12 items-center">
+                <div class="flex p-1 bg-white dark:bg-gray-800 rounded-lg border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] w-full lg:max-w-4xl mx-auto h-10 md:h-12 items-center">
                     <button onclick="window.switchHomeTab('services')" id="tab-home-serv" class="flex-1 h-full rounded text-xs md:text-sm font-bold bg-black text-white transition-all duration-75">خدمات</button>
                     <button onclick="window.switchHomeTab('jobs')" id="tab-home-jobs" class="flex-1 h-full rounded text-xs md:text-sm font-bold text-gray-500 transition-all duration-75">وظائف</button>
                 </div>
-                <div id="prof-search-box" class="relative max-w-full md:max-w-2xl lg:max-w-4xl mx-auto flex gap-2">
+                <div id="prof-search-box" class="relative w-full lg:max-w-4xl mx-auto flex gap-2">
                     <div class="relative flex-1">
                         <input type="text" id="prof-search" onkeyup="window.debouncedSearch('prof')" placeholder="ابحث عن مهنة..." class="w-full p-2 md:p-3 pr-8 md:pr-10 rounded-lg border-2 border-black dark:border-gray-500 text-xs md:text-sm h-10 md:h-12">
                         <button onclick="document.getElementById('prof-search').value=''; window.filterProfessions()" class="absolute left-2 top-2.5 md:top-3 text-gray-400 hover:text-black md:text-lg">✕</button>
@@ -253,30 +258,28 @@
         <!-- CATEGORY -->
         <section id="page-category-details" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade">
             <div class="w-full">
-                <!-- تم توسيع حقل البحث ليمتد بعرض الصفحة -->
                 <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 w-full">
                     <input type="text" id="cat-search" onkeyup="window.debouncedSearch('cat')" placeholder="ابحث بالاسم أو المكان..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black dark:border-gray-500 text-xs md:text-sm h-10 md:h-12 bg-white dark:bg-gray-800">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <!-- تقليل المسافات بين البطاقات -->
-                <div id="cat-list-container" class="pb-20 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-3"></div>
+                <!-- تعديل الـ Grid ليكون بطاقتين في التابلت و3 في الكمبيوتر -->
+                <div id="cat-list-container" class="pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
             </div>
         </section>
 
         <!-- DIRECTORY -->
         <section id="page-directory" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade">
             <div class="w-full">
-                <!-- تم توسيع حقل البحث ليمتد بعرض الصفحة -->
                 <div class="flex gap-2 md:gap-3 mb-3 md:mb-5 sticky top-14 md:top-16 z-30 bg-gray-100 dark:bg-gray-900 py-2 w-full">
                     <input type="text" id="dir-search" onkeyup="window.debouncedSearch('dir')" placeholder="ابحث عن شخص أو خدمة..." class="flex-1 p-2 md:p-3 rounded-lg border-2 border-black text-xs md:text-sm h-10 md:h-12">
                     <button onclick="document.getElementById('filter-modal').classList.remove('hidden')" class="w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-lg flex items-center justify-center border-2 border-black dark:border-gray-500 hover:bg-gray-800 transition-colors shrink-0 shadow-sm">
                         <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
                     </button>
                 </div>
-                <!-- تقليل المسافات بين البطاقات -->
-                <div id="dir-list" class="pb-20 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-3"></div>
+                <!-- تعديل الـ Grid ليكون بطاقتين في التابلت و3 في الكمبيوتر -->
+                <div id="dir-list" class="pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
             </div>
         </section>
 
@@ -377,11 +380,11 @@
             </div>
             
             <div id="view-my-activity" class="pb-20 w-full">
-                <div id="my-activity" class="space-y-3 md:space-y-0 grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"></div>
+                <div id="my-activity" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
             </div>
             
             <div id="view-matching-reqs" class="hidden pb-20 w-full">
-                <div id="matching-reqs-list" class="space-y-3 md:space-y-0 grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4"></div>
+                <div id="matching-reqs-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3"></div>
             </div>
         </section>
 
@@ -441,8 +444,10 @@
         </section>
 
         <!-- CHAT LIST -->
-        <section id="page-chat" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade">
-            <div id="chat-history-list" class="space-y-2 md:space-y-0 pb-20 max-w-md md:max-w-2xl lg:max-w-4xl mx-auto lg:grid lg:grid-cols-2 lg:gap-4"><p class="text-center text-gray-400 py-10 col-span-full">جاري تحميل المحادثات...</p></div>
+        <!-- تم إضافة pt-4 للابتعاد عن الهيدر في الهاتف -->
+        <section id="page-chat" class="page-section hidden px-3 md:px-6 lg:px-10 animate-fade pt-4 md:pt-6">
+            <!-- تم تعديل الـ Grid والـ gap لضمان وجود مسافات في التابلت والكمبيوتر -->
+            <div id="chat-history-list" class="pb-20 max-w-md md:max-w-full lg:max-w-4xl mx-auto flex flex-col gap-2 md:gap-3 lg:grid lg:grid-cols-2 lg:gap-4"><p class="text-center text-gray-400 py-10 col-span-full">جاري تحميل المحادثات...</p></div>
         </section>
     </div>
 
@@ -715,12 +720,22 @@
             }
         };
 
+        // متغير لتحديد ما إذا كان التنقل ناتج عن زر الرجوع
+        window.isBackNav = false;
+
         window.updateBottomNav = (pageId) => {
             const btns = document.querySelectorAll('.nav-btn');
             btns.forEach(b => {
                 b.classList.remove('text-blue-600', 'active');
                 b.classList.add('text-gray-400');
             });
+
+            // إذا كان الرجوع بإيماءة الهاتف، لا تقم بتنشيط أي زر (كما طلبت)
+            if (window.isBackNav) {
+                window.isBackNav = false; // إعادة الضبط
+                return;
+            }
+
             const navMap = {'home':0, 'directory':1, 'chat':2, 'profile':3, 'activity':3, 'add': -1}; 
             if(navMap[pageId] !== undefined && navMap[pageId] !== -1 && btns[navMap[pageId]]) {
                 btns[navMap[pageId]].classList.add('text-blue-600', 'active');
@@ -730,6 +745,8 @@
 
         window.navTo = (pageId, skipHistory = false) => {
             window.scrollTo(0, 0);
+            if (!skipHistory) window.isBackNav = false; // إذا كان ضغط يدوي، نلغي حالة الرجوع
+
             if(pageId === 'chat') { localStorage.setItem(`chatTabLastOpened_${currentUser?.uid}`, Date.now().toString()); document.getElementById('chat-nav-dot').classList.add('hidden'); }
             
             if (pageId === 'directory') {
@@ -771,6 +788,7 @@
 
         window.goBack = () => {
             if (navStack.length > 1) {
+                window.isBackNav = true; // تفعيل حالة الرجوع
                 navStack.pop();
                 const prevPage = navStack[navStack.length-1];
                 
@@ -812,7 +830,6 @@
             const grid = document.getElementById('professions-grid');
             if (grid.children.length > 0) return; 
             const defaultImg = "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=200";
-            // تم إزالة loading="lazy" لمنع ظهور الطبقة البيضاء أثناء التمرير
             const html = list.map(p => `
                 <div data-prof="${p}" onclick="window.openCategory('${p}')" class="provider-card cursor-pointer h-28 md:h-32 rounded-xl overflow-hidden relative group bg-gray-400 dark:bg-gray-800 hover:scale-105 transition-transform duration-75">
                     <img src="${getProfImage(p)}" onerror="this.onerror=null; this.src='${defaultImg}';" class="w-full h-full object-cover">
@@ -1027,6 +1044,10 @@
                 } catch (error) { signOut(auth); window.showToast('حدث خطأ أثناء الاتصال', 'error'); } 
                 finally { window.hideLoader(); }
             } else {
+                // تنظيف الرابط عند مسح الكاش وعدم وجود تسجيل دخول
+                window.location.hash = '';
+                history.replaceState(null, '', window.location.pathname);
+
                 document.getElementById('app-view').classList.add('hidden');
                 document.getElementById('app-header').classList.add('hidden');
                 document.getElementById('nav-bar').classList.add('hidden');
@@ -1600,12 +1621,20 @@
             catRenderedCount += ITEMS_PER_PAGE;
         }
 
+        // استخدام requestAnimationFrame لمنع اللاج أثناء التمرير
+        let isScrolling = false;
         window.addEventListener('scroll', () => {
-            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
-                if(!document.getElementById('page-directory').classList.contains('hidden')) renderMoreDirectory();
-                if(!document.getElementById('page-category-details').classList.contains('hidden')) renderMoreCategory();
+            if (!isScrolling) {
+                window.requestAnimationFrame(() => {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300) {
+                        if(!document.getElementById('page-directory').classList.contains('hidden')) renderMoreDirectory();
+                        if(!document.getElementById('page-category-details').classList.contains('hidden')) renderMoreCategory();
+                    }
+                    isScrolling = false;
+                });
+                isScrolling = true;
             }
-        });
+        }, { passive: true });
 
         window.openCategory = (profName) => {
             window.navTo('category-details');
@@ -1621,17 +1650,18 @@
             const locationStr =[u.area, u.city].filter(Boolean).join(' - ') || 'غير محدد';
             const isClient = u.role === 'client';
             
-            // تم إزالة الهوامش السفلية الزائدة (mb-2) لتقليل المسافات بين البطاقات
             return `
-            <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-75 flex items-start gap-2.5 md:gap-4">
-                <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
-                <div class="flex-1 min-w-0">
-                    <div class="flex justify-between items-start mb-1">
-                        <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
-                        <span class="text-[9px] md:text-xs text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+            <div class="fast-render-card">
+                <div onclick="window.openProfileModal('${userStr}')" class="bg-white dark:bg-gray-800 p-2.5 md:p-4 rounded-xl border-2 border-black dark:border-gray-500 shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#6b7280] cursor-pointer animate-fade hover:-translate-y-0.5 transition-transform duration-75 flex items-start gap-2.5 md:gap-4">
+                    <img src="${window.getCloudinaryUrl(u.photoURL, 'thumb')}" class="w-10 h-10 md:w-14 md:h-14 rounded-full object-cover border border-black dark:border-gray-400 shrink-0 bg-gray-100 mt-1" loading="lazy">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start mb-1">
+                            <span class="text-[10px] md:text-sm"><span class="text-gray-500 font-bold">${isClient ? 'اسم العميل:' : 'الاسم:'}</span> <strong class="text-black dark:text-white">${u.name}</strong></span>
+                            <span class="text-[9px] md:text-xs text-gray-500 font-bold shrink-0">تاريخ الانضمام: ${joinDate}</span>
+                        </div>
+                        ${!isClient ? `<div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
+                        <div class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                     </div>
-                    ${!isClient ? `<div class="text-[10px] md:text-xs mb-1"><span class="text-gray-500 font-bold">الوظيفة:</span> <strong class="text-black dark:text-white">${u.profession}</strong></div>` : ''}
-                    <div class="text-[10px] md:text-xs"><span class="text-gray-500 font-bold">العنوان:</span> <strong class="text-gray-800 dark:text-gray-200">${locationStr}</strong></div>
                 </div>
             </div>`;
         }
@@ -1754,7 +1784,7 @@
                 document.getElementById('tab-home-serv').classList.remove('text-gray-500'); 
                 document.getElementById('tab-home-jobs').classList.remove('bg-black', 'text-white'); 
                 document.getElementById('tab-home-jobs').classList.add('text-gray-500'); 
-                history.replaceState({pageId: 'home-services'}, '', '#home-services');
+                history.replaceState({pageId: 'home-services'}, '', window.location.pathname);
             } else { 
                 document.getElementById('view-services').classList.add('hidden'); 
                 document.getElementById('view-jobs').classList.remove('hidden'); 
@@ -1797,6 +1827,7 @@
         };
 
         window.addEventListener('popstate', (e) => {
+            window.isBackNav = true; // تفعيل حالة الرجوع عند استخدام إيماءات الهاتف
             const hash = window.location.hash.replace('#', '');
             
             if (hash === 'home-jobs') {
