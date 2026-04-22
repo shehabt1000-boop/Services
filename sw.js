@@ -1,4 +1,5 @@
-const CACHE_NAME = 'dalil-sharkia-v2.1';
+const CACHE_NAME = 'dalil-sharkia-v3.0';
+const DYNAMIC_CACHE = 'dalil-sharkia-dynamic-v3.0';
 const OFFLINE_URL = '/offline.html';
 
 const ASSETS_TO_CACHE =[
@@ -6,10 +7,10 @@ const ASSETS_TO_CACHE =[
   '/index.html',
   '/offline.html',
   '/manifest.json',
-  // يمكنك إضافة مسارات ملفات CSS أو الصور الثابتة هنا
+  '/icons/icon-192x192.png'
 ];
 
-// تثبيت الـ Service Worker وحفظ الملفات الأساسية
+// التثبيت
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -19,13 +20,13 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// تفعيل وتحديث الكاش القديم
+// التفعيل ومسح الكاش القديم
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName !== CACHE_NAME && cacheName !== DYNAMIC_CACHE) {
             return caches.delete(cacheName);
           }
         })
@@ -35,27 +36,45 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// اعتراض الطلبات (Fetch)
+// اعتراض الطلبات
 self.addEventListener('fetch', (event) => {
-  // تجاهل طلبات فايربيز (لأن فايربيز يدير الأوفلاين الخاص به)
-  if (event.request.url.includes('firestore.googleapis.com') || event.request.url.includes('identitytoolkit.googleapis.com')) {
+  const requestUrl = new URL(event.request.url);
+
+  // تجاهل طلبات فايربيز و API الخارجية
+  if (
+    requestUrl.hostname.includes('firestore.googleapis.com') || 
+    requestUrl.hostname.includes('identitytoolkit.googleapis.com') ||
+    requestUrl.hostname.includes('cloudinary.com') ||
+    event.request.method !== 'GET'
+  ) {
     return;
   }
 
-  // للطلبات الخاصة بالصفحات (HTML)
+  // 1. طلبات تصفح الصفحات (HTML) -> Network First then Offline Page
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => {
-        return caches.match(OFFLINE_URL);
-      })
+      fetch(event.request)
+        .catch(() => caches.match(OFFLINE_URL))
     );
     return;
   }
 
-  // لباقي الملفات (صور، سكريبتات) جرب الشبكة أولاً ثم الكاش
+  // 2. طلبات الملفات الثابتة (صور، خطوط، سكريبتات) -> Cache First then Network
   event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse; // إرجاع من الكاش فوراً (سرعة عالية)
+      }
+      
+      // إذا لم يكن في الكاش، جربه من الإنترنت واحفظه
+      return fetch(event.request).then((networkResponse) => {
+        return caches.open(DYNAMIC_CACHE).then((cache) => {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        });
+      }).catch(() => {
+        // يمكن إرجاع صورة افتراضية هنا إذا فشل تحميل صورة معينة
+      });
     })
   );
 });
