@@ -12,19 +12,19 @@
 
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-maskable-512x512.png",
+      "src": "icons/icon-maskable-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -33,13 +33,13 @@
 
   "screenshots": [
     {
-      "src": "/screenshots-home-mobile.png",
+      "src": "screenshots-home.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow"
     },
     {
-      "src": "/screenshots-home-desktop.png",
+      "src": "screenshots-home-desktop.png",
       "sizes": "1920x1080",
       "type": "image/png",
       "form_factor": "wide"
