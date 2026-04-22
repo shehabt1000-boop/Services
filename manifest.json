@@ -1,52 +1,51 @@
 {
   "name": "خدمات الشرقية",
-  "short_name": "خدمات الشرقية",
+  "short_name": "دليل الشرقية",
   "description": "دليل خدمات ووظائف محافظة الشرقية - تواصل مباشر مع مقدمي الخدمات وأصحاب العمل.",
-  "start_url": "https://services-and-jobs.netlify.app/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#C0C0C0",
+  "theme_color": "#000000",
   "orientation": "portrait",
   "dir": "rtl",
   "lang": "ar",
 
-  "icons": [
+  "icons":[
     {
-      "src": "icons/icon-192x192.png",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-512x512.png",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-maskable-512x512.png",
+      "src": "/icons/icon-maskable-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
   ],
 
-  "screenshots": [
+  "screenshots":[
     {
-      "src": "screenshots-home.png",
+      "src": "/screenshots-home.png",
       "sizes": "1080x1920",
       "type": "image/png",
       "form_factor": "narrow"
     }
   ],
 
-  "id": "sharqia-services-v1",
-  "scope": "https://services-and-jobs.netlify.app/",
-  "display_override": [
+  "id": "sharqia-services-v2",
+  "scope": "/",
+  "display_override":[
     "window-controls-overlay",
     "standalone",
-    "minimal-ui",
-    "browser"
+    "minimal-ui"
   ],
   "categories": [
     "business",
