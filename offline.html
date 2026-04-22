@@ -4,21 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لا يوجد اتصال - دليل الشرقية</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Cairo', sans-serif; }</style>
+    <!-- تم إزالة رابط Tailwind لأنه لن يعمل أوفلاين -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap');
+        
+        :root {
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #111827;
+            --text-muted: #6b7280;
+            --border-color: #000000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #111827;
+                --card-bg: #1f2937;
+                --text-main: #f9fafb;
+                --text-muted: #9ca3af;
+                --border-color: #4b5563;
+            }
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--border-color);
+            max-width: 24rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        .icon {
+            width: 5rem;
+            height: 5rem;
+            margin: 0 auto 1rem auto;
+            color: var(--text-muted);
+        }
+
+        h1 { font-size: 1.5rem; font-weight: 800; margin: 0 0 0.5rem 0; }
+        p { font-size: 0.875rem; color: var(--text-muted); font-weight: 700; margin: 0 0 1.5rem 0; }
+
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            transition: background-color 0.2s;
+        }
+
+        button:hover { background-color: #1f2937; }
+
+        @media (prefers-color-scheme: dark) {
+            button { background-color: #374151; border: 1px solid #4b5563; }
+            button:hover { background-color: #4b5563; }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col items-center justify-center p-4">
-    
-    <div class="bg-white p-8 rounded-2xl shadow-lg border-2 border-black max-w-sm w-full text-center">
-        <svg class="w-20 h-20 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<body>
+
+    <div class="card">
+        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18"></path>
         </svg>
-        <h1 class="text-2xl font-extrabold mb-2">أنت غير متصل بالإنترنت</h1>
-        <p class="text-sm text-gray-500 mb-6 font-bold">يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.</p>
-        
-        <button onclick="window.location.reload()" class="w-full py-3 bg-black text-white rounded-lg font-bold shadow hover:bg-gray-800 transition-colors">
+        <h1>أنت غير متصل بالإنترنت</h1>
+        <p>يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.</p>
+
+        <button onclick="window.location.reload()">
             إعادة المحاولة
         </button>
     </div>
